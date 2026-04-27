@@ -148,6 +148,34 @@
           </li>
 
           <li class="project" data-animate>
+            <div class="project-art art-skywatch" aria-hidden="true">
+              <svg viewBox="0 0 200 120" class="art-svg">
+                <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="100" y1="95" x2="100" y2="40"/>
+                  <line x1="100" y1="40" x2="90" y2="55"/>
+                  <line x1="100" y1="40" x2="110" y2="55"/>
+                  <ellipse class="pulse-line" cx="100" cy="40" rx="18" ry="10" stroke-dasharray="4 3" style="animation-delay:0s"/>
+                  <ellipse class="pulse-line" cx="100" cy="40" rx="30" ry="16" stroke-dasharray="4 3" style="animation-delay:.2s"/>
+                  <ellipse class="pulse-line" cx="100" cy="40" rx="42" ry="22" stroke-dasharray="4 3" style="animation-delay:.4s"/>
+                  <rect x="85" y="95" width="30" height="12" rx="2"/>
+                  <line x1="100" y1="107" x2="100" y2="115"/>
+                  <circle class="net-node" cx="150" cy="38" r="5" fill="currentColor" style="animation-delay:.3s"/>
+                  <line x1="150" y1="43" x2="150" y2="60"/>
+                  <line x1="144" y1="50" x2="156" y2="50"/>
+                  <text x="100" y="80" text-anchor="middle" font-family="Work Sans" font-size="7" fill="currentColor" letter-spacing="2">2.4 / 5.8 GHz</text>
+                </g>
+              </svg>
+            </div>
+            <div class="project-meta">
+              <span>STM32 · Analog RF</span><span class="dot">·</span><span>LNA · Log Detector · LoRa</span><span class="dot">·</span><span>Hackathon 2026</span>
+            </div>
+            <h3 class="project-title">SkyWatch RF — Counter-Drone Detection Board</h3>
+            <p class="project-desc">
+              A $61 RF detection board that passively detects drone control signals at 2.4&nbsp;GHz and 5.8&nbsp;GHz using an all-analog signal chain: PGA-103+ LNA, HMC1048 RF switch, dual bandpass filters, and an AD8318 log detector. WiFi false-alarms are rejected through bandwidth-based power density discrimination and an RC pulse-width filter &mdash; validated in LTSpice before hardware build. Alerts are relayed wirelessly via an RFM95W LoRa radio at 915&nbsp;MHz, completely outside the monitored bands, with a theoretical detection range of ~950&nbsp;m. PCB laid out on Rogers 4003C for stable RF performance at 5.8&nbsp;GHz.
+            </p>
+          </li>
+
+          <li class="project" data-animate>
             <div class="project-art art-bms" aria-hidden="true">
               <svg viewBox="0 0 200 120" class="art-svg">
                 <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
