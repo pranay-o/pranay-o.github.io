@@ -79,11 +79,11 @@
               </svg>
             </div>
             <div class="project-meta">
-              <span>C++ · STM32H7</span><span class="dot">·</span><span>SPI · ADBMS</span><span class="dot">·</span><span>2026</span>
+              <span>C++ · STM32H7</span><span class="dot">·</span><span>SPI · isoSPI · FreeRTOS</span><span class="dot">·</span><span>2025 – Present</span>
             </div>
-            <h3 class="project-title">ADBMS Driver — UBC Formula Electric</h3>
+            <h3 class="project-title">ADBMS Driver Development — UBC Formula Electric</h3>
             <p class="project-desc">
-              Driver and testing infrastructure for the Analog Devices ADBMS battery-monitor IC on the Hexray BMS platform. Brought up cell-voltage and temperature measurement, balancing control, IMD, IRS, and shutdown-loop integration, plus CAN message wiring across the BMS, CRIT, DAM, FSM, RSM, and VC nodes.
+              Embedded driver for the ADBMS battery-monitoring IC system managing 700+ cells in a 600&nbsp;V accumulator pack. Implements SPI-based communication with PEC (CRC) validation, reliable cell voltage and temperature acquisition, open-wire checks for cells and thermistors, and validated ADC measurements. Used asynchronous FreeRTOS tasks and mutexes for thread-safe data acquisition, and tested / debugged 15+ boards on a pseudo-segment harness to validate isoSPI links with module boards.
             </p>
             <span class="project-note">Internal team project &mdash; UBC Formula Electric.</span>
           </li>
