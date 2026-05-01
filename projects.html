@@ -176,6 +176,48 @@
           </li>
 
           <li class="project" data-animate>
+            <div class="project-art art-motor-ctrl" aria-hidden="true">
+              <svg viewBox="0 0 200 120" class="art-svg">
+                <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Motor circle -->
+                  <circle cx="140" cy="60" r="22"/>
+                  <text x="140" y="64" text-anchor="middle" font-family="Work Sans" font-size="9" fill="currentColor" letter-spacing="1">M</text>
+                  <!-- Encoder feedback arc -->
+                  <path class="pulse-line" d="M 140 38 A 22 22 0 0 1 162 60" stroke-dasharray="4 3" style="animation-delay:0s"/>
+                  <path class="pulse-line" d="M 162 60 A 22 22 0 0 1 140 82" stroke-dasharray="4 3" style="animation-delay:.2s"/>
+                  <!-- Feedback arrow back -->
+                  <polyline points="140,82 100,82 100,60"/>
+                  <polyline points="96,64 100,60 104,64"/>
+                  <!-- Summing junction -->
+                  <circle cx="55" cy="60" r="10"/>
+                  <line x1="48" y1="60" x2="62" y2="60"/>
+                  <line x1="55" y1="53" x2="55" y2="67"/>
+                  <!-- Setpoint input -->
+                  <line x1="30" y1="60" x2="45" y2="60"/>
+                  <text x="22" y="64" text-anchor="middle" font-family="Work Sans" font-size="7" fill="currentColor">SP</text>
+                  <!-- PI block -->
+                  <rect x="70" y="50" width="28" height="20" rx="2"/>
+                  <text x="84" y="64" text-anchor="middle" font-family="Work Sans" font-size="8" fill="currentColor">PI</text>
+                  <!-- Forward path -->
+                  <line x1="65" y1="60" x2="70" y2="60"/>
+                  <line x1="98" y1="60" x2="118" y2="60"/>
+                  <polyline points="114,56 118,60 114,64"/>
+                  <!-- Feedback line bottom -->
+                  <line x1="100" y1="82" x2="55" y2="82"/>
+                  <line x1="55" y1="82" x2="55" y2="70"/>
+                </g>
+              </svg>
+            </div>
+            <div class="project-meta">
+              <span>74HC Logic · Op-Amp</span><span class="dot">·</span><span>R-2R DAC · BJT</span><span class="dot">·</span><span>ENPH 259 · Dec 2025</span>
+            </div>
+            <h3 class="project-title">DC Motor RPM Controller — ENPH 259 Lab</h3>
+            <p class="project-desc">
+              A fully analog/digital closed-loop DC motor speed controller built from discrete ICs for ENPH 259 at UBC. A phototransistor encoder feeds an 8-bit counter (74HC393) clocked by a 74HC14 Schmitt-trigger oscillator; a D-latch (74HC273) samples the count at 5&nbsp;Hz and holds it steady while the counter resets. An R-2R ladder DAC converts the digital count to a voltage, which a UA741CP op-amp PI controller compares against the setpoint to drive an MJF122G NPN BJT motor stage. Achieves 0&ndash;3480&nbsp;RPM across a 0&ndash;2.5&nbsp;V setpoint range, with a maximum angular speed of 364&nbsp;rad/s.
+            </p>
+          </li>
+
+          <li class="project" data-animate>
             <div class="project-art art-bms" aria-hidden="true">
               <svg viewBox="0 0 200 120" class="art-svg">
                 <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">

@@ -43,7 +43,7 @@
         <p class="eyebrow centered" data-animate>Resume</p>
         <h1 class="page-title centered" data-animate>Pranay Oza</h1>
         <p class="page-lede centered" data-animate>
-          Engineering Physics @ UBC &middot; Hardware Ops Co-op @ Hypercharge &middot; BMS Firmware @ UBC Formula Electric
+          Engineering Physics @ UBC &middot; BMS Firmware @ UBC Formula Electric
         </p>
         <p class="availability centered" data-animate>
           Available for an internship May 2027 &ndash; August 2027.
@@ -56,7 +56,7 @@
           <a href="https://github.com/pranay-o" target="_blank" rel="noopener">github.com/pranay-o</a>
         </p>
         <div class="page-actions" data-animate>
-          <a href="assets/Pranay-Oza-Resume.pdf" class="pill" download>Download PDF</a>
+          <a href="assets/Resume Pranay.pdf" class="pill" download>Download PDF</a>
           <a href="mailto:oza.pranay06@gmail.com" class="pill pill-outline">Email Me</a>
         </div>
       </div>
@@ -75,10 +75,9 @@
                 <li>Python</li>
                 <li>Java</li>
                 <li>MATLAB</li>
-                <li>R</li>
-                <li>SQL</li>
+                <li>R / SQL</li>
                 <li>Git / Unix / CMake</li>
-                <li>JUnit / LTSpice</li>
+                <li>GoogleTest / LTSpice</li>
               </ul>
             </div>
             <div class="skill-col">
@@ -87,9 +86,8 @@
                 <li>STM32</li>
                 <li>FreeRTOS</li>
                 <li>PWM / ADC</li>
-                <li>UART / SPI / isoSPI / I²C</li>
-                <li>CAN bus</li>
-                <li>USB</li>
+                <li>UART / SPI / I²C / isoSPI</li>
+                <li>CAN / USB / OCPP</li>
               </ul>
             </div>
             <div class="skill-col">
@@ -98,8 +96,8 @@
                 <li>PCB Design (Altium, KiCad)</li>
                 <li>Power Electronics</li>
                 <li>Circuit Analysis</li>
-                <li>MATLAB / Simulink</li>
-                <li>Lab Tools</li>
+                <li>Simulink</li>
+                <li>RF Design</li>
               </ul>
             </div>
           </div>
@@ -110,45 +108,28 @@
 
           <div class="resume-item">
             <div class="resume-item-head">
-              <h3>Hypercharge Networks</h3>
-              <span class="resume-date">Jan 2026 – Present</span>
-            </div>
-            <p class="resume-role">Hardware Operations Co-op</p>
-            <ul class="resume-list">
-              <li>Configuring Level 2 EVSE charging systems and performing on-site electrical and embedded diagnostics.</li>
-              <li>Developing an internal app for connecting to chargers, flashing firmware, and configuring OCPP settings &mdash; cutting setup time and saving operational hours.</li>
-              <li>Validating firmware deployments, verifying OCPP connectivity, and debugging communication faults between EVSE hardware and cloud backends.</li>
-              <li>Troubleshooting and optimizing Ubiquiti networking infrastructure (VLAN segmentation, PoE switching, routing) to ensure stable charger telemetry and backend integration.</li>
-              <li>Building agentic AI workflows with Claude to automate cross-platform processes across Salesforce, QuickBooks, and Slack, reducing manual operational overhead.</li>
-            </ul>
-          </div>
-
-          <div class="resume-item">
-            <div class="resume-item-head">
               <h3>UBC Formula Electric</h3>
-              <span class="resume-date">Sep 2025 – Present</span>
+              <span class="resume-date">Sep 2024 – Present</span>
             </div>
             <p class="resume-role">Battery Management System Firmware Engineer</p>
             <ul class="resume-list">
-              <li>Developing an embedded driver for the ADBMS battery monitoring IC, enabling SPI-based communication, PEC (CRC) validation, and reliable cell voltage / temperature acquisition.</li>
-              <li>Implemented a PWM-controlled cell balancing strategy with CAN-broadcasted control inputs to maintain pack health and reduce imbalance.</li>
-              <li>Designed and executed SIL application-layer tests using GoogleTest and mocked IO to validate the balancing state machine &mdash; verifying reliable transitions, correct discharge activation, and safe fault handling.</li>
-              <li>Developing a Simulink-based inverter simulator modelling the AMK inverter&rsquo;s current and velocity control loops using a Field-Oriented Control algorithm.</li>
+              <li>Developed firmware for a 600&nbsp;V battery management system, enabling monitoring across 700+ lithium-ion cells.</li>
+              <li>Performed hardware-software integration and debugging across multi-board daisy-chain architectures, resolving communication faults and memory inconsistencies.</li>
+              <li>Diagnosed and repaired PCB-level electrical faults, including short detection, component rework, and solder-level fixes to restore board functionality.</li>
+              <li>Conducted hardware validation and bring-up testing, verifying reliability through testing and SIL simulations.</li>
             </ul>
           </div>
 
           <div class="resume-item">
             <div class="resume-item-head">
-              <h3>UBC Formula Electric</h3>
-              <span class="resume-date">Sep 2024 – Aug 2025</span>
+              <h3>Hypercharge Networks</h3>
+              <span class="resume-date">Jan 2026 – May 2026</span>
             </div>
-            <p class="resume-role">Low Voltage Firmware Engineer</p>
+            <p class="resume-role">Hardware Operations Co-op</p>
             <ul class="resume-list">
-              <li>Collaborated directly with the electrical team to design and validate firmware for the Rear Sensor Module in a fully electric Formula race car, enabling real-time telemetry and control.</li>
-              <li>Programmed control logic for key subsystems: brake pressure, brake lights, cooling fans, coolant valves, and drivetrain cooling via an I²C-connected flowmeter.</li>
-              <li>Integrated and calibrated a suspension travel sensor to estimate rear ride height, modelled via a transfer function for vehicle dynamics.</li>
-              <li>Implemented I²C communication for onboard sensors including an IMU for dynamics data and a heartbeat monitor for RSM uptime.</li>
-              <li>Improved firmware reliability by implementing a retry algorithm in the bootloader.</li>
+              <li>Configured and debugged Level 2 EV charging systems (EVSE), diagnosing issues in OCPP communication, WebSocket sessions, and firmware behavior.</li>
+              <li>Built a React Native (Expo) provisioning tool for Wi-Fi setup, firmware flashing (HTTP), and OCPP configuration, streamlining charger deployment workflows.</li>
+              <li>Developed automation workflows integrating Salesforce, QuickBooks, and Slack, reducing manual operations and recovering 15%+ of missed recurring revenue.</li>
             </ul>
           </div>
         </div>
@@ -162,23 +143,47 @@
               <span class="resume-date">Jan 2025 – Present</span>
             </div>
             <ul class="resume-list">
-              <li>Developed firmware for a battery monitoring IC system managing 700+ cells in a 600&nbsp;V accumulator pack.</li>
-              <li>Used development boards and a pseudo-segment board to test SPI / isoSPI communication with module boards.</li>
-              <li>Implemented open-wire checks for cells and thermistors and validated ADC measurements.</li>
-              <li>Tested, debugged, and validated 15+ boards, identifying and resolving hardware and communication issues.</li>
-              <li>Used asynchronous FreeRTOS tasks and mutexes to ensure thread-safe data acquisition.</li>
+              <li>Designed and implemented a SPI / isoSPI driver architecture for battery monitoring ICs, supporting cell voltage measurement, thermistor sensing, open-wire detection, and per-cell balancing control.</li>
+              <li>Implemented PEC (CRC) validation across all communication frames, ensuring robust fault detection in daisy-chained battery modules.</li>
+              <li>Architected the driver into reusable modules (cells, temperatures, balancing, faults, configuration) with a hardware abstraction layer, enabling efficient testing across pseudo-segment and development board setups.</li>
+              <li>Debugged isoSPI communication failures across 15+ boards, resolving timing misalignment, signal integrity issues, and hardware-level faults.</li>
+            </ul>
+          </div>
+
+          <div class="resume-item">
+            <div class="resume-item-head">
+              <h3>BMS Bootloader &mdash; UBC Formula Electric</h3>
+              <span class="resume-date">Apr 2025 – Present</span>
+            </div>
+            <ul class="resume-list">
+              <li>Implemented a CAN-based bootloader on STM32H7, enabling remote firmware updates over the vehicle CAN bus.</li>
+              <li>Built CRC32-based firmware validation using a metadata struct (checksum + image size); boots into application only on valid images, otherwise remains in bootloader.</li>
+              <li>Managed VTOR/NVIC reconfiguration and stack pointer handoff to ensure interrupt context transfer between bootloader and application.</li>
+              <li>Designed flash memory partitioning via CMake, integrating with team CAN update tooling and scripts.</li>
             </ul>
           </div>
 
           <div class="resume-item">
             <div class="resume-item-head">
               <h3>Sensorless Field-Oriented Control ESC</h3>
-              <span class="resume-date">Jun 2023 – Present</span>
+              <span class="resume-date">Jun 2025 – Present</span>
             </div>
             <ul class="resume-list">
-              <li>Designed a 4-layer PCB featuring an STM32G4 MCU, external gate driver, buck converter, EEPROM, and protection circuitry (ESD, reverse polarity), capable of 30&nbsp;A / 12&nbsp;V operation for BLDC motors.</li>
-              <li>Wrote low-level firmware in PlatformIO and STM32CubeMX (I²C, UART, ADC, PWM timers) implementing current sensing, virtual neutral-phase voltage measurement, and back-EMF zero-cross detection for sensorless feedback.</li>
-              <li>Built a Simulink simulator to model 3-phase inverter dynamics and validate sensorless FOC algorithms &mdash; including dead-time control and SVPWM gate drive &mdash; prior to hardware testing.</li>
+              <li>Designed a 4-layer PCB integrating STM32G4 MCU, gate driver, buck converter, EEPROM, and protection circuitry (ESD, reverse polarity), supporting 30&nbsp;A, 12&nbsp;V BLDC motor control.</li>
+              <li>Developed low-level motor control firmware (PlatformIO, STM32CubeMX) using ADC sampling, PWM timers, I²C, and UART to implement current sensing, virtual neutral voltage measurement, and back-EMF zero-cross detection for sensorless control.</li>
+              <li>Built a Simulink-based inverter model to simulate 3-phase dynamics and validate sensorless FOC algorithms, including SVPWM and dead-time compensation.</li>
+            </ul>
+          </div>
+
+          <div class="resume-item">
+            <div class="resume-item-head">
+              <h3>Counter-Drone Detection Board</h3>
+              <span class="resume-date">Mar 2026</span>
+            </div>
+            <ul class="resume-list">
+              <li>Designed an RF detection system for 2.4&nbsp;GHz and 5.8&nbsp;GHz bands using LNA, RF switch, bandpass filters, and log detector, with STM32-based signal acquisition and processing.</li>
+              <li>Developed an analog signal processing pipeline to distinguish FHSS drone transmissions from Wi-Fi interference using bandwidth-based power density scaling.</li>
+              <li>Implemented RC-based pulse-width integration for signal classification, validated through LTspice simulation.</li>
             </ul>
           </div>
 
