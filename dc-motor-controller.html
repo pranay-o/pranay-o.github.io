@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DC Motor RPM Controller — Pranay Oza</title>
+  <meta name="description" content="A closed-loop DC motor speed controller built from discrete logic and analog ICs for ENPH 259 at UBC — design write-up by Pranay Oza." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <h1 class="site-title">Pranay Oza &mdash; Engineering Portfolio</h1>
+      <div class="topbar-socials">
+        <a href="https://github.com/pranay-o" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.05.78 2.13v3.16c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.4-1.86 3.64 0 4.31 2.4 4.31 5.51v6.24ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.72V1.72C24 .77 23.21 0 22.22 0Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <button class="menu-toggle" aria-expanded="false" aria-controls="side-nav">Menu &#9662;</button>
+      <nav id="side-nav" class="side-nav" aria-label="Portfolio sections">
+        <a href="index.html#overview" class="side-link">Overview</a>
+
+        <span class="side-link side-header">Experience</span>
+        <a href="index.html#exp-fe" class="side-link side-sub">UBC Formula Electric</a>
+        <a href="index.html#exp-hc" class="side-link side-sub">Hypercharge Networks</a>
+
+        <span class="side-link side-header">Projects</span>
+        <a href="index.html#p-adbms" class="side-link side-sub">ADBMS Driver</a>
+        <a href="index.html#p-bootloader" class="side-link side-sub">BMS Bootloader</a>
+        <a href="index.html#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
+        <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
+        <a href="dc-motor-controller.html" class="side-link side-sub active">DC Motor RPM Controller</a>
+        <a href="index.html#p-balancing" class="side-link side-sub">BMS Cell Balancing</a>
+        <a href="index.html#p-calibration" class="side-link side-sub">Current Sensor Calibration</a>
+        <a href="index.html#p-rsm" class="side-link side-sub">Rear Sensor Module</a>
+        <a href="index.html#p-wildcan" class="side-link side-sub">WildCan</a>
+        <a href="index.html#p-ftc" class="side-link side-sub">FTC 24226 Robotics</a>
+        <a href="index.html#p-skin" class="side-link side-sub">Skin Cancer Diagnosis</a>
+        <a href="index.html#p-research" class="side-link side-sub">Youreka Research</a>
+
+        <a href="resume.html" class="side-link">Resume</a>
+        <a href="index.html#contact" class="side-link">Contact</a>
+      </nav>
+    </aside>
+
+    <main class="doc">
+      <section class="doc-section" data-animate>
+        <p><a href="index.html#p-rpm">&larr; Back to portfolio</a></p>
+        <h2>DC Motor RPM Controller</h2>
+        <p class="project-meta"><span>Discrete Logic &middot; Op-Amp</span><span class="dot">&middot;</span><span>R-2R DAC &middot; BJT</span><span class="dot">&middot;</span><span>ENPH 259 &middot; Dec 2025</span></p>
+
+        <figure class="figure">
+          <div class="figure-frame figure-frame--photo">
+            <img class="figure-photo" src="assets/dc-motor-controller.jpg" alt="Breadboard DC motor speed controller built from discrete logic ICs, mounted on an aluminum bracket with the optical encoder board" />
+          </div>
+          <figcaption class="figure-cap">Closed-loop DC motor speed controller from discrete logic</figcaption>
+        </figure>
+
+        <p>A fully analog/digital closed-loop DC motor speed controller built from discrete ICs for ENPH 259 at UBC. A phototransistor encoder feeds an 8-bit counter clocked by a Schmitt-trigger oscillator; a D-latch samples the count at 5&nbsp;Hz and holds it steady while the counter resets. An R-2R ladder DAC converts the digital count to a voltage, which an op-amp PI controller compares against the setpoint to drive an NPN BJT motor stage. Achieves 0&ndash;3480&nbsp;RPM across a 0&ndash;2.5&nbsp;V setpoint range, with a maximum angular speed of 364&nbsp;rad/s.</p>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>How it works</h2>
+        <p>The controller closes the loop entirely in hardware &mdash; there is no microcontroller in the signal path. The speed measurement and control chain runs end to end as:</p>
+        <ul class="doc-list">
+          <li><strong>Optical encoder.</strong> A phototransistor on a small custom board senses slots on the motor shaft, producing one pulse per slot so shaft speed becomes a pulse frequency.</li>
+          <li><strong>Counter + time base.</strong> A Schmitt-trigger relaxation oscillator defines a fixed measurement window; an 8-bit counter accumulates encoder pulses over that window, so the count is proportional to RPM.</li>
+          <li><strong>Sample &amp; hold.</strong> A D-latch captures the count at 5&nbsp;Hz and holds it steady on its outputs while the counter is cleared for the next window, giving a flicker-free digital speed reading.</li>
+          <li><strong>R-2R DAC.</strong> The latched 8-bit word drives an R-2R ladder that reconstructs the measured speed as an analog feedback voltage.</li>
+          <li><strong>PI controller.</strong> An op-amp compares the feedback voltage against the operator setpoint and applies proportional-plus-integral control to drive the error toward zero.</li>
+          <li><strong>Power stage.</strong> The controller output drives an NPN BJT stage that delivers current to the motor, completing the loop.</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>Specifications</h2>
+        <ul class="doc-list">
+          <li>Speed range: 0&ndash;3480&nbsp;RPM (max angular speed 364&nbsp;rad/s)</li>
+          <li>Setpoint input: 0&ndash;2.5&nbsp;V analog</li>
+          <li>Feedback resolution: 8-bit (R-2R ladder DAC)</li>
+          <li>Sample rate: 5&nbsp;Hz sample-and-hold update</li>
+          <li>Control law: analog PI, implemented on a single op-amp</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>What I did</h2>
+        <p>This was a team lab where we built the entire speed-control loop from scratch on a breadboard. I built the timing chain out of a string of Schmitt-trigger inverters with RC delays to generate the latch and reset pulses, wired up the 8-bit counter and D-latch, and then ran the latched word into an R-2R ladder DAC followed by a unity-gain buffer so the ladder could drive the rest of the circuit without its voltage sagging. The error amplifier is an op-amp integrator &mdash; the integral term that gradually drives the speed error to zero &mdash; and a BJT current driver with a flyback diode across the motor closes the loop.</p>
+        <p>The hardest part was getting the timing right and debugging across the digital/analog boundary. At one point an inverter stopped inverting and I chased it for a while before tracing it to a wiring error that shorted the input to ground; the latch also failed to capture cleanly until I sorted out the function-generator frequencies driving it. Watching the DAC output slowly ramp toward the setpoint as the error changed sign was what made the integrator&rsquo;s behavior finally click for me. With a 10-hole encoder wheel sampled at 5&nbsp;Hz, the finished controller held a commanded speed across 0&ndash;3480&nbsp;RPM over a 0&ndash;2.5&nbsp;V setpoint (a maximum angular speed of 364&nbsp;rad/s).</p>
+        <p>If I extended it, the next steps would be adding a tunable proportional term to compare PI response and stability across gain settings, and swapping the discrete counter/latch for a microcontroller while keeping the same analog front end.</p>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>Full Lab Report</h2>
+        <p>The complete ENPH&nbsp;259 Lab&nbsp;7 write-up &mdash; full circuit design, scope captures, and analysis.</p>
+        <object class="pdf-embed" data="assets/dc-motor-controller-lab-report.pdf" type="application/pdf">
+          <p>Your browser can&rsquo;t display the embedded PDF. <a href="assets/dc-motor-controller-lab-report.pdf" target="_blank" rel="noopener">Open the lab report (PDF)</a>.</p>
+        </object>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Pranay Oza</span>
+      <span>Computer Engineering @ UBC</span>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

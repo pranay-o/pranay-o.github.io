@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ADBMS Driver Development — Pranay Oza</title>
+  <meta name="description" content="Embedded C++ driver for the ADBMS battery-monitoring IC daisy chain on UBC Formula Electric's BMS — SPI/isoSPI, PEC validation, FreeRTOS. Design write-up by Pranay Oza." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <h1 class="site-title">Pranay Oza &mdash; Engineering Portfolio</h1>
+      <div class="topbar-socials">
+        <a href="https://github.com/pranay-o" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.05.78 2.13v3.16c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.4-1.86 3.64 0 4.31 2.4 4.31 5.51v6.24ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.72V1.72C24 .77 23.21 0 22.22 0Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <button class="menu-toggle" aria-expanded="false" aria-controls="side-nav">Menu &#9662;</button>
+      <nav id="side-nav" class="side-nav" aria-label="Portfolio sections">
+        <a href="index.html#overview" class="side-link">Overview</a>
+
+        <span class="side-link side-header">Experience</span>
+        <a href="index.html#exp-fe" class="side-link side-sub">UBC Formula Electric</a>
+        <a href="index.html#exp-hc" class="side-link side-sub">Hypercharge Networks</a>
+
+        <span class="side-link side-header">Projects</span>
+        <a href="adbms-driver.html" class="side-link side-sub active">ADBMS Driver</a>
+        <a href="index.html#p-bootloader" class="side-link side-sub">BMS Bootloader</a>
+        <a href="index.html#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
+        <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
+        <a href="dc-motor-controller.html" class="side-link side-sub">DC Motor RPM Controller</a>
+        <a href="index.html#p-balancing" class="side-link side-sub">BMS Cell Balancing</a>
+        <a href="index.html#p-calibration" class="side-link side-sub">Current Sensor Calibration</a>
+        <a href="index.html#p-rsm" class="side-link side-sub">Rear Sensor Module</a>
+        <a href="index.html#p-wildcan" class="side-link side-sub">WildCan</a>
+        <a href="index.html#p-ftc" class="side-link side-sub">FTC 24226 Robotics</a>
+        <a href="index.html#p-skin" class="side-link side-sub">Skin Cancer Diagnosis</a>
+        <a href="index.html#p-research" class="side-link side-sub">Youreka Research</a>
+
+        <a href="resume.html" class="side-link">Resume</a>
+        <a href="index.html#contact" class="side-link">Contact</a>
+      </nav>
+    </aside>
+
+    <main class="doc">
+      <section class="doc-section" data-animate>
+        <p><a href="index.html#p-adbms">&larr; Back to portfolio</a></p>
+        <h2>ADBMS Driver Development</h2>
+        <p class="project-meta"><span>C++20 &middot; STM32H7</span><span class="dot">&middot;</span><span>SPI &middot; isoSPI &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2025 &ndash; Present</span></p>
+
+        <figure class="figure">
+          <div class="figure-frame art-adbms" aria-hidden="true">
+            <svg viewBox="0 0 200 120" class="art-svg">
+              <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="80" y="40" width="40" height="40" rx="2" fill="currentColor"/>
+                <circle cx="86" cy="46" r="1.5" fill="#f6f6f6"/>
+                <line x1="76" y1="48" x2="80" y2="48"/><line x1="76" y1="56" x2="80" y2="56"/>
+                <line x1="76" y1="64" x2="80" y2="64"/><line x1="76" y1="72" x2="80" y2="72"/>
+                <line x1="120" y1="48" x2="124" y2="48"/><line x1="120" y1="56" x2="124" y2="56"/>
+                <line x1="120" y1="64" x2="124" y2="64"/><line x1="120" y1="72" x2="124" y2="72"/>
+                <rect x="20" y="42" width="20" height="36" rx="1"/><rect x="40" y="46" width="3" height="6" fill="currentColor"/>
+                <rect x="44" y="42" width="20" height="36" rx="1"/><rect x="64" y="46" width="3" height="6" fill="currentColor"/>
+                <line class="pulse-line" x1="68" y1="55" x2="76" y2="55"/>
+                <line class="pulse-line" x1="68" y1="65" x2="76" y2="65" style="animation-delay:.2s"/>
+                <line class="pulse-line" x1="124" y1="55" x2="160" y2="55" style="animation-delay:.4s"/>
+                <line class="pulse-line" x1="124" y1="65" x2="160" y2="65" style="animation-delay:.6s"/>
+                <rect x="160" y="48" width="20" height="24" rx="2"/>
+              </g>
+            </svg>
+          </div>
+          <figcaption class="figure-cap">ADBMS battery-monitoring driver &mdash; SPI / isoSPI daisy chain</figcaption>
+        </figure>
+
+        <p>Embedded C++ driver for the Analog Devices ADBMS battery-monitoring IC system on UBC Formula Electric&rsquo;s accumulator. The driver manages a 10-segment isoSPI daisy chain &mdash; 14 cells and 14 thermistors per segment &mdash; running on an STM32H7 under FreeRTOS. It implements SPI/isoSPI communication with PEC (CRC-15) validation, cell-voltage and temperature acquisition, open-wire checks for cells and thermistors, passive cell balancing, and over/under-voltage and over-temperature alerting, all surfaced to the rest of the car over CAN.</p>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>How it works</h2>
+        <p>The driver is split into two layers. A low-level <strong>io/adbms</strong> layer speaks the ADBMS command protocol directly; a higher-level <strong>app/segments</strong> layer turns raw register reads into pack-level quantities and behaviour.</p>
+        <ul class="doc-list">
+          <li><strong>isoSPI daisy chain.</strong> The host STM32H7 talks SPI to a transceiver that converts to isoSPI &mdash; a differential, transformer-isolated link that hops cleanly across the high-voltage segments. Every transaction is broadcast down the chain and shifted back up, so all ten segments are addressed in a single command.</li>
+          <li><strong>PEC-validated transactions.</strong> Each command and data block carries a 15-bit packet error code. The io layer generates the PEC on write and checks it on read, so any corrupted frame on the noisy HV bus is caught and retried rather than silently trusted.</li>
+          <li><strong>Cell &amp; thermistor acquisition.</strong> The driver kicks off the ADBMS&rsquo;s on-chip ADC conversions, waits the part&rsquo;s conversion time, then reads back the cell-voltage and auxiliary (GPIO/thermistor) register groups and converts the raw counts to volts and degrees Celsius.</li>
+          <li><strong>Open-wire detection.</strong> By toggling the ADBMS pull-up/pull-down current sources and comparing readings, the driver detects broken connections to any cell tap or thermistor &mdash; a critical safety check on a 600&nbsp;V pack.</li>
+          <li><strong>Passive balancing.</strong> Per-cell discharge switches are driven on a settle/balance timer to bleed down the highest cells and keep the segment in balance.</li>
+          <li><strong>Thread-safe by design.</strong> Acquisition runs in asynchronous FreeRTOS tasks; the shared SPI bus and the latest pack values are guarded by semaphores/mutexes so the broadcast, control, and safety tasks never tear a read.</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>Browse the source</h2>
+        <p>The viewer below loads the actual driver files <strong>live</strong> from the public <a href="https://github.com/UBCFormulaElectric/Consolidated-Firmware" target="_blank" rel="noopener">UBC&nbsp;Formula&nbsp;Electric / Consolidated-Firmware</a> repository on GitHub. Pick a file from the tree to read it with syntax highlighting, or open it on GitHub for full history and context.</p>
+        <p class="project-note">Path: <code>firmware/hexray/BMS/src</code> &mdash; the BMS firmware for the &ldquo;Hexray&rdquo; car.</p>
+
+        <div class="code-viewer" id="code-viewer">
+          <div class="cv-tree" id="cv-tree" aria-label="Source files"></div>
+          <div class="cv-main">
+            <div class="cv-bar">
+              <button type="button" class="cv-iconbtn cv-toggle" id="cv-toggle" aria-label="Hide file list" aria-pressed="false" title="Hide / show file list">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                <span>Files</span>
+              </button>
+              <span class="cv-path" id="cv-path">Select a file&hellip;</span>
+              <div class="cv-bar-actions">
+                <a class="cv-gh" id="cv-gh" target="_blank" rel="noopener" hidden>View on GitHub &nearr;</a>
+                <button type="button" class="cv-iconbtn cv-expand" id="cv-expand" aria-label="Expand viewer to full screen" title="Expand">
+                  <svg class="cv-ic-expand" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                  <svg class="cv-ic-collapse" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                  <span class="cv-expand-label">Expand</span>
+                </button>
+              </div>
+            </div>
+            <div class="cv-body" id="cv-body">
+              <div class="cv-status">Loading driver source&hellip;</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>What I did</h2>
+        <p>I work on this driver as part of the BMS firmware team, owning chunks of both layers. On the io side that meant getting the isoSPI transactions and PEC generation/checking solid so the chain reads reliably, and wiring up the cell-voltage, auxiliary, and config register paths. On the app side it meant turning those raw reads into the min/max/average cell statistics, health bitmaps, balancing decisions, and alert thresholds that the rest of the car depends on, and broadcasting all of it over CAN.</p>
+        <p>A lot of the real work was bring-up and debugging on hardware. I tested and debugged 15+ boards on a pseudo-segment harness to validate the isoSPI links between the BMS and the module boards, chasing down PEC failures, marginal connections, and conversion-timing issues across the daisy chain. Getting the open-wire checks to reliably distinguish a genuinely broken tap from normal measurement noise on a live HV bus was one of the more satisfying parts to get right.</p>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>Stack</h2>
+        <ul class="doc-list">
+          <li>Language: C++20 (<code>std::expected</code>-based error handling)</li>
+          <li>MCU: STM32H7</li>
+          <li>Comms: SPI &rarr; isoSPI daisy chain, PEC (CRC-15) validation</li>
+          <li>RTOS: FreeRTOS tasks with semaphores / mutexes</li>
+          <li>Topology: 10 segments &times; 14 cells &amp; 14 thermistors</li>
+          <li>Pack interface: CAN broadcast of voltages, temperatures, balancing &amp; health</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Pranay Oza</span>
+      <span>Computer Engineering @ UBC</span>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js" defer></script>
+  <script src="adbms-viewer.js" defer></script>
+</body>
+</html>
