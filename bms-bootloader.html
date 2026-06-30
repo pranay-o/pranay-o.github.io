@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BMS Bootloader — Pranay Oza</title>
+  <meta name="description" content="CAN-based firmware-update bootloader for UBC Formula Electric's STM32H7 BMS — CRC32 verified boot, flash partitioning between boot and app regions, jump-to-app logic, and a host-side python-can flasher. Design write-up by Pranay Oza." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <h1 class="site-title">Pranay Oza &mdash; Engineering Portfolio</h1>
+      <div class="topbar-socials">
+        <a href="https://github.com/pranay-o" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.05.78 2.13v3.16c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.4-1.86 3.64 0 4.31 2.4 4.31 5.51v6.24ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.72V1.72C24 .77 23.21 0 22.22 0Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <button class="menu-toggle" aria-expanded="false" aria-controls="side-nav">Menu &#9662;</button>
+      <nav id="side-nav" class="side-nav" aria-label="Portfolio sections">
+        <a href="index.html#overview" class="side-link">Overview</a>
+
+        <span class="side-link side-header">Experience</span>
+        <a href="index.html#exp-fe" class="side-link side-sub">UBC Formula Electric</a>
+        <a href="index.html#exp-hc" class="side-link side-sub">Hypercharge Networks</a>
+
+        <span class="side-link side-header">Projects</span>
+        <a href="adbms-driver.html" class="side-link side-sub">ADBMS Driver</a>
+        <a href="bms-bootloader.html" class="side-link side-sub active">BMS Bootloader</a>
+        <a href="index.html#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
+        <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
+        <a href="dc-motor-controller.html" class="side-link side-sub">DC Motor RPM Controller</a>
+        <a href="index.html#p-balancing" class="side-link side-sub">BMS Cell Balancing</a>
+        <a href="index.html#p-calibration" class="side-link side-sub">Current Sensor Calibration</a>
+        <a href="index.html#p-rsm" class="side-link side-sub">Rear Sensor Module</a>
+        <a href="index.html#p-wildcan" class="side-link side-sub">WildCan</a>
+        <a href="index.html#p-ftc" class="side-link side-sub">FTC 24226 Robotics</a>
+        <a href="index.html#p-skin" class="side-link side-sub">Skin Cancer Diagnosis</a>
+        <a href="index.html#p-research" class="side-link side-sub">Youreka Research</a>
+
+        <a href="resume.html" class="side-link">Resume</a>
+        <a href="index.html#contact" class="side-link">Contact</a>
+      </nav>
+    </aside>
+
+    <main class="doc">
+      <!-- ============ HEADER + HERO ============ -->
+      <section class="doc-section" data-animate>
+        <p><a href="index.html#p-bootloader">&larr; Back to portfolio</a></p>
+        <h2>BMS Bootloader</h2>
+        <p class="project-meta"><span>C++20 / C &middot; STM32H7</span><span class="dot">&middot;</span><span>CubeMX &middot; CAN FD &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2026</span></p>
+
+        <p class="doc-lede">A CAN-based firmware-update bootloader for the STM32H7 at the heart of UBC&nbsp;Formula&nbsp;Electric&rsquo;s BMS. It lives in its own flash partition ahead of the application, validates the installed app with a CRC32 before every boot, and &mdash; on request &mdash; reflashes the app region sector-by-sector straight over the car&rsquo;s CAN bus. No debugger, no opening the accumulator: a new build is pushed to every node from the team&rsquo;s tooling, and a corrupted or half-written update can never brick a board.</p>
+
+        <figure class="figure hero-figure">
+          <div class="figure-frame art-bootloader hero-art" aria-hidden="true">
+            <svg viewBox="0 0 200 120" class="art-svg">
+              <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="30" y="40" width="60" height="50" rx="2"/>
+                <line x1="30" y1="55" x2="90" y2="55"/><line x1="30" y1="70" x2="90" y2="70"/>
+                <text x="60" y="50" text-anchor="middle" font-family="Lato" font-size="6" fill="currentColor" letter-spacing="1">BOOT</text>
+                <text x="60" y="65" text-anchor="middle" font-family="Lato" font-size="6" fill="currentColor" letter-spacing="1">APP A</text>
+                <text x="60" y="80" text-anchor="middle" font-family="Lato" font-size="6" fill="currentColor" letter-spacing="1">APP B</text>
+                <line class="pulse-line" x1="92" y1="65" x2="118" y2="65" stroke-width="2"/>
+                <polygon class="pulse-line" points="115,61 122,65 115,69" fill="currentColor" style="animation-delay:.2s"/>
+                <rect x="120" y="48" width="50" height="34" rx="3" fill="currentColor"/>
+                <circle cx="126" cy="54" r="1.2" fill="#f6f6f6"/>
+                <text x="145" y="69" text-anchor="middle" font-family="Lato" font-size="8" fill="#f6f6f6" letter-spacing="1">STM32H7</text>
+                <line class="pulse-line" x1="40" y1="28" x2="160" y2="28" stroke-dasharray="4 3"/>
+                <text x="100" y="22" text-anchor="middle" font-family="Lato" font-size="7" fill="currentColor" letter-spacing="2">CAN UPDATE</text>
+              </g>
+            </svg>
+          </div>
+          <figcaption class="figure-cap">Flash split into a protected boot partition and the app region &mdash; reprogrammed over CAN.</figcaption>
+        </figure>
+      </section>
+
+      <!-- ============ HOW IT WORKS ============ -->
+      <section class="doc-section" data-animate>
+        <h2>How it works</h2>
+        <p>The flash is split into two regions by the linker scripts: a small, protected <strong>bootloader</strong> partition at the start of memory, and the much larger <strong>application</strong> partition after it. The very first kilobyte of the app region is a metadata block holding the app&rsquo;s CRC32 checksum and size, written when the binary is built. The same bootloader library is shared across every board on the car; each board target just supplies its own CAN node ID, FDCAN handle, and CubeMX project.</p>
+        <ul class="doc-list">
+          <li><strong>Verified boot.</strong> On reset the bootloader runs first. It re-computes a CRC32 over the entire app image and compares it against the checksum in the metadata block. Only if the app is present and the checksum matches &mdash; and nothing has explicitly requested staying in the bootloader &mdash; does it hand control over.</li>
+          <li><strong>Jump-to-app.</strong> Handing off is a bare-metal context switch: disable interrupts and SysTick, clear pending IRQs, point the vector table (VTOR) at the app, switch back to the main stack pointer, then load the app&rsquo;s initial stack pointer and reset-handler address straight out of its vector table and branch in. The app comes up as if it had booted on its own.</li>
+          <li><strong>CAN update protocol.</strong> A compact set of CAN command IDs &mdash; <code>START_UPDATE</code>, <code>ERASE_SECTOR</code>, <code>PROGRAM</code>, <code>VERIFY</code>, <code>GO_TO_APP</code>, <code>GO_TO_BOOT</code> &mdash; drives a state machine. The host kicks off an update, the bootloader erases the app sectors, streams the new image in block by block, and ACKs progress so the host can show a live bar and retry stalls.</li>
+          <li><strong>Block-buffered flash writes.</strong> The H7 can only program a full flash word (32&nbsp;B) at a time, but a CAN frame carries at most 8&nbsp;B. Incoming program words are accumulated in a RAM buffer keyed by address; once a whole flash word is filled it is committed to flash, and out-of-order or unaligned writes are rejected.</li>
+          <li><strong>Brick resistance.</strong> If an erase or program step fails, or the freshly written image fails its post-flash <code>VERIFY</code> checksum, the app is simply marked invalid &mdash; so the next reset lands safely back in the bootloader instead of jumping into corrupt code. A board can always be recovered over CAN.</li>
+          <li><strong>Host-side flasher.</strong> A python-can tool (<code>canup</code>) commands one or many boards at once: it puts every node into bootloader mode, parses the Intel-HEX build, and walks each through erase &rarr; program &rarr; verify &rarr; jump, so an entire car can be updated from one command.</li>
+        </ul>
+      </section>
+
+      <!-- ============ WHAT I DID ============ -->
+      <section class="doc-section" data-animate>
+        <h2>What I did</h2>
+        <p>I worked on bringing the CAN bootloader up on the BMS&rsquo;s STM32H7. That meant standing up the CubeMX boot project, getting the flash partitioning right so the bootloader and application live in separate, non-overlapping regions, and wiring the board-specific layer &mdash; FDCAN setup, the FreeRTOS tasks that service the interface, tick, and CAN-TX work, and the board&rsquo;s CAN node ID &mdash; into the shared bootloader library.</p>
+        <p>The parts that took the most care were the bits where a mistake means a dead board: the jump-to-app handoff (getting the vector table, stack pointer, and interrupt state all correct so the app starts cleanly), and making the update path genuinely brick-resistant by leaning on the CRC32 verified-boot check so a failed or interrupted flash always falls back to the bootloader rather than into garbage. Getting a full image to flash over CAN and the board to come back up running the new firmware &mdash; with no debugger anywhere near it &mdash; was the satisfying payoff.</p>
+      </section>
+
+      <!-- ============ BROWSE THE SOURCE ============ -->
+      <section class="doc-section" data-animate>
+        <h2>Browse the source</h2>
+        <p>The viewer below loads the actual bootloader files <strong>live</strong> from the public <a href="https://github.com/UBCFormulaElectric/Consolidated-Firmware" target="_blank" rel="noopener">UBC&nbsp;Formula&nbsp;Electric / Consolidated-Firmware</a> repository on GitHub &mdash; the shared boot library, the BMS board target, the flash-partitioning CMake, and the host-side flashing tool. Pick a file from the tree to read it with syntax highlighting, or open it on GitHub for full history and context.</p>
+
+        <div class="code-viewer" id="code-viewer">
+          <div class="cv-tree" id="cv-tree" aria-label="Source files"></div>
+          <div class="cv-main">
+            <div class="cv-bar">
+              <button type="button" class="cv-iconbtn cv-toggle" id="cv-toggle" aria-label="Hide file list" aria-pressed="false" title="Hide / show file list">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                <span>Files</span>
+              </button>
+              <span class="cv-path" id="cv-path">Select a file&hellip;</span>
+              <div class="cv-bar-actions">
+                <a class="cv-gh" id="cv-gh" target="_blank" rel="noopener" hidden>View on GitHub &nearr;</a>
+                <button type="button" class="cv-iconbtn cv-expand" id="cv-expand" aria-label="Expand viewer to full screen" title="Expand">
+                  <svg class="cv-ic-expand" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                  <svg class="cv-ic-collapse" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                  <span class="cv-expand-label">Expand</span>
+                </button>
+              </div>
+            </div>
+            <div class="cv-body" id="cv-body">
+              <div class="cv-status">Loading bootloader source&hellip;</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Pranay Oza</span>
+      <span>Computer Engineering @ UBC</span>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js" defer></script>
+  <script src="boot-viewer.js" defer></script>
+</body>
+</html>

@@ -41,7 +41,7 @@
 
         <span class="side-link side-header">Projects</span>
         <a href="adbms-driver.html" class="side-link side-sub active">ADBMS Driver</a>
-        <a href="index.html#p-bootloader" class="side-link side-sub">BMS Bootloader</a>
+        <a href="bms-bootloader.html" class="side-link side-sub">BMS Bootloader</a>
         <a href="index.html#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
         <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
         <a href="dc-motor-controller.html" class="side-link side-sub">DC Motor RPM Controller</a>
@@ -59,40 +59,42 @@
     </aside>
 
     <main class="doc">
+      <!-- ============ HEADER + HERO ============ -->
       <section class="doc-section" data-animate>
         <p><a href="index.html#p-adbms">&larr; Back to portfolio</a></p>
         <h2>ADBMS Driver Development</h2>
         <p class="project-meta"><span>C++20 &middot; STM32H7</span><span class="dot">&middot;</span><span>SPI &middot; isoSPI &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2025 &ndash; Present</span></p>
 
-        <figure class="figure">
-          <div class="figure-frame art-adbms" aria-hidden="true">
-            <svg viewBox="0 0 200 120" class="art-svg">
-              <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="80" y="40" width="40" height="40" rx="2" fill="currentColor"/>
-                <circle cx="86" cy="46" r="1.5" fill="#f6f6f6"/>
-                <line x1="76" y1="48" x2="80" y2="48"/><line x1="76" y1="56" x2="80" y2="56"/>
-                <line x1="76" y1="64" x2="80" y2="64"/><line x1="76" y1="72" x2="80" y2="72"/>
-                <line x1="120" y1="48" x2="124" y2="48"/><line x1="120" y1="56" x2="124" y2="56"/>
-                <line x1="120" y1="64" x2="124" y2="64"/><line x1="120" y1="72" x2="124" y2="72"/>
-                <rect x="20" y="42" width="20" height="36" rx="1"/><rect x="40" y="46" width="3" height="6" fill="currentColor"/>
-                <rect x="44" y="42" width="20" height="36" rx="1"/><rect x="64" y="46" width="3" height="6" fill="currentColor"/>
-                <line class="pulse-line" x1="68" y1="55" x2="76" y2="55"/>
-                <line class="pulse-line" x1="68" y1="65" x2="76" y2="65" style="animation-delay:.2s"/>
-                <line class="pulse-line" x1="124" y1="55" x2="160" y2="55" style="animation-delay:.4s"/>
-                <line class="pulse-line" x1="124" y1="65" x2="160" y2="65" style="animation-delay:.6s"/>
-                <rect x="160" y="48" width="20" height="24" rx="2"/>
-              </g>
-            </svg>
-          </div>
-          <figcaption class="figure-cap">ADBMS battery-monitoring driver &mdash; SPI / isoSPI daisy chain</figcaption>
-        </figure>
+        <p class="doc-lede">A production embedded driver for the Analog&nbsp;Devices ADBMS battery-monitoring ICs at the heart of UBC&nbsp;Formula&nbsp;Electric&rsquo;s 600&nbsp;V accumulator. Running on an STM32H7 under FreeRTOS, it manages a ten-segment isoSPI daisy chain &mdash; 14 cells and 14 thermistors per segment &mdash; from PEC-validated communication and cell/temperature acquisition through passive balancing and safety alerts, then publishes the whole pack&rsquo;s state to the car over CAN.</p>
 
-        <p>Embedded C++ driver for the Analog Devices ADBMS battery-monitoring IC system on UBC Formula Electric&rsquo;s accumulator. The driver manages a 10-segment isoSPI daisy chain &mdash; 14 cells and 14 thermistors per segment &mdash; running on an STM32H7 under FreeRTOS. It implements SPI/isoSPI communication with PEC (CRC-15) validation, cell-voltage and temperature acquisition, open-wire checks for cells and thermistors, passive cell balancing, and over/under-voltage and over-temperature alerting, all surfaced to the rest of the car over CAN.</p>
+        <figure class="figure hero-figure">
+          <div class="model-wrap model-wrap--hero">
+            <model-viewer
+              class="model-viewer model-hero"
+              src="assets/bms-module-v6.glb"
+              alt="Interactive 3D model of the UBC Formula Electric BMS Module segment board"
+              camera-controls
+              touch-action="pan-y"
+              auto-rotate
+              auto-rotate-delay="3000"
+              rotation-per-second="18deg"
+              shadow-intensity="1"
+              exposure="1.1"
+              environment-image="neutral"
+              loading="eager">
+              <div class="model-fallback" slot="poster">
+                <p>Loading the 3D board&hellip;</p>
+              </div>
+            </model-viewer>
+          </div>
+          <figcaption class="figure-cap">BMS Module &mdash; the segment board the driver targets. Drag to orbit, scroll to zoom.</figcaption>
+        </figure>
       </section>
 
+      <!-- ============ HOW IT WORKS ============ -->
       <section class="doc-section" data-animate>
         <h2>How it works</h2>
-        <p>The driver is split into two layers. A low-level <strong>io/adbms</strong> layer speaks the ADBMS command protocol directly; a higher-level <strong>app/segments</strong> layer turns raw register reads into pack-level quantities and behaviour.</p>
+        <p>The driver is split into two layers: a low-level <strong>io/adbms</strong> layer that speaks the ADBMS command protocol directly, and an <strong>app/segments</strong> layer that turns raw register reads into pack-level quantities and behaviour.</p>
         <ul class="doc-list">
           <li><strong>isoSPI daisy chain.</strong> The host STM32H7 talks SPI to a transceiver that converts to isoSPI &mdash; a differential, transformer-isolated link that hops cleanly across the high-voltage segments. Every transaction is broadcast down the chain and shifted back up, so all ten segments are addressed in a single command.</li>
           <li><strong>PEC-validated transactions.</strong> Each command and data block carries a 15-bit packet error code. The io layer generates the PEC on write and checks it on read, so any corrupted frame on the noisy HV bus is caught and retried rather than silently trusted.</li>
@@ -103,21 +105,70 @@
         </ul>
       </section>
 
+      <!-- ============ EXPLORE THE BOARD (ALTIUM) ============ -->
+      <section class="doc-section" data-animate>
+        <h2>Explore the board</h2>
+        <p>The complete board design &mdash; schematic, PCB layout, 3D, and bill of materials &mdash; in one interactive viewer. Powered by Altium&nbsp;365.</p>
+        <div class="altium-embed" id="altium-embed">
+          <!-- ALTIUM 365 EMBED: replace this placeholder with the iframe from your Altium 365 share link -->
+          <div class="altium-placeholder">
+            <p><strong>Interactive board design &mdash; schematic, PCB, 3D &amp; BOM</strong></p>
+            <p>Open the live design in the Altium&nbsp;365 web viewer.</p>
+            <a class="btn altium-btn" href="https://ubc-formula-electric-student-team.365.altium.com/designs/7CDAB4DD-3385-4674-BD0E-C3D07DAA2525" target="_blank" rel="noopener">Open in Altium&nbsp;365 &nearr;</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ON THE BENCH ============ -->
+      <section class="doc-section" data-animate>
+        <h2>On the bench</h2>
+        <p>Bringing the driver up against real hardware &mdash; a pseudo-segment harness of live 18650 cells wired into the ADBMS monitor, used to validate isoSPI links and acquisition before the firmware ever sees a full pack.</p>
+
+        <figure class="figure media-figure">
+          <div class="figure-frame figure-frame--photo media-wide">
+            <img class="figure-photo" src="assets/adbms-segment-test.jpg" alt="Pseudo-segment test harness: a UBC Formula Electric segment board populated with 18650 Molicel cells, wired into an Analog Devices 16-cell ADBMS battery-monitor evaluation board and a BMS board over CAN" loading="lazy" />
+          </div>
+          <figcaption class="figure-cap">Pseudo-segment harness &mdash; live cells into the ADBMS monitor and BMS board.</figcaption>
+        </figure>
+
+        <figure class="figure media-figure">
+          <div class="figure-frame figure-frame--photo media-wide">
+            <video class="figure-video" autoplay loop muted playsinline controls preload="metadata" poster="assets/adbms-bench-poster.jpg">
+              <source src="assets/adbms-bench.mp4" type="video/mp4" />
+              Your browser can&rsquo;t play this video. <a href="assets/adbms-bench.mp4">Download it instead</a>.
+            </video>
+          </div>
+          <figcaption class="figure-cap">A full segment on the bench &mdash; per-cell balancing LEDs light up red as the firmware bleeds down the high cells.</figcaption>
+        </figure>
+      </section>
+
+      <!-- ============ WHAT I DID ============ -->
+      <section class="doc-section" data-animate>
+        <h2>What I did</h2>
+        <p>I work on this driver as part of the BMS firmware team, owning chunks of both layers. On the io side that meant getting the isoSPI transactions and PEC generation/checking solid so the chain reads reliably, and wiring up the cell-voltage, auxiliary, and config register paths. On the app side it meant turning those raw reads into the min/max/average cell statistics, health bitmaps, balancing decisions, and alert thresholds that the rest of the car depends on, and broadcasting all of it over CAN.</p>
+        <p>A lot of the real work was bring-up and debugging on hardware. I tested and debugged 15+ boards on a pseudo-segment harness to validate the isoSPI links between the BMS and the module boards, chasing down PEC failures, marginal connections, and conversion-timing issues across the daisy chain. Getting the open-wire checks to reliably distinguish a genuinely broken tap from normal measurement noise on a live HV bus was one of the more satisfying parts to get right.</p>
+      </section>
+
+      <!-- ============ BROWSE THE SOURCE ============ -->
       <section class="doc-section" data-animate>
         <h2>Browse the source</h2>
-        <p>The viewer below loads the actual driver files <strong>live</strong> from the public <a href="https://github.com/UBCFormulaElectric/Consolidated-Firmware" target="_blank" rel="noopener">UBC&nbsp;Formula&nbsp;Electric / Consolidated-Firmware</a> repository on GitHub. Pick a file from the tree to read it with syntax highlighting, or open it on GitHub for full history and context.</p>
-        <p class="project-note">Path: <code>firmware/hexray/BMS/src</code> &mdash; the BMS firmware for the &ldquo;Hexray&rdquo; car.</p>
+        <p>It&rsquo;s all open source &mdash; this is the real driver code, straight from <a href="https://github.com/UBCFormulaElectric/Consolidated-Firmware" target="_blank" rel="noopener">our team&rsquo;s firmware repo</a>. Have a look around.</p>
 
         <div class="code-viewer" id="code-viewer">
           <div class="cv-tree" id="cv-tree" aria-label="Source files"></div>
           <div class="cv-main">
             <div class="cv-bar">
+              <div class="cv-dots" aria-hidden="true"><span></span><span></span><span></span></div>
               <button type="button" class="cv-iconbtn cv-toggle" id="cv-toggle" aria-label="Hide file list" aria-pressed="false" title="Hide / show file list">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 <span>Files</span>
               </button>
               <span class="cv-path" id="cv-path">Select a file&hellip;</span>
               <div class="cv-bar-actions">
+                <button type="button" class="cv-iconbtn cv-copy" id="cv-copy" aria-label="Copy file contents" title="Copy file contents">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span class="cv-copy-label">Copy</span>
+                </button>
                 <a class="cv-gh" id="cv-gh" target="_blank" rel="noopener" hidden>View on GitHub &nearr;</a>
                 <button type="button" class="cv-iconbtn cv-expand" id="cv-expand" aria-label="Expand viewer to full screen" title="Expand">
                   <svg class="cv-ic-expand" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
@@ -132,24 +183,6 @@
           </div>
         </div>
       </section>
-
-      <section class="doc-section" data-animate>
-        <h2>What I did</h2>
-        <p>I work on this driver as part of the BMS firmware team, owning chunks of both layers. On the io side that meant getting the isoSPI transactions and PEC generation/checking solid so the chain reads reliably, and wiring up the cell-voltage, auxiliary, and config register paths. On the app side it meant turning those raw reads into the min/max/average cell statistics, health bitmaps, balancing decisions, and alert thresholds that the rest of the car depends on, and broadcasting all of it over CAN.</p>
-        <p>A lot of the real work was bring-up and debugging on hardware. I tested and debugged 15+ boards on a pseudo-segment harness to validate the isoSPI links between the BMS and the module boards, chasing down PEC failures, marginal connections, and conversion-timing issues across the daisy chain. Getting the open-wire checks to reliably distinguish a genuinely broken tap from normal measurement noise on a live HV bus was one of the more satisfying parts to get right.</p>
-      </section>
-
-      <section class="doc-section" data-animate>
-        <h2>Stack</h2>
-        <ul class="doc-list">
-          <li>Language: C++20 (<code>std::expected</code>-based error handling)</li>
-          <li>MCU: STM32H7</li>
-          <li>Comms: SPI &rarr; isoSPI daisy chain, PEC (CRC-15) validation</li>
-          <li>RTOS: FreeRTOS tasks with semaphores / mutexes</li>
-          <li>Topology: 10 segments &times; 14 cells &amp; 14 thermistors</li>
-          <li>Pack interface: CAN broadcast of voltages, temperatures, balancing &amp; health</li>
-        </ul>
-      </section>
     </main>
   </div>
 
@@ -160,6 +193,7 @@
     </div>
   </footer>
 
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
   <script src="script.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js" defer></script>

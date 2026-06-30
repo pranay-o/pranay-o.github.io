@@ -301,6 +301,74 @@ p:last-child { margin-bottom: 0; }
   color: var(--c-heading);
 }
 
+/* ---------- Altium 365 embedded viewer ---------- */
+.altium-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 80vh;
+  border: 1px solid var(--c-rule);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #2b2b2b;
+}
+.altium-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
+.altium-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 28px;
+  text-align: center;
+  color: #c9d1d9;
+}
+.altium-placeholder strong { color: #fff; }
+.altium-placeholder p { margin: 0; font-size: 15px; }
+.altium-btn { margin-top: 12px; }
+
+/* ---------- media (photos / video) ---------- */
+.media-figure { margin-bottom: 22px; }
+.media-wide { max-width: 760px; aspect-ratio: auto; padding: 0; background: #0d1117; }
+.media-wide .figure-photo { width: 100%; height: auto; object-fit: contain; }
+.figure-video { width: 100%; height: auto; display: block; background: #0d1117; }
+.media-figure .figure-cap { max-width: 760px; text-align: left; }
+
+/* ---------- interactive 3D model viewer ---------- */
+.model-wrap {
+  margin-top: 6px;
+  max-width: 760px;
+}
+.model-viewer {
+  width: 100%;
+  height: clamp(320px, 46vw, 480px);
+  background: #eceef0;
+  border: 1px solid var(--c-rule);
+  border-radius: 6px;
+  --poster-color: #eceef0;
+}
+.model-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--c-muted);
+}
+.model-wrap + .figure-cap { text-align: left; max-width: 760px; margin-top: 8px; }
+
+/* hero treatment — interactive board at the top of the page */
+.hero-figure { margin: 24px 0 0; }
+.model-wrap--hero { max-width: 100%; }
+.model-hero { height: clamp(360px, 50vw, 560px); }
+.hero-art { max-width: 100%; aspect-ratio: 2 / 1; padding: 40px; }
+.hero-figure .figure-cap { max-width: none; text-align: left; }
+
 /* ---------- live GitHub code viewer ---------- */
 .code-viewer {
   display: grid;
@@ -343,12 +411,17 @@ p:last-child { margin-bottom: 0; }
 body.cv-noscroll { overflow: hidden; }
 .cv-group-label {
   display: block;
-  padding: 12px 14px 4px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 11px 14px 5px;
+  background: #fafbfc;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--c-muted);
   font-weight: 700;
+  border-bottom: 1px solid #eceef0;
 }
 .cv-file {
   display: block;
@@ -428,6 +501,34 @@ body.cv-noscroll { overflow: hidden; }
 .cv-ic-collapse { display: none; }
 .code-viewer.cv-fullscreen .cv-ic-expand { display: none; }
 .code-viewer.cv-fullscreen .cv-ic-collapse { display: block; }
+
+/* window-chrome dots */
+.cv-dots { display: flex; align-items: center; gap: 7px; flex-shrink: 0; padding: 0 4px 0 2px; }
+.cv-dots span { width: 11px; height: 11px; border-radius: 50%; }
+.cv-dots span:nth-child(1) { background: #ff5f57; }
+.cv-dots span:nth-child(2) { background: #febc2e; }
+.cv-dots span:nth-child(3) { background: #28c840; }
+
+/* path: dimmed directory + bold filename */
+.cv-path-dir { color: #768390; }
+.cv-path-name { color: #e6edf3; font-weight: 700; }
+
+/* copy button feedback */
+.cv-copy.copied { background: #238636; border-color: #238636; color: #fff; }
+
+/* loading spinner */
+.cv-spinner {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-right: 8px;
+  border: 2px solid #30363d;
+  border-top-color: #58a6ff;
+  border-radius: 50%;
+  animation: cv-spin 0.7s linear infinite;
+  vertical-align: -2px;
+}
+@keyframes cv-spin { to { transform: rotate(360deg); } }
 .cv-body { overflow: auto; flex: 1; min-height: 0; padding: 12px 0; }
 .cv-pre { margin: 0; }
 .cv-pre code.hljs {
@@ -461,7 +562,8 @@ body.cv-noscroll { overflow: hidden; }
   .code-viewer.tree-hidden .cv-tree { max-height: 0; padding: 0; border-bottom-color: transparent; }
   .cv-body { height: 62vh; }
   .code-viewer.cv-fullscreen .cv-body { height: auto; flex: 1; }
-  .cv-toggle span, .cv-expand-label { display: none; }
+  .cv-dots { display: none; }
+  .cv-toggle span, .cv-expand-label, .cv-copy-label { display: none; }
   .cv-gh { font-size: 0; }
   .cv-gh::before { content: "GitHub"; font-size: 12.5px; }
 }

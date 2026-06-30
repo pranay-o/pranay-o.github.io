@@ -77,9 +77,9 @@
         <p>If you&rsquo;d like to learn more about my technical background, please view my <a href="resume.html">Resume</a> or visit my <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener">LinkedIn</a> or <a href="https://github.com/pranay-o" target="_blank" rel="noopener">GitHub</a>.</p>
         <p>You can browse through the projects using the sidebar. If you only have time to look at a few, these are my three favorites:</p>
         <ol class="fav-list">
-          <li><a href="#p-adbms">ADBMS Driver Development</a></li>
-          <li><a href="#p-foc">Sensorless Field-Oriented Control ESC</a></li>
-          <li><a href="#p-bootloader">BMS Bootloader</a></li>
+          <li><a href="adbms-driver.html">ADBMS Driver Development</a></li>
+          <li><a href="https://github.com/pranay-o" target="_blank" rel="noopener">Sensorless Field-Oriented Control ESC</a></li>
+          <li><a href="bms-bootloader.html">BMS Bootloader</a></li>
         </ol>
       </section>
 
@@ -97,10 +97,6 @@
               <p class="entry-sub-title">Battery Management System Firmware Lead</p>
               <span class="entry-sub-date">Jun 2026 &ndash; Present</span>
             </div>
-            <ul class="doc-list">
-              <li>Lead firmware development for the car&rsquo;s fully custom 600&nbsp;V BMS, owning the full stack from state-of-charge (SoC) algorithms down to individual monitoring of 500+ lithium-ion cells.</li>
-              <li>Validated safety-critical fault handling by injecting faults into the BMS and confirming each tripped the pack&rsquo;s shutdown loop, covering insulation-monitoring, brake-system, and inter-segment communication faults.</li>
-            </ul>
           </div>
 
           <div class="entry-sub">
@@ -108,11 +104,6 @@
               <p class="entry-sub-title">Battery Management System Firmware</p>
               <span class="entry-sub-date">Sep 2025 &ndash; Jun 2026</span>
             </div>
-            <ul class="doc-list">
-              <li>Developed CAN-based charging firmware for a 6.6&nbsp;kW Elcon charger with full CC/CV profile and termination logic, and integrated J1772 EVSE charging by decoding the control-pilot duty cycle.</li>
-              <li>Implemented a CAN-based bootloader with CRC32 verified-boot to flash all boards over CAN without a debugger, using CMake flash-memory partitioning to keep every node on a version-matched build.</li>
-              <li>Diagnosed and repaired PCB-level electrical faults on high-voltage BMS boards, then ran on-hardware and SIL validation before vehicle integration.</li>
-            </ul>
           </div>
 
           <div class="entry-sub">
@@ -120,9 +111,6 @@
               <p class="entry-sub-title">Low Voltage Firmware</p>
               <span class="entry-sub-date">Sep 2024 &ndash; Sep 2025</span>
             </div>
-            <ul class="doc-list">
-              <li><em>[Placeholder &mdash; add 1&ndash;3 bullets describing your low-voltage firmware work here.]</em></li>
-            </ul>
           </div>
         </div>
 
@@ -135,11 +123,6 @@
             <div class="entry-sub-head">
               <p class="entry-sub-title">Hardware Operations Intern</p>
             </div>
-            <ul class="doc-list">
-              <li>Root caused issues across OCPP communication, WebSocket sessions, and firmware behavior on Level&nbsp;2 EV charging systems (EVSE), diagnosing faults to bring units back online.</li>
-              <li>Built and owned end-to-end a React Native (Expo) provisioning app for Wi-Fi setup, HTTP firmware flashing, and OCPP configuration, enabling self-provisioning that made deployment 3x faster.</li>
-              <li>Automated cross-application workflows across QuickBooks, Salesforce, AXSO, and Quantev using n8n, Python, and JSON over SQL datasets, replacing manual entry and keeping systems in sync.</li>
-            </ul>
           </div>
         </div>
       </section>
@@ -202,7 +185,7 @@
           <h3>BMS Bootloader &mdash; UBC Formula Electric</h3>
           <p class="project-meta"><span>C / C++ &middot; STM32H7</span><span class="dot">&middot;</span><span>CubeMX &middot; CAN</span><span class="dot">&middot;</span><span>2026</span></p>
           <p>Designed and built a CAN-update bootloader for the BMS&rsquo;s STM32H7 MCU &mdash; CubeMX-generated boot project, custom partitioning between bootloader and application regions, jump-to-app logic, and CAN messaging so a brick-resistant firmware update can be pushed from the team&rsquo;s tooling without physically reflashing the board.</p>
-          <span class="project-note">Internal team project &mdash; UBC Formula Electric.</span>
+          <a href="bms-bootloader.html">Read the full write-up &rarr;</a>
         </article>
 
         <article id="p-foc" class="project-block">

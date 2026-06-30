@@ -20,6 +20,15 @@
       ],
     },
     {
+      label: "Runtime — RTOS tasks & jobs",
+      files: [
+        { path: "tasks.cpp", desc: "FreeRTOS tasks — dedicated ADBMS voltage / aux / config / OWC threads" },
+        { path: "tasks.h", desc: "Task stacks, priorities & handles" },
+        { path: "jobs.cpp", desc: "Periodic ticks that drive the acquisition & balancing pipeline" },
+        { path: "jobs.hpp", desc: "Job tick declarations (1 Hz / 100 Hz / 1 kHz / ADBMS)" },
+      ],
+    },
+    {
       label: "io/adbms — chip driver",
       files: [
         { path: "io/adbms/io_adbms_internal.hpp", desc: "Command opcodes & PEC framing constants" },
@@ -53,6 +62,7 @@
   const ghEl = document.getElementById("cv-gh");
   const toggleBtn = document.getElementById("cv-toggle");
   const expandBtn = document.getElementById("cv-expand");
+  const copyBtn = document.getElementById("cv-copy");
   if (!tree || !body) return;
 
   const cache = new Map();
@@ -114,10 +124,30 @@
     body.replaceChildren(div);
   };
 
+  const loading = (name) => {
+    body.innerHTML =
+      '<div class="cv-status"><span class="cv-spinner"></span>Loading <code>' + name + "</code>&hellip;</div>";
+  };
+
+  const setPath = (path) => {
+    const dir = path.slice(0, path.lastIndexOf("/") + 1);
+    pathEl.replaceChildren();
+    if (dir) {
+      const d = document.createElement("span");
+      d.className = "cv-path-dir";
+      d.textContent = dir;
+      pathEl.appendChild(d);
+    }
+    const n = document.createElement("span");
+    n.className = "cv-path-name";
+    n.textContent = basename(path);
+    pathEl.appendChild(n);
+  };
+
   async function load(path) {
     active = path;
     buttons.forEach((b, p) => b.classList.toggle("active", p === path));
-    pathEl.textContent = ROOT + path;
+    setPath(path);
     ghEl.href = BLOB + path;
     ghEl.hidden = false;
 
@@ -126,7 +156,7 @@
       return;
     }
 
-    status("Fetching <code>" + basename(path) + "</code> from GitHub&hellip;");
+    loading(basename(path));
     try {
       const res = await fetch(RAW + path, { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -167,6 +197,25 @@
     expandBtn.addEventListener("click", () => setExpanded(!viewer.classList.contains("cv-fullscreen")));
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && viewer.classList.contains("cv-fullscreen")) setExpanded(false);
+    });
+  }
+
+  // ---- copy the current file's contents ----
+  if (copyBtn) {
+    const label = copyBtn.querySelector(".cv-copy-label");
+    copyBtn.addEventListener("click", async () => {
+      if (!active || !cache.has(active) || !navigator.clipboard) return;
+      try {
+        await navigator.clipboard.writeText(cache.get(active));
+        copyBtn.classList.add("copied");
+        if (label) label.textContent = "Copied";
+        setTimeout(() => {
+          copyBtn.classList.remove("copied");
+          if (label) label.textContent = "Copy";
+        }, 1400);
+      } catch (_) {
+        /* clipboard may be blocked; ignore */
+      }
     });
   }
 
