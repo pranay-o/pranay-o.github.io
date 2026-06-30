@@ -44,7 +44,6 @@
         <a href="#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
         <a href="#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
         <a href="#p-rpm" class="side-link side-sub">DC Motor RPM Controller</a>
-        <a href="#p-balancing" class="side-link side-sub">BMS Cell Balancing</a>
         <a href="#p-calibration" class="side-link side-sub">Current Sensor Calibration</a>
         <a href="#p-rsm" class="side-link side-sub">Rear Sensor Module</a>
         <a href="#p-wildcan" class="side-link side-sub">WildCan</a>
@@ -69,11 +68,9 @@
           My name is Pranay Oza, and I&rsquo;m an embedded systems engineer and Computer Engineering student at the University of British Columbia. This website is an online portfolio that exhibits some of the professional, academic, and personal engineering projects I have worked on.
         </p>
         <p>
-          My main focus is UBC Formula Electric, where I&rsquo;m the Battery Management System Firmware Lead on the team that designs and builds a fully electric Formula race car. I like working across the full stack, from high-level software down to the firmware running on our custom boards.
+          My main focus is UBC Formula Electric, where I&rsquo;m the Battery Management System Firmware Lead on the team that designs and builds a fully electric Formula race car.
         </p>
-        <p>
-          On my own time, I enjoy taking projects all the way from control algorithms to firmware to high-voltage electronics.
-        </p>
+        <p>I&rsquo;m currently looking for a <strong>May 2027 &ndash; August 2027 internship</strong> in embedded systems / firmware. If you&rsquo;re hiring, I&rsquo;d love to chat &mdash; reach me at <a href="mailto:oza.pranay06@gmail.com">oza.pranay06@gmail.com</a>.</p>
         <p>If you&rsquo;d like to learn more about my technical background, please view my <a href="resume.html">Resume</a> or visit my <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener">LinkedIn</a> or <a href="https://github.com/pranay-o" target="_blank" rel="noopener">GitHub</a>.</p>
         <p>You can browse through the projects using the sidebar. If you only have time to look at a few, these are my three favorites:</p>
         <ol class="fav-list">
@@ -133,24 +130,8 @@
 
         <article id="p-adbms" class="project-block">
           <figure class="figure">
-            <div class="figure-frame art-adbms" aria-hidden="true">
-              <svg viewBox="0 0 200 120" class="art-svg">
-                <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="80" y="40" width="40" height="40" rx="2" fill="currentColor"/>
-                  <circle cx="86" cy="46" r="1.5" fill="#f6f6f6"/>
-                  <line x1="76" y1="48" x2="80" y2="48"/><line x1="76" y1="56" x2="80" y2="56"/>
-                  <line x1="76" y1="64" x2="80" y2="64"/><line x1="76" y1="72" x2="80" y2="72"/>
-                  <line x1="120" y1="48" x2="124" y2="48"/><line x1="120" y1="56" x2="124" y2="56"/>
-                  <line x1="120" y1="64" x2="124" y2="64"/><line x1="120" y1="72" x2="124" y2="72"/>
-                  <rect x="20" y="42" width="20" height="36" rx="1"/><rect x="40" y="46" width="3" height="6" fill="currentColor"/>
-                  <rect x="44" y="42" width="20" height="36" rx="1"/><rect x="64" y="46" width="3" height="6" fill="currentColor"/>
-                  <line class="pulse-line" x1="68" y1="55" x2="76" y2="55"/>
-                  <line class="pulse-line" x1="68" y1="65" x2="76" y2="65" style="animation-delay:.2s"/>
-                  <line class="pulse-line" x1="124" y1="55" x2="160" y2="55" style="animation-delay:.4s"/>
-                  <line class="pulse-line" x1="124" y1="65" x2="160" y2="65" style="animation-delay:.6s"/>
-                  <rect x="160" y="48" width="20" height="24" rx="2"/>
-                </g>
-              </svg>
+            <div class="figure-frame figure-frame--photo">
+              <img class="figure-photo" src="assets/adbms-segment-test.jpg" alt="Pseudo-segment test harness: a UBC Formula Electric segment board populated with 18650 Molicel cells, wired into an Analog Devices 16-cell ADBMS battery-monitor evaluation board and a BMS board over CAN" loading="lazy" />
             </div>
             <figcaption class="figure-cap">ADBMS battery-monitoring driver &mdash; SPI / isoSPI daisy chain</figcaption>
           </figure>
@@ -246,28 +227,6 @@
           <p class="project-meta"><span>74HC Logic &middot; Op-Amp</span><span class="dot">&middot;</span><span>R-2R DAC &middot; BJT</span><span class="dot">&middot;</span><span>ENPH 259 &middot; Dec 2025</span></p>
           <p>A fully analog/digital closed-loop DC motor speed controller built from discrete ICs for ENPH 259 at UBC. A phototransistor encoder feeds an 8-bit counter clocked by a Schmitt-trigger oscillator; a D-latch samples the count at 5&nbsp;Hz and holds it steady while the counter resets. An R-2R ladder DAC converts the digital count to a voltage, which an op-amp PI controller compares against the setpoint to drive an NPN BJT motor stage. Achieves 0&ndash;3480&nbsp;RPM across a 0&ndash;2.5&nbsp;V setpoint range, with a maximum angular speed of 364&nbsp;rad/s.</p>
           <a href="dc-motor-controller.html">Read the full write-up &rarr;</a>
-        </article>
-
-        <article id="p-balancing" class="project-block">
-          <figure class="figure">
-            <div class="figure-frame art-bms" aria-hidden="true">
-              <svg viewBox="0 0 200 120" class="art-svg">
-                <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="30" y="35" width="140" height="50" rx="3"/><rect x="170" y="50" width="6" height="20" fill="currentColor"/>
-                  <line class="bar-grow" x1="42" y1="58" x2="62" y2="58" stroke-width="6" pathLength="100"/>
-                  <line class="bar-grow" x1="70" y1="58" x2="90" y2="58" stroke-width="6" pathLength="100" style="animation-delay:.15s"/>
-                  <line class="bar-grow" x1="98" y1="58" x2="118" y2="58" stroke-width="6" pathLength="100" style="animation-delay:.3s"/>
-                  <line class="bar-grow" x1="126" y1="58" x2="146" y2="58" stroke-width="6" pathLength="100" style="animation-delay:.45s"/>
-                  <text x="100" y="78" text-anchor="middle" font-family="Lato" font-size="9" fill="currentColor" letter-spacing="2">CAN</text>
-                </g>
-              </svg>
-            </div>
-            <figcaption class="figure-cap">PWM cell-balancing with CAN-broadcast control</figcaption>
-          </figure>
-          <h3>BMS Cell Balancing &mdash; UBC Formula Electric</h3>
-          <p class="project-meta"><span>STM32</span><span class="dot">&middot;</span><span>FreeRTOS &middot; CAN</span><span class="dot">&middot;</span><span>2025 &ndash; Present</span></p>
-          <p>Battery Management System firmware for a fully electric Formula race car. Implementing a PWM-controlled cell balancing strategy with CAN-broadcasted control inputs to maintain pack health and reduce imbalance across cells.</p>
-          <span class="project-note">Internal team project &mdash; UBC Formula Electric.</span>
         </article>
 
         <article id="p-calibration" class="project-block">

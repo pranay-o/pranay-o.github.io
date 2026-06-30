@@ -373,6 +373,7 @@ p:last-child { margin-bottom: 0; }
 .code-viewer {
   display: grid;
   grid-template-columns: 252px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   border: 1px solid var(--c-rule);
   border-radius: 6px;
   overflow: hidden;
@@ -556,7 +557,7 @@ body.cv-noscroll { overflow: hidden; }
 .hljs-ln-code { padding-left: 16px !important; }
 
 @media (max-width: 680px) {
-  .code-viewer { grid-template-columns: 1fr; height: auto; max-height: none; min-height: 0; }
+  .code-viewer { grid-template-columns: 1fr; grid-template-rows: auto auto; height: auto; max-height: none; min-height: 0; }
   .cv-tree { max-height: 210px; border-right: 0; border-bottom: 1px solid var(--c-rule); transition: max-height 0.22s var(--easing); }
   .code-viewer.tree-hidden { grid-template-columns: 1fr; }
   .code-viewer.tree-hidden .cv-tree { max-height: 0; padding: 0; border-bottom-color: transparent; }
