@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FTC 24226 Warrior Robotics — Pranay Oza</title>
+  <meta name="description" content="FTC 24226 Warrior Robotics — software lead for a rookie FIRST Tech Challenge team: Road Runner autonomous, OpenCV vision, and PID-controlled subsystems. Project write-up by Pranay Oza." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <h1 class="site-title">Pranay Oza &mdash; Engineering Portfolio</h1>
+      <div class="topbar-socials">
+        <a href="mailto:oza.pranay06@gmail.com" aria-label="Email">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+        </a>
+        <a href="https://github.com/pranay-o" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.05.78 2.13v3.16c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.4-1.86 3.64 0 4.31 2.4 4.31 5.51v6.24ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.72V1.72C24 .77 23.21 0 22.22 0Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <button class="menu-toggle" aria-expanded="false" aria-controls="side-nav">Menu &#9662;</button>
+      <nav id="side-nav" class="side-nav" aria-label="Portfolio sections">
+        <a href="index.html#overview" class="side-link">Overview</a>
+
+        <span class="side-link side-header">Experience</span>
+        <a href="index.html#exp-fe" class="side-link side-sub">UBC Formula Electric</a>
+        <a href="index.html#exp-hc" class="side-link side-sub">Hypercharge Networks</a>
+
+        <a href="resume.html" class="side-link">Resume</a>
+
+        <span class="side-link side-header">Projects</span>
+        <a href="index.html#p-adbms" class="side-link side-sub">ADBMS Driver</a>
+        <a href="index.html#p-bootloader" class="side-link side-sub">BMS Bootloader</a>
+        <a href="index.html#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
+        <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
+        <a href="index.html#p-rpm" class="side-link side-sub">DC Motor RPM Controller</a>
+        <a href="index.html#p-calibration" class="side-link side-sub">Current Sensor Calibration</a>
+        <a href="index.html#p-rsm" class="side-link side-sub">Rear Sensor Module</a>
+        <a href="index.html#p-wildcan" class="side-link side-sub">WildCan</a>
+        <a href="ftc.html" class="side-link side-sub active">FTC 24226 Robotics</a>
+        <a href="index.html#p-skin" class="side-link side-sub">Skin Cancer Diagnosis</a>
+        <a href="index.html#p-research" class="side-link side-sub">Youreka Research</a>
+      </nav>
+    </aside>
+
+    <main class="doc">
+      <section class="doc-section" data-animate>
+        <p><a href="index.html#p-ftc">&larr; Back to portfolio</a></p>
+        <h2>FTC 24226 Warrior Robotics</h2>
+        <p class="project-meta"><span>2023 &ndash; 2024</span></p>
+
+        <figure class="figure">
+          <div class="figure-frame art-robot hero-art" aria-hidden="true">
+            <svg viewBox="0 0 200 120" class="art-svg">
+              <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="60" y="92" width="80" height="14" rx="2"/><line x1="70" y1="106" x2="68" y2="115"/><line x1="130" y1="106" x2="132" y2="115"/>
+                <g class="arm-swing" style="transform-origin: 100px 92px">
+                  <line x1="100" y1="92" x2="100" y2="55" stroke-width="3"/><circle cx="100" cy="55" r="4" fill="currentColor"/>
+                  <g style="transform-origin: 100px 55px" class="arm-swing-2">
+                    <line x1="100" y1="55" x2="135" y2="35" stroke-width="3"/><circle cx="135" cy="35" r="3" fill="currentColor"/>
+                    <path d="M135 35 L150 28 M135 35 L150 42"/>
+                  </g>
+                </g>
+                <line x1="40" y1="106" x2="20" y2="106" stroke-dasharray="3 3"/><line x1="160" y1="106" x2="180" y2="106" stroke-dasharray="3 3"/>
+              </g>
+            </svg>
+          </div>
+          <figcaption class="figure-cap">FTC competition robot &mdash; vision-driven autonomous with PID + odometry control.</figcaption>
+        </figure>
+
+        <p>I led the software for <strong>FTC&nbsp;24226 Warrior Robotics</strong>, a 20-member rookie FIRST&nbsp;Tech&nbsp;Challenge team in the 2023&ndash;2024 CENTERSTAGE season. In our first year we won <strong>1st place at the Southern Alberta Last Chance Qualifier</strong> and took the <strong>Think Award</strong> for programming. I wrote the team&rsquo;s autonomous and driver-control code in Java on the FTC SDK &mdash; the vision routines that run during autonomous, plus PID and odometry control for the drivetrain and the scoring mechanisms.</p>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>Autonomous &amp; vision</h2>
+        <p>Most of a match is decided in the 30-second autonomous period, so that&rsquo;s where I spent the most time.</p>
+        <ul class="doc-list">
+          <li>The robot starts by figuring out where the team prop is. An <strong>EasyOpenCV</strong> pipeline looks at two regions of the camera frame and compares their average color to the alliance color; if neither matches, the prop must be in the third (off-camera) spot. That tells us whether it&rsquo;s Left, Center, or Right.</li>
+          <li>Driving is handled by <strong>Road Runner</strong>. Instead of timed &ldquo;drive forward for two seconds&rdquo; moves, paths are built as trajectory sequences &mdash; splines, turns, and waits &mdash; and followed with feedforward plus feedback, so the robot traces the same smooth curve every run.</li>
+          <li>To keep that accurate, three dead wheels (unpowered encoder wheels) track the robot&rsquo;s position on the field, so it still knows where it is even when the drive wheels slip.</li>
+          <li>I wrote 15+ autonomous routines, one for each starting setup (red/blue alliance &times; front/back tile), and each one branches on the prop position it detected.</li>
+          <li>I sketched and tested the paths in <strong>MeepMeep</strong>, a Road Runner simulator, before running them on the real robot &mdash; a lot faster than burning field time on every tweak.</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>Subsystem control</h2>
+        <p>The scoring mechanisms run closed-loop too, so they hit the same positions every time:</p>
+        <ul class="doc-list">
+          <li>A mecanum drivetrain, shared between autonomous and the driver-controlled period.</li>
+          <li>Linear slides on a PID loop using the motor encoders, so they reach a target height and hold it under load. The driver gets preset heights off the same controller.</li>
+          <li>The intake, slide, and arm are tied together, so the driver can grab, lift, and drop a pixel with one button instead of juggling each one.</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>Results</h2>
+        <ul class="doc-list">
+          <li>1st place &mdash; Southern Alberta Last Chance Qualifier (rookie season)</li>
+          <li>Think Award &mdash; recognizing the team&rsquo;s engineering portfolio and programming</li>
+          <li>15+ autonomous routines across all alliance / starting-position combinations</li>
+          <li>Software lead for a 20-member rookie team</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>What I did</h2>
+        <p>As software lead I wrote most of the code and got the rest of the programming subteam comfortable working in it. I tuned the Road Runner drive and odometry from scratch with the built-in feedforward and PID tuners, wrote the OpenCV pipeline and adjusted the color thresholds and sample regions for the lighting at our field, and built all the autonomous routines on top of that.</p>
+        <p>The biggest thing I took away was to favor reliability over ambition. An autonomous that scores a little but works every single match beats a fancy one that fails half the time &mdash; and for a rookie team, having autos that just worked was a big part of how we ended up with the Think Award.</p>
+        <p><a href="https://github.com/pranay-o/FTC24226Robotics" target="_blank" rel="noopener">View the source on GitHub &rarr;</a></p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Pranay Oza</span>
+      <span>Computer Engineering @ UBC</span>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
