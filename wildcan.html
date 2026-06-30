@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WildCan — Wildfire Detection Web App — Pranay Oza</title>
+  <meta name="description" content="WildCan — a real-time wildfire tracking and alerting web app built at nwHacks 2025, integrating NASA FIRMS, Mapbox, MongoDB, and Twilio SMS alerts. Project write-up by Pranay Oza." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <h1 class="site-title">Pranay Oza &mdash; Engineering Portfolio</h1>
+      <div class="topbar-socials">
+        <a href="https://github.com/pranay-o" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.05.78 2.13v3.16c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.4-1.86 3.64 0 4.31 2.4 4.31 5.51v6.24ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.72V1.72C24 .77 23.21 0 22.22 0Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <button class="menu-toggle" aria-expanded="false" aria-controls="side-nav">Menu &#9662;</button>
+      <nav id="side-nav" class="side-nav" aria-label="Portfolio sections">
+        <a href="index.html#overview" class="side-link">Overview</a>
+
+        <span class="side-link side-header">Experience</span>
+        <a href="index.html#exp-fe" class="side-link side-sub">UBC Formula Electric</a>
+        <a href="index.html#exp-hc" class="side-link side-sub">Hypercharge Networks</a>
+
+        <span class="side-link side-header">Projects</span>
+        <a href="index.html#p-adbms" class="side-link side-sub">ADBMS Driver</a>
+        <a href="index.html#p-bootloader" class="side-link side-sub">BMS Bootloader</a>
+        <a href="index.html#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
+        <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
+        <a href="index.html#p-rpm" class="side-link side-sub">DC Motor RPM Controller</a>
+        <a href="index.html#p-calibration" class="side-link side-sub">Current Sensor Calibration</a>
+        <a href="index.html#p-rsm" class="side-link side-sub">Rear Sensor Module</a>
+        <a href="wildcan.html" class="side-link side-sub active">WildCan</a>
+        <a href="index.html#p-ftc" class="side-link side-sub">FTC 24226 Robotics</a>
+        <a href="index.html#p-skin" class="side-link side-sub">Skin Cancer Diagnosis</a>
+        <a href="index.html#p-research" class="side-link side-sub">Youreka Research</a>
+
+        <a href="resume.html" class="side-link">Resume</a>
+        <a href="index.html#contact" class="side-link">Contact</a>
+      </nav>
+    </aside>
+
+    <main class="doc">
+      <section class="doc-section" data-animate>
+        <p><a href="index.html#p-wildcan">&larr; Back to portfolio</a></p>
+        <h2>WildCan &mdash; Wildfire Detection Web App</h2>
+        <p class="project-meta"><span>NwHacks 2025</span></p>
+
+        <figure class="figure">
+          <div class="figure-frame figure-frame--photo">
+            <img class="figure-photo" src="assets/wildcan-map.jpg" alt="WildCan home page showing a Mapbox map of British Columbia with red markers pinning active wildfire detections pulled live from the NASA FIRMS API" />
+          </div>
+          <figcaption class="figure-cap">Live wildfire detections rendered on the WildCan map &mdash; data from NASA FIRMS, plotted with Mapbox.</figcaption>
+        </figure>
+
+        <p>WildCan is a real-time wildfire tracking and alerting platform built over the weekend at <strong>nwHacks&nbsp;2025</strong> &mdash; a hackathon project by a team of four first-year UBC students, and our first major hackathon. It pulls live satellite fire-detection data, plots every active fire on an interactive map, and sends an SMS to anyone whose saved location falls inside a fire&rsquo;s estimated impact radius.</p>
+        <p>The goal was something with real impact for British Columbia, where wildfire season is a yearly threat: turn raw satellite data into a warning that actually reaches a person&rsquo;s phone in time to act.</p>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>How it works</h2>
+        <p>WildCan is a small full-stack app wired around a single source of truth &mdash; a MongoDB database that holds both live fire detections and registered users:</p>
+        <ul class="doc-list">
+          <li><strong>Fire-data ingestion.</strong> A scheduled Python job polls the <strong>NASA FIRMS</strong> API (VIIRS near-real-time satellite detections) for fires across Canada, parses the CSV feed, and refreshes the fire collection in <strong>MongoDB Atlas</strong> so the map always reflects current activity.</li>
+          <li><strong>Map visualization.</strong> The front end loads <strong>Mapbox GL JS</strong>, centers on BC, and fetches the latest coordinates from the backend, dropping a marker on every detection plus an animated canvas &ldquo;pulsing dot&rdquo; layer to draw the eye to active hotspots.</li>
+          <li><strong>User registration.</strong> The <em>Get Alerts</em> page captures a phone number and uses the browser&rsquo;s Geolocation API to grab the user&rsquo;s coordinates, then POSTs them to a <strong>Flask</strong> API that validates and stores the user.</li>
+          <li><strong>Proximity alerts.</strong> A notifier computes the <strong>Haversine distance</strong> between each user and every active fire; if a fire falls within the alert radius, it fires off a location-based warning over <strong>Twilio</strong> SMS.</li>
+          <li><strong>Relief funnel.</strong> A persistent Donate button links out to a UBC wildfire relief fund, so the app can convert awareness into action.</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>Get Alerts &amp; About</h2>
+        <p>Users opt in from a simple form &mdash; enter a phone number, share location with one tap, and submit. Their coordinates are stored and checked against every incoming fire detection.</p>
+        <figure class="figure">
+          <div class="figure-frame figure-frame--photo">
+            <img class="figure-photo" src="assets/wildcan-alerts.jpg" alt="WildCan Get Alerts page with a form to enter a phone number, a Get Location button, and a Submit button for registering for SMS wildfire alerts" />
+          </div>
+          <figcaption class="figure-cap">The opt-in flow for personalized, location-based SMS alerts.</figcaption>
+        </figure>
+        <figure class="figure">
+          <div class="figure-frame figure-frame--photo">
+            <img class="figure-photo" src="assets/wildcan-about.jpg" alt="WildCan About page describing the project over a full-bleed background image of a wildfire burning through a forest at night" />
+          </div>
+          <figcaption class="figure-cap">The About page framing WildCan&rsquo;s mission &mdash; timely, accurate alerts to keep communities safe.</figcaption>
+        </figure>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>Stack</h2>
+        <ul class="doc-list">
+          <li><strong>Front end:</strong> HTML / CSS / JavaScript, Mapbox GL JS, browser Geolocation API</li>
+          <li><strong>Back end:</strong> Python (Flask) REST API with CORS, Node.js tooling</li>
+          <li><strong>Data:</strong> MongoDB Atlas, NASA FIRMS satellite fire feed (VIIRS NRT)</li>
+          <li><strong>Alerts:</strong> Twilio SMS, Haversine proximity check</li>
+          <li><strong>Built:</strong> nwHacks 2025, team of four</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" data-animate>
+        <h2>What we built</h2>
+        <p>As a team of four first-year students at our first major hackathon, we scoped WildCan to be genuinely demoable end to end in a weekend: real satellite data in, a live map out, and a real SMS landing on a phone. Getting the pieces to talk to each other &mdash; the FIRMS feed into MongoDB, MongoDB out to both the Mapbox front end and the Twilio notifier &mdash; was the bulk of the work, along with handling the browser geolocation handshake and keeping the map responsive while plotting hundreds of detections.</p>
+        <p>For the demo we inflated the alert radius so a single test fire would reliably trigger a text; in a real deployment that threshold would sit around 50&ndash;100&nbsp;km. The screenshots above are running against <em>live</em> NASA FIRMS data, so the map reflects fires burning in BC right now.</p>
+        <p>If we took it further, the next steps would be per-fire impact-radius sizing from detection intensity, de-duplicating clustered detections into single incidents, and a proper account system so users can manage multiple saved locations.</p>
+        <p><a href="https://github.com/rijwal/WildCan-nwHacks2025" target="_blank" rel="noopener">View the source on GitHub &rarr;</a></p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Pranay Oza</span>
+      <span>Computer Engineering @ UBC</span>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

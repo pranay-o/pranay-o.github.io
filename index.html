@@ -70,7 +70,7 @@
         <p>
           My main focus is UBC Formula Electric, where I&rsquo;m the Battery Management System Firmware Lead on the team that designs and builds a fully electric Formula race car.
         </p>
-        <p>I&rsquo;m currently looking for a <strong>May 2027 &ndash; August 2027 internship</strong> in embedded systems / firmware. If you&rsquo;re hiring, I&rsquo;d love to chat &mdash; reach me at <a href="mailto:oza.pranay06@gmail.com">oza.pranay06@gmail.com</a>.</p>
+        <p>I&rsquo;m currently looking for a <strong>May 2027 &ndash; August 2027 internship</strong> in embedded systems / firmware. If you are hiring, I would love to chat. You can reach me at <a href="mailto:oza.pranay06@gmail.com">oza.pranay06@gmail.com</a>.</p>
         <p>If you&rsquo;d like to learn more about my technical background, please view my <a href="resume.html">Resume</a> or visit my <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener">LinkedIn</a> or <a href="https://github.com/pranay-o" target="_blank" rel="noopener">GitHub</a>.</p>
         <p>You can browse through the projects using the sidebar. If you only have time to look at a few, these are my three favorites:</p>
         <ol class="fav-list">
@@ -136,7 +136,7 @@
             <figcaption class="figure-cap">ADBMS battery-monitoring driver &mdash; SPI / isoSPI daisy chain</figcaption>
           </figure>
           <h3>ADBMS Driver Development &mdash; UBC Formula Electric</h3>
-          <p class="project-meta"><span>C++ &middot; STM32H7</span><span class="dot">&middot;</span><span>SPI &middot; isoSPI &middot; FreeRTOS</span><span class="dot">&middot;</span><span>2025 &ndash; Present</span></p>
+          <p class="project-meta"><span>2025 &ndash; Present</span></p>
           <p>Embedded driver for the ADBMS battery-monitoring IC system managing 500+ cells in a 600&nbsp;V accumulator pack. Implements SPI-based communication with PEC (CRC) validation, reliable cell voltage and temperature acquisition, open-wire checks for cells and thermistors, and validated ADC measurements. Used asynchronous FreeRTOS tasks and mutexes for thread-safe data acquisition, and tested / debugged 15+ boards on a pseudo-segment harness to validate isoSPI links with module boards.</p>
           <a href="adbms-driver.html">Read the full write-up &rarr;</a>
         </article>
@@ -164,7 +164,7 @@
             <figcaption class="figure-cap">CAN-based firmware update bootloader on STM32H7</figcaption>
           </figure>
           <h3>BMS Bootloader &mdash; UBC Formula Electric</h3>
-          <p class="project-meta"><span>C / C++ &middot; STM32H7</span><span class="dot">&middot;</span><span>CubeMX &middot; CAN</span><span class="dot">&middot;</span><span>2026</span></p>
+          <p class="project-meta"><span>2026</span></p>
           <p>Designed and built a CAN-update bootloader for the BMS&rsquo;s STM32H7 MCU &mdash; CubeMX-generated boot project, custom partitioning between bootloader and application regions, jump-to-app logic, and CAN messaging so a brick-resistant firmware update can be pushed from the team&rsquo;s tooling without physically reflashing the board.</p>
           <a href="bms-bootloader.html">Read the full write-up &rarr;</a>
         </article>
@@ -188,7 +188,7 @@
             <figcaption class="figure-cap">Sensorless FOC of a BLDC motor &mdash; custom 4-layer ESC</figcaption>
           </figure>
           <h3>Sensorless Field-Oriented Control ESC</h3>
-          <p class="project-meta"><span>STM32G4</span><span class="dot">&middot;</span><span>Altium &middot; PlatformIO</span><span class="dot">&middot;</span><span>2025 &ndash; Present</span></p>
+          <p class="project-meta"><span>2025 &ndash; Present</span></p>
           <p>A 4-layer custom PCB and bare-metal firmware for sensorless FOC of BLDC motors &mdash; STM32G4 MCU, external gate driver, buck converter, and protection circuitry, rated for 30&nbsp;A / 12&nbsp;V. Implements current sensing, virtual neutral-phase voltage measurement, back-EMF zero-cross detection, and SVPWM gate drive, validated against a Simulink 3-phase inverter model before hardware bring-up.</p>
           <a href="https://github.com/pranay-o" target="_blank" rel="noopener">View on GitHub &rarr;</a>
         </article>
@@ -212,7 +212,7 @@
             <figcaption class="figure-cap">All-analog RF detection chain for 2.4 / 5.8&nbsp;GHz drone signals</figcaption>
           </figure>
           <h3>SkyWatch RF &mdash; Counter-Drone Detection Board</h3>
-          <p class="project-meta"><span>STM32 &middot; Analog RF</span><span class="dot">&middot;</span><span>LNA &middot; Log Detector &middot; LoRa</span><span class="dot">&middot;</span><span>Hackathon 2026</span></p>
+          <p class="project-meta"><span>Hackathon 2026</span></p>
           <p>A $61 RF detection board that passively detects drone control signals at 2.4&nbsp;GHz and 5.8&nbsp;GHz using an all-analog signal chain: PGA-103+ LNA, HMC1048 RF switch, dual bandpass filters, and an AD8318 log detector. WiFi false-alarms are rejected through bandwidth-based power density discrimination and an RC pulse-width filter &mdash; validated in LTSpice before hardware build. Alerts are relayed wirelessly via an RFM95W LoRa radio at 915&nbsp;MHz, completely outside the monitored bands, with a theoretical detection range of ~950&nbsp;m. PCB laid out on Rogers 4003C for stable RF performance at 5.8&nbsp;GHz.</p>
         </article>
 
@@ -223,8 +223,8 @@
             </div>
             <figcaption class="figure-cap">Closed-loop DC motor speed controller from discrete logic</figcaption>
           </figure>
-          <h3>DC Motor RPM Controller &mdash; ENPH 259 Lab</h3>
-          <p class="project-meta"><span>74HC Logic &middot; Op-Amp</span><span class="dot">&middot;</span><span>R-2R DAC &middot; BJT</span><span class="dot">&middot;</span><span>ENPH 259 &middot; Dec 2025</span></p>
+          <h3>DC Motor RPM Controller</h3>
+          <p class="project-meta"><span>Dec 2025</span></p>
           <p>A fully analog/digital closed-loop DC motor speed controller built from discrete ICs for ENPH 259 at UBC. A phototransistor encoder feeds an 8-bit counter clocked by a Schmitt-trigger oscillator; a D-latch samples the count at 5&nbsp;Hz and holds it steady while the counter resets. An R-2R ladder DAC converts the digital count to a voltage, which an op-amp PI controller compares against the setpoint to drive an NPN BJT motor stage. Achieves 0&ndash;3480&nbsp;RPM across a 0&ndash;2.5&nbsp;V setpoint range, with a maximum angular speed of 364&nbsp;rad/s.</p>
           <a href="dc-motor-controller.html">Read the full write-up &rarr;</a>
         </article>
@@ -250,7 +250,7 @@
             <figcaption class="figure-cap">Automated current-sensor calibration over a 400&nbsp;A range</figcaption>
           </figure>
           <h3>BMS Current Sensor Calibration &mdash; UBC Formula Electric</h3>
-          <p class="project-meta"><span>Python &middot; C++</span><span class="dot">&middot;</span><span>Power Supply Automation</span><span class="dot">&middot;</span><span>2026</span></p>
+          <p class="project-meta"><span>2026</span></p>
           <p>Wrote an automated calibration pipeline for the BMS current sensor over a 400&nbsp;A range &mdash; Python script driving a programmable power supply, capturing reference current vs. raw ADC readings, fitting calibration coefficients, and pushing them into the BMS firmware tasks for accurate live current measurement.</p>
           <span class="project-note">Internal team project &mdash; UBC Formula Electric.</span>
         </article>
@@ -272,7 +272,7 @@
             <figcaption class="figure-cap">Rear Sensor Module &mdash; vehicle telemetry over CAN</figcaption>
           </figure>
           <h3>Rear Sensor Module &mdash; UBC Formula Electric</h3>
-          <p class="project-meta"><span>STM32</span><span class="dot">&middot;</span><span>FreeRTOS &middot; I&sup2;C &middot; CAN</span><span class="dot">&middot;</span><span>2024 &ndash; 2025</span></p>
+          <p class="project-meta"><span>2024 &ndash; 2025</span></p>
           <p>Designed and validated firmware for the RSM of an electric Formula race car: brake pressure, brake lights, cooling fans / coolant valves, drivetrain cooling via I&sup2;C flowmeter, IMU dynamics integration, and a heartbeat monitor. Built on FreeRTOS with custom CAN message structures for vehicle-wide telemetry.</p>
           <span class="project-note">Internal team project &mdash; UBC Formula Electric.</span>
         </article>
@@ -294,9 +294,9 @@
             <figcaption class="figure-cap">Real-time wildfire tracking with NASA FIRMS + Mapbox</figcaption>
           </figure>
           <h3>WildCan &mdash; Wildfire Detection Web App</h3>
-          <p class="project-meta"><span>Node.js &middot; Express</span><span class="dot">&middot;</span><span>NASA FIRMS &middot; Mapbox &middot; Twilio</span><span class="dot">&middot;</span><span>NwHacks 2025</span></p>
+          <p class="project-meta"><span>NwHacks 2025</span></p>
           <p>A real-time wildfire tracking platform integrating the NASA FIRMS API with Mapbox for live geospatial visualization, with Twilio SMS alerts so users get location-based wildfire notifications. Built in a team of four and presented at NwHacks 2025.</p>
-          <a href="https://github.com/pranay-o" target="_blank" rel="noopener">View on GitHub &rarr;</a>
+          <a href="wildcan.html">Read the full write-up &rarr;</a>
         </article>
 
         <article id="p-ftc" class="project-block">
@@ -319,7 +319,7 @@
             <figcaption class="figure-cap">FTC competition robot &mdash; vision + PID autonomous</figcaption>
           </figure>
           <h3>FTC 24226 Warrior Robotics</h3>
-          <p class="project-meta"><span>Java</span><span class="dot">&middot;</span><span>Computer Vision &middot; PID</span><span class="dot">&middot;</span><span>2023 &ndash; 2024</span></p>
+          <p class="project-meta"><span>2023 &ndash; 2024</span></p>
           <p>Led the software for a 20-member rookie FTC team to a 1st place finish at the Southern Alberta Last Chance Qualifier and the Think Award for programming excellence. Wrote 15+ autonomous sequences using computer vision and motion planning, plus PID + odometry control for drive, intake, slide, and arm subsystems.</p>
           <a href="https://github.com/pranay-o/FTC24226Robotics" target="_blank" rel="noopener">View on GitHub &rarr;</a>
         </article>
@@ -345,7 +345,7 @@
             <figcaption class="figure-cap">CNN classifier on dermoscopic images</figcaption>
           </figure>
           <h3>Skin Cancer Diagnosis &mdash; Inspirit AI</h3>
-          <p class="project-meta"><span>Python &middot; TensorFlow</span><span class="dot">&middot;</span><span>CNN &middot; Transfer Learning</span><span class="dot">&middot;</span><span>2023</span></p>
+          <p class="project-meta"><span>2023</span></p>
           <p>A skin cancer diagnosis model trained on dermoscopic cell images using data augmentation, KNNs, CNNs, NLP, and transfer learning. Focused on data preprocessing, feature extraction, and feature selection to optimize classification across class-imbalanced data.</p>
           <a href="https://github.com/pranay-o/Inspirit-AI-Skin-Cancer-Diagnosis-2023" target="_blank" rel="noopener">View on GitHub &rarr;</a>
         </article>
@@ -367,7 +367,7 @@
             <figcaption class="figure-cap">Statistical analysis in R &mdash; 10+ significance tests</figcaption>
           </figure>
           <h3>Non-Verbal Signals in Bipolar Disorder &mdash; Youreka Research</h3>
-          <p class="project-meta"><span>R &middot; RStudio</span><span class="dot">&middot;</span><span>Hypothesis Testing</span><span class="dot">&middot;</span><span>2023</span></p>
+          <p class="project-meta"><span>2023</span></p>
           <p>A four-team research project investigating the correlation between non-verbal signals and the progression of bipolar disorder across sexes. Conducted 10+ statistical significance tests in R / RStudio and co-authored a formal manuscript and poster.</p>
           <a href="https://github.com/pranay-o/Youreka-Non-Verbal-Signals-in-Bipolar-2023" target="_blank" rel="noopener">View on GitHub &rarr;</a>
         </article>
