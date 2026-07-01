@@ -60,9 +60,9 @@
       <section class="doc-section" data-animate>
         <p><a href="index.html#p-adbms">&larr; Back to portfolio</a></p>
         <h2>ADBMS Driver Development</h2>
-        <p class="project-meta"><span>C++20 &middot; STM32H7</span><span class="dot">&middot;</span><span>SPI &middot; isoSPI &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2025 &ndash; Present</span></p>
+        <p class="project-meta"><span>C++20 &middot; STM32H7</span><span class="dot">&middot;</span><span>SPI (DMA) &middot; isoSPI &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2025 &ndash; Present</span></p>
 
-        <p class="doc-lede">A production embedded driver for the Analog&nbsp;Devices ADBMS battery-monitoring ICs at the heart of UBC&nbsp;Formula&nbsp;Electric&rsquo;s 600&nbsp;V accumulator. Running on an STM32H7 under FreeRTOS, it manages a ten-segment isoSPI daisy chain &mdash; 14 cells and 14 thermistors per segment &mdash; from PEC-validated communication and cell/temperature acquisition through passive balancing and safety alerts, then publishes the whole pack&rsquo;s state to the car over CAN.</p>
+        <p class="doc-lede">This driver runs the Analog&nbsp;Devices ADBMS6830B battery-monitoring ICs that watch over UBC&nbsp;Formula&nbsp;Electric&rsquo;s 600&nbsp;V pack. The main BMS board &mdash; an STM32H7 running FreeRTOS &mdash; talks to ten segments wired as an isoSPI daisy chain, with every transaction PEC-validated. Each segment monitors 14 cells and 14 thermistors; on top of reading them, the driver runs passive cell balancing and raises safety alerts when something drifts out of range. The full pack state is then published to the rest of the car over CAN.</p>
 
         <figure class="figure hero-figure">
           <div class="model-wrap model-wrap--hero">
@@ -98,7 +98,7 @@
           <li><strong>Cell &amp; thermistor acquisition.</strong> The driver kicks off the ADBMS&rsquo;s on-chip ADC conversions, waits the part&rsquo;s conversion time, then reads back the cell-voltage and auxiliary (GPIO/thermistor) register groups and converts the raw counts to volts and degrees Celsius.</li>
           <li><strong>Open-wire detection.</strong> By toggling the ADBMS pull-up/pull-down current sources and comparing readings, the driver detects broken connections to any cell tap or thermistor &mdash; a critical safety check on a 600&nbsp;V pack.</li>
           <li><strong>Passive balancing.</strong> Per-cell discharge switches are driven on a settle/balance timer to bleed down the highest cells and keep the segment in balance.</li>
-          <li><strong>Thread-safe by design.</strong> Acquisition runs in asynchronous FreeRTOS tasks; the shared SPI bus and the latest pack values are guarded by semaphores/mutexes so the broadcast, control, and safety tasks never tear a read.</li>
+          <li><strong>Thread-safe by design.</strong> Acquisition runs in asynchronous FreeRTOS tasks; the shared SPI bus and the latest pack values are guarded by semaphores/mutexes so the broadcast, control, and safety tasks never tear a read. The SPI transfers themselves run over DMA, so the CPU isn&rsquo;t blocked shuttling bytes through each chain transaction.</li>
         </ul>
       </section>
 

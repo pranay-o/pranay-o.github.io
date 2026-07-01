@@ -130,11 +130,11 @@
             <div class="figure-frame figure-frame--photo">
               <img class="figure-photo" src="assets/adbms-segment-test.jpg" alt="Pseudo-segment test harness: a UBC Formula Electric segment board populated with 18650 Molicel cells, wired into an Analog Devices 16-cell ADBMS battery-monitor evaluation board and a BMS board over CAN" loading="lazy" />
             </div>
-            <figcaption class="figure-cap">ADBMS battery-monitoring driver &mdash; SPI / isoSPI daisy chain</figcaption>
+            <figcaption class="figure-cap">ADBMS evaluation board connected to a pseudo-segment, communicating via isoSPI to a custom BMS board.</figcaption>
           </figure>
           <h3>ADBMS Driver Development &mdash; UBC Formula Electric</h3>
           <p class="project-meta"><span>2025 &ndash; Present</span></p>
-          <p>Embedded driver for the ADBMS battery-monitoring IC system managing 500+ cells in a 600&nbsp;V accumulator pack. Implements SPI-based communication with PEC (CRC) validation, reliable cell voltage and temperature acquisition, open-wire checks for cells and thermistors, and validated ADC measurements. Used asynchronous FreeRTOS tasks and mutexes for thread-safe data acquisition, and tested / debugged 15+ boards on a pseudo-segment harness to validate isoSPI links with module boards.</p>
+          <p>Embedded driver for the ADBMS battery-monitoring IC system managing 500+ cells in a 600&nbsp;V accumulator pack. Implements DMA-based SPI communication with PEC (CRC) validation, reliable cell voltage and temperature acquisition, open-wire checks for cells and thermistors. Used asynchronous FreeRTOS tasks and mutexes for thread-safe data acquisition, and tested / debugged 15+ boards on a pseudo-segment harness to validate module boards functionality.</p>
           <a href="adbms-driver.html">Read the full write-up &rarr;</a>
         </article>
 
