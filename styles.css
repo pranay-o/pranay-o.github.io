@@ -253,6 +253,7 @@ p:last-child { margin-bottom: 0; }
   font-weight: 700;
 }
 .entry-sub .doc-list { margin-top: 6px; }
+.entry-sub-desc { margin: 6px 0 0; font-size: 14px; color: var(--c-muted); }
 .doc-list { margin: 8px 0 0; padding-left: 22px; }
 .doc-list li { margin-bottom: 6px; }
 
