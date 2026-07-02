@@ -62,7 +62,7 @@
         <h2>ADBMS Driver Development</h2>
         <p class="project-meta"><span>C++20 &middot; STM32H7</span><span class="dot">&middot;</span><span>SPI (DMA) &middot; isoSPI &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2025 &ndash; Present</span></p>
 
-        <p class="doc-lede">This driver runs the Analog&nbsp;Devices ADBMS6830B battery-monitoring ICs that watch over UBC&nbsp;Formula&nbsp;Electric&rsquo;s 600&nbsp;V pack. The main BMS board &mdash; an STM32H7 running FreeRTOS &mdash; talks to ten segments wired as an isoSPI daisy chain, with every transaction PEC-validated. Each segment monitors 14 cells and 14 thermistors; on top of reading them, the driver runs passive cell balancing and raises safety alerts when something drifts out of range. The full pack state is then published to the rest of the car over CAN.</p>
+        <p class="doc-lede">This driver runs the Analog&nbsp;Devices ADBMS6830B battery-monitoring ICs that monitor UBC&nbsp;Formula&nbsp;Electric&rsquo;s 600&nbsp;V pack. The main BMS board &mdash; an STM32H7 running FreeRTOS &mdash; communicates with ten segments over an isoSPI daisy chain, with every packet PEC-validated. Each segment monitors 14 cells and 14 thermistors; on top of reading them, the driver runs passive cell balancing and raises safety alerts. The full pack state is then transmitted to the rest of the car over CAN.</p>
 
         <figure class="figure hero-figure">
           <div class="model-wrap model-wrap--hero">
@@ -84,28 +84,28 @@
               </div>
             </model-viewer>
           </div>
-          <figcaption class="figure-cap">BMS Module &mdash; the segment board the driver targets. Drag to orbit, scroll to zoom.</figcaption>
+          <figcaption class="figure-cap">BMS Module board. Drag to orbit, scroll to zoom.</figcaption>
         </figure>
       </section>
 
       <!-- ============ HOW IT WORKS ============ -->
       <section class="doc-section" data-animate>
         <h2>How it works</h2>
-        <p>The driver is split into two layers: a low-level <strong>io/adbms</strong> layer that speaks the ADBMS command protocol directly, and an <strong>app/segments</strong> layer that turns raw register reads into pack-level quantities and behaviour.</p>
+        <p>The driver is split into two layers: a low-level <strong>io/adbms</strong> layer that encodes and decodes data using the ADBMS command protocol, and an <strong>app/segments</strong> layer that turns the register reads into pack-level quantities and behaviour.</p>
         <ul class="doc-list">
-          <li><strong>isoSPI daisy chain.</strong> The host STM32H7 talks SPI to a transceiver that converts to isoSPI &mdash; a differential, transformer-isolated link that hops cleanly across the high-voltage segments. Every transaction is broadcast down the chain and shifted back up, so all ten segments are addressed in a single command.</li>
-          <li><strong>PEC-validated transactions.</strong> Each command and data block carries a 15-bit packet error code. The io layer generates the PEC on write and checks it on read, so any corrupted frame on the noisy HV bus is caught and retried rather than silently trusted.</li>
-          <li><strong>Cell &amp; thermistor acquisition.</strong> The driver kicks off the ADBMS&rsquo;s on-chip ADC conversions, waits the part&rsquo;s conversion time, then reads back the cell-voltage and auxiliary (GPIO/thermistor) register groups and converts the raw counts to volts and degrees Celsius.</li>
+          <li><strong>isoSPI daisy chain.</strong> The host STM32H7 talks SPI to a transceiver that converts to isoSPI &mdash; a differential, transformer-isolated link that hops cleanly across the high-voltage segments. Every transaction is broadcast down the chain and shifted back up, so all ten segments are addressed in a single command. The link is also <strong>reversible</strong>: the chain can be driven from either end, so if it breaks partway, the segments past the break are still reachable from the other side.</li>
+          <li><strong>PEC-validated transactions.</strong> Each command and data block carries a packet error code &mdash; a 15-bit PEC on commands and a 10-bit PEC on data. The io layer generates it on write and checks it on read, so any corrupted frame on the noisy HV bus is caught. It also tracks the ADBMS <strong>command counter</strong> returned in each reply, so a missed or dropped command is flagged instead of silently accepted.</li>
+          <li><strong>Cell &amp; thermistor acquisition.</strong> The driver kicks off the ADBMS&rsquo;s on-chip ADC conversions, waits the part&rsquo;s conversion time, then reads back the cell-voltage and auxiliary (thermistor) register groups and converts the raw counts to volts and degrees Celsius.</li>
           <li><strong>Open-wire detection.</strong> By toggling the ADBMS pull-up/pull-down current sources and comparing readings, the driver detects broken connections to any cell tap or thermistor &mdash; a critical safety check on a 600&nbsp;V pack.</li>
           <li><strong>Passive balancing.</strong> Per-cell discharge switches are driven on a settle/balance timer to bleed down the highest cells and keep the segment in balance.</li>
-          <li><strong>Thread-safe by design.</strong> Acquisition runs in asynchronous FreeRTOS tasks; the shared SPI bus and the latest pack values are guarded by semaphores/mutexes so the broadcast, control, and safety tasks never tear a read. The SPI transfers themselves run over DMA, so the CPU isn&rsquo;t blocked shuttling bytes through each chain transaction.</li>
+          <li><strong>Thread-safe by design.</strong> Acquisition runs in asynchronous FreeRTOS tasks; the shared SPI bus and the latest pack values are guarded by semaphores/mutexes so the broadcast, control, and safety tasks never collide. The SPI transfers themselves run over DMA, so the CPU isn&rsquo;t blocked shuttling bytes through each transaction.</li>
+          <li><strong>Alerts &amp; fault handling.</strong> The driver raises the faults required by the FSAE rules &mdash; cell open-wire, cell over- and under-voltage, and thermistor over-temperature. Each one is handled to safely fault the car and open the HV shutdown loop.</li>
         </ul>
       </section>
 
       <!-- ============ EXPLORE THE BOARD (ALTIUM) ============ -->
       <section class="doc-section" data-animate>
         <h2>Explore the board</h2>
-        <p>The complete board design &mdash; schematic, PCB layout, 3D, and bill of materials &mdash; in one interactive viewer. Powered by Altium&nbsp;365.</p>
         <div class="altium-embed" id="altium-embed">
           <!-- ALTIUM 365 EMBED: replace this placeholder with the iframe from your Altium 365 share link -->
           <div class="altium-placeholder">
@@ -125,7 +125,7 @@
           <div class="figure-frame figure-frame--photo media-wide">
             <img class="figure-photo" src="assets/adbms-segment-test.jpg" alt="Pseudo-segment test harness: a UBC Formula Electric segment board populated with 18650 Molicel cells, wired into an Analog Devices 16-cell ADBMS battery-monitor evaluation board and a BMS board over CAN" loading="lazy" />
           </div>
-          <figcaption class="figure-cap">Pseudo-segment harness &mdash; live cells into the ADBMS monitor and BMS board.</figcaption>
+          <figcaption class="figure-cap">ADBMS evaluation board connected to a pseudo-segment, communicating via isoSPI to a custom BMS board.</figcaption>
         </figure>
 
         <figure class="figure media-figure">
