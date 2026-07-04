@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sensorless FOC ESC — Pranay Oza</title>
+  <meta name="description" content="A custom STM32G4-based ESC implementing sensorless field-oriented control for BLDC motors — 4-layer PCB, 12 V / 30 A power stage, DRV8302 gate driver, and a Simulink-validated control model. Design write-up by Pranay Oza." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <h1 class="site-title">Pranay Oza &mdash; Engineering Portfolio</h1>
+      <div class="topbar-socials">
+        <a href="mailto:oza.pranay06@gmail.com" aria-label="Email">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+        </a>
+        <a href="https://github.com/pranay-o" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.05.78 2.13v3.16c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.4-1.86 3.64 0 4.31 2.4 4.31 5.51v6.24ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.72V1.72C24 .77 23.21 0 22.22 0Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <button class="menu-toggle" aria-expanded="false" aria-controls="side-nav">Menu &#9662;</button>
+      <nav id="side-nav" class="side-nav" aria-label="Portfolio sections">
+        <a href="index.html#overview" class="side-link">Overview</a>
+
+        <span class="side-link side-header">Experience</span>
+        <a href="index.html#exp-fe" class="side-link side-sub">UBC Formula Electric</a>
+        <a href="index.html#exp-hc" class="side-link side-sub">Hypercharge Networks</a>
+
+        <a href="resume.html" class="side-link">Resume</a>
+
+        <span class="side-link side-header">Projects</span>
+        <a href="index.html#p-adbms" class="side-link side-sub">ADBMS Driver</a>
+        <a href="index.html#p-bootloader" class="side-link side-sub">Vehicle Bootloader</a>
+        <a href="foc-esc.html" class="side-link side-sub active">Sensorless FOC ESC</a>
+        <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
+        <a href="index.html#p-rpm" class="side-link side-sub">DC Motor RPM Controller</a>
+        <a href="index.html#p-calibration" class="side-link side-sub">Current Sensor Calibration</a>
+        <a href="index.html#p-rsm" class="side-link side-sub">Rear Sensor Module</a>
+      </nav>
+    </aside>
+
+    <main class="doc">
+      <!-- ============ HEADER + HERO ============ -->
+      <section class="doc-section" data-animate>
+        <p><a href="index.html#p-foc">&larr; Back to portfolio</a></p>
+        <h2>Sensorless Field-Oriented Control ESC</h2>
+        <p class="project-meta"><span>STM32G4 &middot; Bare-metal</span><span class="dot">&middot;</span><span>DRV8302 &middot; SVPWM &middot; Sensorless FOC</span><span class="dot">&middot;</span><span>Altium &middot; Simulink &middot; 2025 &ndash; Present</span></p>
+
+        <p class="doc-lede">A custom STM32G4-based electronic speed controller (ESC) that runs sensorless field-oriented control on a BLDC motor. The 4-layer board carries a 12&nbsp;V / 30&nbsp;A three-phase MOSFET power stage with reverse-polarity and TVS protection, an on-board 3.3&nbsp;V logic supply, and full current/voltage/temperature sensing. Firmware is written in PlatformIO with STM32CubeMX peripheral setup, and the control law is validated in a Simulink model before hardware bring-up.</p>
+
+        <figure class="figure hero-figure">
+          <div class="model-wrap model-wrap--hero">
+            <model-viewer
+              class="model-viewer model-hero"
+              src="assets/foc-esc-board.glb"
+              alt="Interactive 3D model of the custom sensorless FOC ESC 4-layer PCB"
+              camera-controls
+              touch-action="pan-y"
+              auto-rotate
+              auto-rotate-delay="3000"
+              rotation-per-second="18deg"
+              shadow-intensity="1"
+              exposure="1.1"
+              environment-image="neutral"
+              loading="eager">
+              <div class="model-fallback" slot="poster">
+                <p>Loading the 3D board&hellip;</p>
+              </div>
+            </model-viewer>
+          </div>
+          <figcaption class="figure-cap">The custom 4-layer ESC, exported from Altium. Drag to orbit, scroll to zoom.</figcaption>
+        </figure>
+
+        <dl class="spec-grid" aria-label="Key specifications">
+          <div><dt>Input</dt><dd>12&nbsp;V DC</dd></div>
+          <div><dt>Continuous current</dt><dd>30&nbsp;A (360&nbsp;W)</dd></div>
+          <div><dt>MCU</dt><dd>STM32G4</dd></div>
+          <div><dt>Gate driver</dt><dd>DRV8302</dd></div>
+          <div><dt>PCB</dt><dd>4-layer</dd></div>
+          <div><dt>Control</dt><dd>Sensorless FOC</dd></div>
+        </dl>
+      </section>
+
+      <!-- ============ SYSTEM ARCHITECTURE ============ -->
+      <section class="doc-section" data-animate>
+        <h2>System architecture</h2>
+        <p>The board is organized around one power path and one control path. 12&nbsp;V comes in through protection and a filtered DC-link, then splits: a buck converter powers the 3.3&nbsp;V logic and the STM32G4, while the DC-link feeds the three-phase inverter that actually drives the motor. The MCU closes the loop &mdash; it commands the gate driver with PWM and reads back phase currents, bus/phase voltages, and back-EMF to know where the rotor is.</p>
+
+        <figure class="figure figure--wide">
+          <div class="figure-frame">
+            <svg viewBox="0 0 300 186" class="art-svg" role="img" aria-label="System block diagram: 12V input feeds a protection stage and a DC-link bus; the DC-link feeds a three-phase inverter driving the motor, and a buck converter that powers the STM32G4 MCU. The MCU sends PWM to the inverter and reads phase current, phase voltage and back-EMF back from it.">
+              <defs>
+                <marker id="fa" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"/></marker>
+              </defs>
+              <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <!-- power row -->
+                <rect x="6" y="20" width="40" height="26" rx="3"/>
+                <rect x="58" y="20" width="50" height="26" rx="3"/>
+                <rect x="120" y="20" width="44" height="26" rx="3"/>
+                <rect x="176" y="14" width="58" height="38" rx="3"/>
+                <circle cx="272" cy="33" r="15"/>
+                <!-- power arrows -->
+                <line x1="46" y1="33" x2="57" y2="33" marker-end="url(#fa)"/>
+                <line x1="108" y1="33" x2="119" y2="33" marker-end="url(#fa)"/>
+                <line x1="164" y1="33" x2="175" y2="33" marker-end="url(#fa)"/>
+                <line x1="234" y1="33" x2="255" y2="33" marker-end="url(#fa)"/>
+                <!-- buck + mcu -->
+                <rect x="120" y="78" width="44" height="24" rx="3"/>
+                <rect x="112" y="132" width="76" height="30" rx="3"/>
+                <line x1="142" y1="46" x2="142" y2="78" marker-end="url(#fa)"/>
+                <line x1="142" y1="102" x2="142" y2="132" marker-end="url(#fa)"/>
+                <!-- pwm up to inverter -->
+                <polyline points="176,140 205,140 205,52" marker-end="url(#fa)"/>
+                <!-- sense down to mcu -->
+                <polyline points="222,52 222,116 190,116 190,147" marker-end="url(#fa)"/>
+              </g>
+              <g fill="currentColor" font-family="Lato" text-anchor="middle">
+                <text x="26" y="31" font-size="6.5">12 V</text>
+                <text x="26" y="40" font-size="6.5">30 A in</text>
+                <text x="83" y="35.5" font-size="6.5">Protection</text>
+                <text x="142" y="31" font-size="6.5">DC-Link</text>
+                <text x="142" y="40" font-size="6.5">+ filter</text>
+                <text x="205" y="30" font-size="6.5">3-&#966;</text>
+                <text x="205" y="39" font-size="6.5">Inverter</text>
+                <text x="272" y="30" font-size="8" font-style="italic">M</text>
+                <text x="272" y="39" font-size="4.6">BLDC</text>
+                <text x="142" y="88" font-size="6.5">3.3 V</text>
+                <text x="142" y="97" font-size="6.5">Buck</text>
+                <text x="150" y="146" font-size="7">STM32G4</text>
+                <text x="150" y="155" font-size="5.6">MCU</text>
+                <text x="208" y="100" font-size="5.2" text-anchor="end">PWM</text>
+                <text x="225" y="108" font-size="5" text-anchor="start">sense</text>
+              </g>
+            </svg>
+          </div>
+          <figcaption class="figure-cap">One power path (12&nbsp;V &rarr; protection &rarr; DC-link &rarr; inverter &rarr; motor) and one control path (buck &rarr; MCU, with PWM out and current/voltage/back-EMF sensing in).</figcaption>
+        </figure>
+      </section>
+
+      <!-- ============ FIELD-ORIENTED CONTROL ============ -->
+      <section class="doc-section" data-animate>
+        <h2>How the control works</h2>
+        <p>Field-oriented control treats the three motor currents as a single rotating vector and splits it into two components in the rotor frame: <strong>torque-producing</strong> current (q-axis) and <strong>flux-producing</strong> current (d-axis). By regulating those two independently, the controller commands smooth torque instead of the coarse six-step commutation a simpler ESC would use.</p>
+
+        <figure class="figure figure--wide">
+          <div class="figure-frame">
+            <svg viewBox="0 0 320 158" class="art-svg" role="img" aria-label="Field-oriented control loop: measured phase currents pass through Clarke and Park transforms into the rotor frame, are regulated by d-axis and q-axis PI controllers against setpoints, then go through an inverse Park transform and space-vector PWM to drive the inverter and motor. A back-EMF zero-cross estimator provides rotor angle and speed to the Park transforms.">
+              <defs>
+                <marker id="fb" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"/></marker>
+              </defs>
+              <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="30" y="30" width="34" height="24" rx="3"/>
+                <rect x="76" y="30" width="30" height="24" rx="3"/>
+                <circle cx="128" cy="42" r="7"/>
+                <rect x="146" y="30" width="34" height="24" rx="3"/>
+                <rect x="192" y="30" width="36" height="24" rx="3"/>
+                <rect x="240" y="30" width="34" height="24" rx="3"/>
+                <circle cx="304" cy="42" r="11"/>
+                <!-- top row arrows -->
+                <line x1="10" y1="42" x2="29" y2="42" marker-end="url(#fb)"/>
+                <line x1="64" y1="42" x2="75" y2="42" marker-end="url(#fb)"/>
+                <line x1="106" y1="42" x2="120" y2="42" marker-end="url(#fb)"/>
+                <line x1="135" y1="42" x2="145" y2="42" marker-end="url(#fb)"/>
+                <line x1="180" y1="42" x2="191" y2="42" marker-end="url(#fb)"/>
+                <line x1="228" y1="42" x2="239" y2="42" marker-end="url(#fb)"/>
+                <line x1="274" y1="42" x2="292" y2="42" marker-end="url(#fb)"/>
+                <!-- setpoint into summing node -->
+                <line x1="128" y1="18" x2="128" y2="35" marker-end="url(#fb)"/>
+                <!-- estimator -->
+                <rect x="120" y="112" width="120" height="26" rx="3"/>
+                <polyline points="150,112 150,60 150,58" marker-end="url(#fb)"/>
+                <polyline points="210,112 210,60 210,58" marker-end="url(#fb)"/>
+                <polyline points="300,53 300,125 242,125" marker-end="url(#fb)"/>
+              </g>
+              <g fill="currentColor" font-family="Lato" text-anchor="middle">
+                <text x="6" y="38" font-size="5.4" text-anchor="start">i&#8320; i&#8331;</text>
+                <text x="47" y="45" font-size="6.5">Clarke</text>
+                <text x="91" y="45" font-size="6.5">Park</text>
+                <text x="128" y="45" font-size="8">&#931;</text>
+                <text x="122" y="16" font-size="5.2">i*d, i*q</text>
+                <text x="163" y="41" font-size="6.5">PI</text>
+                <text x="163" y="49" font-size="5" >d &amp; q</text>
+                <text x="210" y="41" font-size="6.2">Inverse</text>
+                <text x="210" y="49" font-size="6.2">Park</text>
+                <text x="257" y="45" font-size="6.5">SVPWM</text>
+                <text x="304" y="45" font-size="6.5">Inv.</text>
+                <text x="180" y="128" font-size="6.2">BEMF zero-cross</text>
+                <text x="180" y="135" font-size="5.4">rotor angle &#952; &amp; speed &#969;</text>
+                <text x="153" y="76" font-size="5" text-anchor="start">&#952;</text>
+                <text x="213" y="76" font-size="5" text-anchor="start">&#952;</text>
+              </g>
+            </svg>
+          </div>
+          <figcaption class="figure-cap">The FOC loop: measured currents &rarr; Clarke &amp; Park into the rotor frame &rarr; d/q PI regulators &rarr; inverse Park &amp; SVPWM &rarr; inverter. Rotor angle comes from a sensorless back-EMF estimator rather than a physical encoder.</figcaption>
+        </figure>
+
+        <ul class="doc-list">
+          <li><strong>Sensorless position.</strong> There is no Hall sensor or encoder. Rotor angle and speed are recovered from the motor&rsquo;s own back-EMF &mdash; the three phase voltages are measured against a virtual neutral and the zero-crossings of the back-EMF waveform mark known electrical positions, which the estimator turns into a continuous angle for the Park transforms.</li>
+          <li><strong>Clarke &amp; Park transforms.</strong> The two measured phase currents are projected from the stationary three-phase frame into the two-axis (&#945;&#946;) frame and then rotated into the rotor (dq) frame, so the controller works with slow-moving DC-like quantities instead of AC waveforms.</li>
+          <li><strong>d/q PI regulators.</strong> Independent PI loops hold the d-axis current near zero (no wasted flux) and drive the q-axis current to the torque command.</li>
+          <li><strong>Inverse Park &amp; SVPWM.</strong> The controller output is rotated back to the stationary frame and turned into three PWM duty cycles by space-vector modulation, which the gate driver applies to the six MOSFETs.</li>
+        </ul>
+      </section>
+
+      <!-- ============ POWER INPUT & PROTECTION ============ -->
+      <section class="doc-section" data-animate>
+        <h2>Power input &amp; protection</h2>
+        <p>Everything downstream depends on a clean, protected 12&nbsp;V rail, so the input stage handles transients, reverse polarity, and switching noise before the DC-link.</p>
+
+        <figure class="figure figure--wide">
+          <div class="figure-frame">
+            <svg viewBox="0 0 300 96" class="art-svg" role="img" aria-label="Input protection chain: 12V input, then a bidirectional TVS clamp, then low-side N-channel reverse-polarity protection, then a pi-filter and capacitor bank feeding the DC-link.">
+              <defs>
+                <marker id="fc" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"/></marker>
+              </defs>
+              <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="30" width="40" height="28" rx="3"/>
+                <rect x="60" y="30" width="52" height="28" rx="3"/>
+                <rect x="128" y="30" width="66" height="28" rx="3"/>
+                <rect x="210" y="30" width="56" height="28" rx="3"/>
+                <line x1="44" y1="44" x2="59" y2="44" marker-end="url(#fc)"/>
+                <line x1="112" y1="44" x2="127" y2="44" marker-end="url(#fc)"/>
+                <line x1="194" y1="44" x2="209" y2="44" marker-end="url(#fc)"/>
+                <line x1="266" y1="44" x2="286" y2="44" marker-end="url(#fc)"/>
+              </g>
+              <g fill="currentColor" font-family="Lato" text-anchor="middle">
+                <text x="24" y="42" font-size="6.5">12 V</text>
+                <text x="24" y="51" font-size="6.5">input</text>
+                <text x="86" y="42" font-size="6.5">TVS clamp</text>
+                <text x="86" y="51" font-size="5.2">SMBJ30CA</text>
+                <text x="161" y="41" font-size="6.2">Reverse-polarity</text>
+                <text x="161" y="49" font-size="5.2">N-MOSFET (low-side)</text>
+                <text x="238" y="41" font-size="6.5">&#960;-filter +</text>
+                <text x="238" y="50" font-size="6.5">cap bank</text>
+                <text x="290" y="46" font-size="5.4" text-anchor="start">DC</text>
+              </g>
+            </svg>
+          </div>
+          <figcaption class="figure-cap">Input chain: transient clamp &rarr; reverse-polarity block &rarr; noise filter and bulk storage into the DC-link.</figcaption>
+        </figure>
+
+        <ul class="doc-list">
+          <li><strong>TVS transient clamp.</strong> An <code>SMBJ30CA</code> bidirectional TVS sits across the input. It stays non-conductive up to 30&nbsp;V, begins clamping around 33&nbsp;V, and holds spikes to roughly 48.4&nbsp;V by shunting the surge to ground.</li>
+          <li><strong>Reverse-polarity protection.</strong> A low-side <code>IRFR7440</code> N-channel MOSFET blocks reverse connection. N-channel is chosen for its lower R<sub>DS(on)</sub> (and thus lower loss) versus a P-channel part; a 16&nbsp;V gate&ndash;source Zener clamps the gate and a series resistor limits inrush.</li>
+          <li><strong>&#960;-filter &amp; capacitor bank.</strong> A 100&nbsp;&micro;F&nbsp;/ 1&nbsp;&micro;H&nbsp;/ 300&nbsp;&micro;F low-pass &#960;-filter attenuates above ~10&nbsp;kHz, and extra bulk capacitance on the output supports the transient current demanded by high-speed MOSFET switching.</li>
+        </ul>
+
+        <figure class="figure">
+          <div class="figure-frame">
+            <svg viewBox="0 0 200 130" class="art-svg" role="img" aria-label="Simulated reverse-polarity behavior: current is zero for negative input voltage and rises linearly for positive input voltage, confirming current only flows with correct polarity.">
+              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="20" y1="100" x2="188" y2="100" stroke-width="1"/>
+                <line x1="104" y1="14" x2="104" y2="110" stroke-width="1"/>
+                <polyline points="24,100 104,100 178,34" stroke-width="2"/>
+              </g>
+              <g fill="currentColor" font-family="Lato">
+                <text x="150" y="122" font-size="7" text-anchor="middle">V&#8331;&#8342;</text>
+                <text x="60" y="122" font-size="7" text-anchor="middle">reverse</text>
+                <text x="112" y="24" font-size="7">I (load)</text>
+                <text x="150" y="60" font-size="6" text-anchor="middle">conducts</text>
+                <text x="52" y="94" font-size="6" text-anchor="middle">blocked (0 A)</text>
+              </g>
+            </svg>
+          </div>
+          <figcaption class="figure-cap">Reverse-polarity sweep (LTspice): load current is zero for reversed input and rises linearly once polarity is correct.</figcaption>
+        </figure>
+      </section>
+
+      <!-- ============ LOGIC SUPPLY ============ -->
+      <section class="doc-section" data-animate>
+        <h2>Logic supply</h2>
+        <p>The 3.3&nbsp;V rail for the STM32G4 and surrounding logic comes from a <code>TPS54331</code> buck converter rated to 3&nbsp;A, following the datasheet reference design. Two tweaks make it robust for bench work:</p>
+        <ul class="doc-list">
+          <li><strong>Dual-source input.</strong> A Schottky diode-OR feeds the converter&rsquo;s V<sub>IN</sub> from whichever is higher &mdash; the 12&nbsp;V main input or 5&nbsp;V USB &mdash; so the board can be programmed and debugged from USB even when the main supply is off, while the diodes block reverse current between sources.</li>
+          <li><strong>EN clamp.</strong> A resistor divider plus Zener clamps the 12&nbsp;V rail down to a safe level for the converter&rsquo;s enable pin.</li>
+        </ul>
+      </section>
+
+      <!-- ============ 3-PHASE POWER STAGE ============ -->
+      <section class="doc-section" data-animate>
+        <h2>Three-phase power stage</h2>
+        <p>The motor is driven by a three-phase inverter of six external low-R<sub>DS(on)</sub> N-channel MOSFETs, switched by a <code>DRV8302</code> gate driver. The MCU sends PWM to the DRV8302, which drives the three half-bridges; phase current is sensed on the low side of two phases through shunts and the driver&rsquo;s integrated current-sense amplifiers. The DRV8302&rsquo;s own buck regulator is disabled since the board already has its dedicated logic supply.</p>
+
+        <figure class="figure figure--wide">
+          <div class="figure-frame">
+            <svg viewBox="0 0 264 176" class="art-svg" role="img" aria-label="Three-phase inverter: the DRV8302 gate driver switches three half-bridges of N-channel MOSFETs between the DC-plus and DC-minus rails, producing phase outputs U, V and W. Low-side shunt resistors on the U and V phases sense current.">
+              <defs>
+                <marker id="fd" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"/></marker>
+              </defs>
+              <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <!-- rails -->
+                <line x1="70" y1="20" x2="252" y2="20"/>
+                <line x1="70" y1="156" x2="252" y2="156"/>
+                <!-- gate driver -->
+                <rect x="8" y="64" width="40" height="48" rx="3"/>
+                <!-- phase U x=90 -->
+                <rect x="80" y="34" width="20" height="18" rx="2"/>
+                <rect x="80" y="98" width="20" height="18" rx="2"/>
+                <line x1="90" y1="20" x2="90" y2="34"/>
+                <line x1="90" y1="52" x2="90" y2="98"/>
+                <line x1="90" y1="116" x2="90" y2="126"/>
+                <rect x="82" y="126" width="16" height="12" rx="2"/>
+                <line x1="90" y1="138" x2="90" y2="156"/>
+                <line x1="90" y1="75" x2="120" y2="75"/>
+                <circle cx="120" cy="75" r="1.8" fill="currentColor"/>
+                <!-- phase V x=150 -->
+                <rect x="140" y="34" width="20" height="18" rx="2"/>
+                <rect x="140" y="98" width="20" height="18" rx="2"/>
+                <line x1="150" y1="20" x2="150" y2="34"/>
+                <line x1="150" y1="52" x2="150" y2="98"/>
+                <line x1="150" y1="116" x2="150" y2="126"/>
+                <rect x="142" y="126" width="16" height="12" rx="2"/>
+                <line x1="150" y1="138" x2="150" y2="156"/>
+                <line x1="150" y1="75" x2="180" y2="75"/>
+                <circle cx="180" cy="75" r="1.8" fill="currentColor"/>
+                <!-- phase W x=210 -->
+                <rect x="200" y="34" width="20" height="18" rx="2"/>
+                <rect x="200" y="98" width="20" height="18" rx="2"/>
+                <line x1="210" y1="20" x2="210" y2="34"/>
+                <line x1="210" y1="52" x2="210" y2="116"/>
+                <line x1="210" y1="116" x2="210" y2="156"/>
+                <line x1="210" y1="75" x2="240" y2="75"/>
+                <circle cx="240" cy="75" r="1.8" fill="currentColor"/>
+                <!-- gate drive arrows (representative) -->
+                <line x1="48" y1="80" x2="79" y2="43" marker-end="url(#fd)"/>
+                <line x1="48" y1="96" x2="79" y2="107" marker-end="url(#fd)"/>
+              </g>
+              <g fill="currentColor" font-family="Lato" text-anchor="middle">
+                <text x="161" y="16" font-size="6">DC+ (12 V)</text>
+                <text x="161" y="167" font-size="6">DC&minus;</text>
+                <text x="28" y="86" font-size="6.5">DRV</text>
+                <text x="28" y="95" font-size="6.5">8302</text>
+                <text x="90" y="46" font-size="5">HS</text>
+                <text x="90" y="110" font-size="5">LS</text>
+                <text x="90" y="135" font-size="4.4">shunt</text>
+                <text x="150" y="135" font-size="4.4">shunt</text>
+                <text x="126" y="72" font-size="6" text-anchor="start">U</text>
+                <text x="186" y="72" font-size="6" text-anchor="start">V</text>
+                <text x="246" y="72" font-size="6" text-anchor="start">W</text>
+              </g>
+            </svg>
+          </div>
+          <figcaption class="figure-cap">Three half-bridges of N-channel MOSFETs switched by the DRV8302; the three phase nodes (U, V, W) drive the motor, with low-side shunts sensing phase current.</figcaption>
+        </figure>
+      </section>
+
+      <!-- ============ SENSING & FEEDBACK ============ -->
+      <section class="doc-section" data-animate>
+        <h2>Sensing &amp; feedback</h2>
+        <p>Good control needs good measurements. The board senses current, several voltages, temperature, and back-EMF, conditioning each to land inside the MCU&rsquo;s 0&ndash;3.3&nbsp;V ADC range.</p>
+        <ul class="doc-list">
+          <li><strong>Phase current.</strong> Dual low-side shunts on the U and V phases feed the DRV8302&rsquo;s integrated current-sense amplifiers &mdash; the two measurements the FOC transforms need.</li>
+          <li><strong>Total DC current, shunt-less.</strong> Rather than adding a dedicated sense resistor, the board reuses the reverse-polarity MOSFET&rsquo;s R<sub>DS(on)</sub> as the sense element: a differential amplifier measures the small drop from <code>GND</code> to <code>VBAT_GND</code> across it, with a differential-mode input filter and an output low-pass filter before the ADC.</li>
+        </ul>
+        <div class="eqn">
+          Gain = V<sub>o,max</sub> / (R<sub>DS(on)</sub> &times; I<sub>max</sub>) = 3.2 V / (0.0024 &#8486; &times; 30 A) &#8776; <strong>44.4</strong>
+          <span class="eqn-note">&nbsp;&mdash; realized with R&#8323;&nbsp;=&nbsp;270&nbsp;&#8486;, R&#8324;&nbsp;=&nbsp;12&nbsp;k&#8486; on the differential amp.</span>
+        </div>
+        <ul class="doc-list">
+          <li><strong>Voltage sensing.</strong> The battery, DC-link, and three phase voltages are each read through resistor dividers with decoupling capacitors, and Schottky diodes clamp every ADC input to 3.3&nbsp;V against overvoltage.</li>
+          <li><strong>Back-EMF for sensorless control.</strong> The three phase voltages are measured against a virtual neutral so the controller can detect back-EMF zero-crossings and recover rotor position.</li>
+          <li><strong>Thermal protection.</strong> Inverter temperature is monitored so the firmware can fault before the MOSFETs overheat.</li>
+        </ul>
+      </section>
+
+      <!-- ============ MCU INTERFACES ============ -->
+      <section class="doc-section" data-animate>
+        <h2>MCU interfaces &amp; peripherals</h2>
+        <p>The STM32G4 sits at the center with the interfaces needed to program, tune, and monitor the ESC:</p>
+        <ul class="doc-list">
+          <li><strong>SWD</strong> for programming and real-time debugging.</li>
+          <li><strong>USB 2.0 full-speed</strong> for a PC-based GUI, data logging, and powering/debugging the board when the main supply is off.</li>
+          <li><strong>Auxiliary UART</strong> for debug output and talking to external devices.</li>
+          <li><strong>Analog input channel</strong> for an external command signal or sensor.</li>
+          <li><strong>User I/O:</strong> NRST, a general-purpose button, and a spare button; fault / gate-enable / power status LEDs.</li>
+          <li><strong>8&nbsp;KB I&sup2;C EEPROM</strong> for non-volatile configuration and calibration storage.</li>
+        </ul>
+      </section>
+
+      <!-- ============ PCB DESIGN ============ -->
+      <section class="doc-section" data-animate>
+        <h2>PCB design</h2>
+        <p>The board is a 4-layer stack-up that keeps high current away from sensitive analog and digital signals:</p>
+        <dl class="spec-grid" aria-label="PCB stack-up">
+          <div><dt>Top</dt><dd>Signal</dd></div>
+          <div><dt>Layer 2</dt><dd>Ground plane</dd></div>
+          <div><dt>Layer 3</dt><dd>3.3 V plane</dd></div>
+          <div><dt>Bottom</dt><dd>Signal</dd></div>
+        </dl>
+        <ul class="doc-list">
+          <li><strong>Power/signal separation.</strong> High-current 12&nbsp;V traces run mainly on the bottom layer as wide, direct paths, while all low-voltage digital and control circuitry lives in the top-left quadrant, physically away from the power stage to minimize EMI.</li>
+          <li><strong>Controlled routing.</strong> Differential pairs are routed where signal integrity matters, and copper pours carry the high-current paths to support 30&nbsp;A while keeping IR losses low.</li>
+          <li><strong>In progress.</strong> Via stitching between the ground and power planes, and trace width/spacing tuned to IPC-2221A and thermal targets around the switching nodes and MOSFETs, with polygon prioritization and thermal reliefs in Altium.</li>
+        </ul>
+      </section>
+
+      <!-- ============ SIMULINK / STATUS ============ -->
+      <section class="doc-section" data-animate>
+        <h2>Simulation &amp; status</h2>
+        <p>Before firmware bring-up, the control law is exercised in a Simulink model of the three-phase inverter and FOC chain &mdash; motor control, the transforms, and space-vector modulation &mdash; alongside models of the supporting circuitry (TVS, MOSFETs, reverse-polarity protection, buck converter, RC snubbers, and the op-amp sense chain) used to size components against the real design.</p>
+        <p class="project-note">Status: PCB layout is being finalized and the Simulink control model refined ahead of hardware bring-up.</p>
+      </section>
+
+      <!-- ============ LINKS ============ -->
+      <section class="doc-section" data-animate>
+        <h2>Project links</h2>
+        <ul class="doc-list">
+          <li>Firmware: <a href="https://github.com/pranay-o/MotorSpeedController" target="_blank" rel="noopener">github.com/pranay-o/MotorSpeedController</a></li>
+          <li>Hardware: designed in Altium (MotorSpeedControllerPCB).</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Pranay Oza</span>
+      <span>Computer Engineering @ UBC</span>
+    </div>
+  </footer>
+
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>

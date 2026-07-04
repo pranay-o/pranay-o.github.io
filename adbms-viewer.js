@@ -1,14 +1,17 @@
 /* ============================================================
    ADBMS driver source viewer
-   Loads real driver files live from the public Consolidated-Firmware
-   repo via raw.githubusercontent.com (no token, CORS-enabled, no API
-   rate limit), and renders them with highlight.js + line numbers.
+   Serves the driver files bundled with this site (assets/adbms-src/),
+   so the viewer works offline and never depends on GitHub being up.
+   The aggregator files (tasks.cpp / jobs.cpp) are trimmed to the
+   ADBMS-relevant portions; every other file is the driver verbatim.
+   Rendered with highlight.js + line numbers. "View on GitHub" still
+   links out to the full original file for reference.
    ============================================================ */
 (() => {
   const REPO = "UBCFormulaElectric/Consolidated-Firmware";
   const REF = "master";
   const ROOT = "firmware/hexray/BMS/src/";
-  const RAW = `https://raw.githubusercontent.com/${REPO}/${REF}/${ROOT}`;
+  const SRC = "assets/adbms-src/";
   const BLOB = `https://github.com/${REPO}/blob/${REF}/${ROOT}`;
 
   const groups = [
@@ -88,11 +91,7 @@
       name.className = "cv-fname";
       name.textContent = basename(file.path);
 
-      const desc = document.createElement("span");
-      desc.className = "cv-fdesc";
-      desc.textContent = file.desc;
-
-      btn.append(name, desc);
+      btn.append(name);
       btn.addEventListener("click", () => load(file.path));
       tree.appendChild(btn);
       buttons.set(file.path, btn);
@@ -158,7 +157,7 @@
 
     loading(basename(path));
     try {
-      const res = await fetch(RAW + path, { cache: "no-store" });
+      const res = await fetch(SRC + path);
       if (!res.ok) throw new Error("HTTP " + res.status);
       const text = await res.text();
       cache.set(path, text);

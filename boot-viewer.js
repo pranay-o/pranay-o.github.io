@@ -88,11 +88,7 @@
       name.className = "cv-fname";
       name.textContent = basename(file.path);
 
-      const desc = document.createElement("span");
-      desc.className = "cv-fdesc";
-      desc.textContent = file.desc;
-
-      btn.append(name, desc);
+      btn.append(name);
       btn.addEventListener("click", () => load(file.path));
       tree.appendChild(btn);
       buttons.set(file.path, btn);

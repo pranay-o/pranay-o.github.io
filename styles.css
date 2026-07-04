@@ -504,7 +504,7 @@ body.cv-noscroll { overflow: hidden; }
 .cv-iconbtn:hover { background: #30363d; color: #fff; }
 .cv-iconbtn svg { display: block; }
 .cv-toggle[aria-pressed="true"] { background: #1f6feb; border-color: #1f6feb; color: #fff; }
-.cv-ic-collapse { display: none; }
+.cv-expand .cv-ic-collapse { display: none; }
 .code-viewer.cv-fullscreen .cv-ic-expand { display: none; }
 .code-viewer.cv-fullscreen .cv-ic-collapse { display: block; }
 
@@ -734,6 +734,50 @@ body.cv-noscroll { overflow: hidden; }
 @keyframes bar3 { from { height: 0; y: 100; } to { height: 38; y: 62; } }
 @keyframes bar4 { from { height: 0; y: 100; } to { height: 60; y: 40; } }
 @keyframes bar5 { from { height: 0; y: 100; } to { height: 44; y: 56; } }
+
+/* ---------- wide diagrams / spec panels / equations (FOC page) ---------- */
+.figure--wide .figure-frame {
+  max-width: 840px;
+  aspect-ratio: auto;
+  padding: 26px 30px;
+}
+.figure--wide .figure-cap { max-width: 840px; text-align: left; }
+.figure--wide .art-svg { width: 100%; height: auto; }
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: 1px;
+  background: var(--c-rule);
+  border: 1px solid var(--c-rule);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 8px 0 4px;
+  max-width: 840px;
+}
+.spec-grid div { background: #fafafa; padding: 12px 16px; }
+.spec-grid dt {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-muted);
+  font-weight: 700;
+}
+.spec-grid dd { margin: 3px 0 0; font-size: 16px; color: var(--c-heading); font-weight: 700; }
+
+.eqn {
+  margin: 16px 0;
+  padding: 12px 18px;
+  background: #f6f8fb;
+  border-left: 4px solid var(--c-side-active-bar);
+  border-radius: 0 4px 4px 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 15px;
+  color: var(--c-heading);
+  overflow-x: auto;
+  max-width: 840px;
+}
+.eqn .eqn-note { color: var(--c-muted); font-family: var(--font); font-size: 13px; }
 
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {

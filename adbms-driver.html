@@ -46,7 +46,7 @@
 
         <span class="side-link side-header">Projects</span>
         <a href="adbms-driver.html" class="side-link side-sub active">ADBMS Driver</a>
-        <a href="index.html#p-bootloader" class="side-link side-sub">BMS Bootloader</a>
+        <a href="index.html#p-bootloader" class="side-link side-sub">Vehicle Bootloader</a>
         <a href="index.html#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
         <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
         <a href="index.html#p-rpm" class="side-link side-sub">DC Motor RPM Controller</a>
@@ -62,7 +62,7 @@
         <h2>ADBMS Driver Development</h2>
         <p class="project-meta"><span>C++20 &middot; STM32H7</span><span class="dot">&middot;</span><span>SPI (DMA) &middot; isoSPI &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2025 &ndash; Present</span></p>
 
-        <p class="doc-lede">This driver runs the Analog&nbsp;Devices ADBMS6830B battery-monitoring ICs that monitor UBC&nbsp;Formula&nbsp;Electric&rsquo;s 600&nbsp;V pack. The main BMS board &mdash; an STM32H7 running FreeRTOS &mdash; communicates with ten segments over an isoSPI daisy chain, with every packet PEC-validated. Each segment monitors 14 cells and 14 thermistors; on top of reading them, the driver runs passive cell balancing and raises safety alerts. The full pack state is then transmitted to the rest of the car over CAN.</p>
+        <p class="doc-lede">This driver runs the Analog&nbsp;Devices <a href="https://www.analog.com/en/products/adbms6830b.html" target="_blank" rel="noopener">ADBMS6830B</a> battery-monitoring ICs that monitor UBC&nbsp;Formula&nbsp;Electric&rsquo;s 600&nbsp;V pack. The main BMS board &mdash; an STM32H7 running FreeRTOS &mdash; communicates with ten segments over an isoSPI daisy chain, with every packet PEC-validated. Each segment monitors 14 cells and 14 thermistors; on top of reading them, the driver runs passive cell balancing and raises safety alerts. The full pack state is then transmitted to the rest of the car over CAN.</p>
 
         <figure class="figure hero-figure">
           <div class="model-wrap model-wrap--hero">
@@ -106,7 +106,38 @@
       <!-- ============ ON THE BENCH ============ -->
       <section class="doc-section" data-animate>
         <h2>On the bench</h2>
-        <p>Bringing the driver up against real hardware &mdash; a pseudo-segment harness of live 18650 cells wired into the ADBMS monitor, used to validate isoSPI links and acquisition before the firmware ever sees a full pack.</p>
+        <p>I brought the driver up incrementally, starting on a <strong>pseudo-segment</strong> &mdash; a harness that exposes the same voltage taps as a real segment, but wired 1P instead of the production 4P configuration. That gave me a safe target to develop against before testing it on a full pack.</p>
+
+        <figure class="figure media-figure">
+          <div class="model-wrap model-wrap--hero">
+            <model-viewer
+              class="model-viewer model-hero"
+              src="assets/pseudo-segment.glb"
+              alt="Interactive 3D model of the pseudo-segment test board used to bring up the ADBMS driver"
+              camera-controls
+              touch-action="pan-y"
+              auto-rotate
+              auto-rotate-delay="3000"
+              rotation-per-second="18deg"
+              shadow-intensity="1"
+              exposure="1.1"
+              environment-image="neutral"
+              loading="lazy">
+              <div class="model-fallback" slot="poster">
+                <p>Loading the 3D board&hellip;</p>
+              </div>
+            </model-viewer>
+          </div>
+          <figcaption class="figure-cap">The pseudo-segment board. Drag to orbit, scroll to zoom.</figcaption>
+        </figure>
+        <p>The first milestone was the isoSPI transport itself. Using the pseudo-segment, I verified the ordering of the packets leaving the driver on a Saleae logic analyzer, checking that every command and its data matched the format specified in the datasheet.</p>
+
+        <figure class="figure media-figure">
+          <div class="figure-frame figure-frame--photo media-wide">
+            <img class="figure-photo" src="assets/adbms-isospi-scope.jpg" alt="Oscilloscope capture of the isoSPI differential signal on a Rigol DS1054Z, taken during driver bring-up on the pseudo-segment" loading="lazy" />
+          </div>
+          <figcaption class="figure-cap">The isoSPI differential waveform (A&nbsp;&minus;&nbsp;B of the two lines) captured on the scope during bring-up.</figcaption>
+        </figure>
 
         <figure class="figure media-figure">
           <div class="figure-frame figure-frame--photo media-wide">
@@ -115,6 +146,9 @@
           <figcaption class="figure-cap">ADBMS evaluation board connected to a pseudo-segment, communicating via isoSPI to a custom BMS board.</figcaption>
         </figure>
 
+        <p>With the framing validated, I moved on to the driver&rsquo;s functionality &mdash; building out the acquisition, balancing, and fault logic and testing it against an actual module board rather than the eval board, still on the pseudo-segment.</p>
+        <p>Once every function was working in isolation, the last step was to move onto a real segment and daisy-chain it with several others, bringing up full-pack communication and reading cell voltages, cell temperatures, open-wire (OWC) statuses, and other diagnostic health checks across the whole string.</p>
+
         <figure class="figure media-figure">
           <div class="figure-frame figure-frame--photo media-wide">
             <video class="figure-video" autoplay loop muted playsinline controls preload="metadata" poster="assets/adbms-bench-poster.jpg">
@@ -122,27 +156,28 @@
               Your browser can&rsquo;t play this video. <a href="assets/adbms-bench.mp4">Download it instead</a>.
             </video>
           </div>
-          <figcaption class="figure-cap">A full segment on the bench &mdash; per-cell balancing LEDs light up red as the firmware bleeds down the high cells.</figcaption>
+          <figcaption class="figure-cap">A full accumulator balancing with per-cell balancing LEDs lighting up red.</figcaption>
         </figure>
       </section>
 
       <!-- ============ WHAT I DID ============ -->
       <section class="doc-section" data-animate>
         <h2>What I did</h2>
-        <p>I work on this driver as part of the BMS firmware team, owning chunks of both layers. On the io side that meant getting the isoSPI transactions and PEC generation/checking solid so the chain reads reliably, and wiring up the cell-voltage, auxiliary, and config register paths. On the app side it meant turning those raw reads into the min/max/average cell statistics, health bitmaps, balancing decisions, and alert thresholds that the rest of the car depends on, and broadcasting all of it over CAN.</p>
-        <p>A lot of the real work was bring-up and debugging on hardware. I tested and debugged 15+ boards on a pseudo-segment harness to validate the isoSPI links between the BMS and the module boards, chasing down PEC failures, marginal connections, and conversion-timing issues across the daisy chain. Getting the open-wire checks to reliably distinguish a genuinely broken tap from normal measurement noise on a live HV bus was one of the more satisfying parts to get right.</p>
+        <p>I designed and architected this driver end to end as part of the BMS firmware team. On the io side that meant getting the isoSPI transactions and PEC generation/checking working reliably, and reading the ADBMS cell-voltage, auxiliary, and configuration registers. On the app side it meant turning those raw reads into the data the rest of the car depends on &mdash; min/max cell statistics, health checks, balancing decisions, and alert thresholds &mdash; and broadcasting all of it over CAN.</p>
+        <p>Most of the real work was hardware bring-up and debugging. The first major hurdle was getting PEC10 and PEC15 validating correctly for every transaction across the bus. Getting that layer right took time; I debugged it using memory breakpoints and logic-analyzer probes on the SPI bus until every packet checked out.</p>
+        <p>From there, a lot of the effort went into the boards themselves: confirming components were soldered correctly and, when they weren&rsquo;t, isolating which had failed. I worked backwards from the functionality that <em>was</em> working, and leaned on the board&rsquo;s common failure points to narrow down each hardware fault across the 15+ boards I brought up.</p>
+        <p>Finally, once the driver was talking to the full pack, I ran into timing issues in the polling loop. Chasing those down led me deep into the ADBMS&rsquo;s ADC conversion cycle &mdash; understanding exactly how long each measurement takes so the firmware polls in step with the hardware rather than ahead of it.</p>
       </section>
 
       <!-- ============ BROWSE THE SOURCE ============ -->
       <section class="doc-section" data-animate>
         <h2>Browse the source</h2>
-        <p>It&rsquo;s all open source &mdash; this is the real driver code, straight from <a href="https://github.com/UBCFormulaElectric/Consolidated-Firmware" target="_blank" rel="noopener">our team&rsquo;s firmware repo</a>. Have a look around.</p>
+        <p>The code is available at <a href="https://github.com/UBCFormulaElectric/Consolidated-Firmware" target="_blank" rel="noopener">github.com/UBCFormulaElectric/Consolidated-Firmware</a>.</p>
 
         <div class="code-viewer" id="code-viewer">
           <div class="cv-tree" id="cv-tree" aria-label="Source files"></div>
           <div class="cv-main">
             <div class="cv-bar">
-              <div class="cv-dots" aria-hidden="true"><span></span><span></span><span></span></div>
               <button type="button" class="cv-iconbtn cv-toggle" id="cv-toggle" aria-label="Hide file list" aria-pressed="false" title="Hide / show file list">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 <span>Files</span>
@@ -157,7 +192,6 @@
                 <button type="button" class="cv-iconbtn cv-expand" id="cv-expand" aria-label="Expand viewer to full screen" title="Expand">
                   <svg class="cv-ic-expand" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
                   <svg class="cv-ic-collapse" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-                  <span class="cv-expand-label">Expand</span>
                 </button>
               </div>
             </div>

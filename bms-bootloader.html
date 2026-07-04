@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BMS Bootloader — Pranay Oza</title>
+  <title>Vehicle Bootloader — Pranay Oza</title>
   <meta name="description" content="CAN-based firmware-update bootloader for UBC Formula Electric's STM32H7 BMS — CRC32 verified boot, flash partitioning between boot and app regions, jump-to-app logic, and a host-side python-can flasher. Design write-up by Pranay Oza." />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,7 +46,7 @@
 
         <span class="side-link side-header">Projects</span>
         <a href="index.html#p-adbms" class="side-link side-sub">ADBMS Driver</a>
-        <a href="bms-bootloader.html" class="side-link side-sub active">BMS Bootloader</a>
+        <a href="bms-bootloader.html" class="side-link side-sub active">Vehicle Bootloader</a>
         <a href="index.html#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
         <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
         <a href="index.html#p-rpm" class="side-link side-sub">DC Motor RPM Controller</a>
@@ -59,10 +59,10 @@
       <!-- ============ HEADER + HERO ============ -->
       <section class="doc-section" data-animate>
         <p><a href="index.html#p-bootloader">&larr; Back to portfolio</a></p>
-        <h2>BMS Bootloader</h2>
-        <p class="project-meta"><span>C++20 / C &middot; STM32H7</span><span class="dot">&middot;</span><span>CubeMX &middot; CAN FD &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2026</span></p>
+        <h2>Vehicle Bootloader</h2>
+        <p class="project-meta"><span>C++20 / C &middot; STM32H7 / H5</span><span class="dot">&middot;</span><span>CubeMX &middot; CAN FD &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2026</span></p>
 
-        <p class="doc-lede">A CAN-based firmware-update bootloader for the STM32H7 at the heart of UBC&nbsp;Formula&nbsp;Electric&rsquo;s BMS. It lives in its own flash partition ahead of the application, validates the installed app with a CRC32 before every boot, and &mdash; on request &mdash; reflashes the app region sector-by-sector straight over the car&rsquo;s CAN bus. No debugger, no opening the accumulator: a new build is pushed to every node from the team&rsquo;s tooling, and a corrupted or half-written update can never brick a board.</p>
+        <p class="doc-lede">A CAN-based firmware-update bootloader that runs on every board on UBC&nbsp;Formula&nbsp;Electric&rsquo;s car &mdash; across STM32H7 and STM32H5 MCUs. It lives in its own flash partition ahead of the application, validates the installed app with a CRC32 before every boot, and &mdash; on request &mdash; reflashes the app region sector-by-sector straight over the car&rsquo;s CAN bus. No debugger and no SWD: a new build is pushed to every node from the team&rsquo;s tooling, and a corrupted or half-written update can never brick a board.</p>
 
         <figure class="figure">
           <div class="figure-frame">
@@ -163,7 +163,6 @@
                 <button type="button" class="cv-iconbtn cv-expand" id="cv-expand" aria-label="Expand viewer to full screen" title="Expand">
                   <svg class="cv-ic-expand" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
                   <svg class="cv-ic-collapse" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-                  <span class="cv-expand-label">Expand</span>
                 </button>
               </div>
             </div>
