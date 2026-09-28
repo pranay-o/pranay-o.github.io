@@ -1,0 +1,208 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.002\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.99\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+% NEW: Projects line format: "Project Name | Org" on left, Date on right
+\newcommand{\resumeProjectSubheadingInline}[3]{
+  \vspace{-0.5pt}\item
+    \begin{tabular*}{1.002\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} \,|\, \textit{\small #2} &{\small #3} \\
+    \end{tabular*}\vspace{-8pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-12pt}}
+
+\newcommand{\resumeEducationCourses}[3]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.002\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+    \end{tabular*}\vspace{2pt} % <-- Controls space between title line & relevant courses
+    #3\vspace{-3pt}
+}
+
+%-------------------------------------------
+%%%%%%  CV STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING-----------------
+\begin{center}
+    \textbf{\Huge \scshape Pranay Oza} \\ \vspace{1pt}
+    \small 346-630-1475 $|$ \href{mailto:oza.pranay06@gmail.com}{\underline{oza.pranay06@gmail.com}} $|$
+    \href{https://www.linkedin.com/in/pranayoza/}{\underline{linkedin.com/in/pranayoza/}} $|$
+    \href{https://github.com/pranay-o}{\underline{github.com/pranay-o}} $|$
+    \href{https://pranay-o.github.io/}{\underline{Portfolio}}
+\end{center}
+\vspace{-22pt}
+
+%-----------SKILLS-----------
+\section{Skills}
+\vspace{0pt}
+ \begin{itemize}[leftmargin=0in, label={}]
+    \small{\item{
+     \textbf{Programming \& Software}{: C, C++, Assembly, SystemVerilog, Rust, Python, Java, MATLAB, Git, Unix, CMake} \\
+     \textbf{Embedded Firmware}{: STM32, FreeRTOS, FDCAN/CAN, SPI/isoSPI, I\textsuperscript{2}C, UART, USB, OCPP, J-Link} \\
+     \textbf{Hardware \& Systems Design}{: Altium, KiCad, Power Electronics, Circuit Analysis, Simulink, LTspice} \\
+    }
+    }
+ \end{itemize}
+ \vspace{-17pt}
+
+%-----------EDUCATION-----------
+\section{Education}
+    \vspace{-5pt}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {University of British Columbia}{Expected Graduation -- Dec 2028}
+      {Computer Engineering}{Vancouver, BC}
+  \resumeSubHeadingListEnd
+  \vspace{-10pt}
+
+%-----------WORK EXPERIENCE-----------
+\section{Experience}
+    \vspace{-5pt}
+  \resumeSubHeadingListStart
+
+\resumeSubheading
+      {High Voltage Firmware Integration}{Incoming May 2027}
+      {Tesla}{Palo Alto, CA}
+      \vspace{-15pt}
+\resumeSubheading
+      {Battery Management System Firmware Lead}{Sept 2024 -- Present}
+      {UBC Formula Electric SAE}{Vancouver, BC}
+      \resumeItemListStart
+        \resumeItem{Leading firmware development for the car's fully custom \textbf{600V BMS}, owning the full stack from high-level \textbf{battery algorithms} down to low-level drivers monitoring 500+ 18650 lithium-ion cells}
+
+        \resumeItem{Developing a driver for the \textbf{ADBMS2950} to monitor tractive-system voltage and pack current across a \textbf{shunt resistor}, providing the isolated high-voltage measurements required for accurate power and energy tracking}
+
+        \resumeItem{Modeling and validating a \textbf{second-order RC} equivalent-circuit battery model in \textbf{MATLAB}, parameterized from \textbf{HPPC}, \textbf{OCV--SOC}, and capacity characterization tests ran on a battery cycler, improving fidelity of state estimation}
+
+        \resumeItem{Researching battery state-estimation algorithms spanning \textbf{state-of-charge}, \textbf{state-of-health}, \textbf{state-of-energy}, and \textbf{state-of-power}, giving greater visibility into pack condition and to inform energy strategy}
+
+        \resumeItem{Building \textbf{Rust} tooling that auto-generates \textbf{multiplexed FDCAN signals} from a single JSON definition and integrates with the telemetry backend, packing more data into FDCAN messages to raise logging density without adding bus load}
+
+        \resumeItem{Relocating \textbf{ISR} and the \textbf{interrupt vector table} into \textbf{Tightly-Coupled Memory}, minimizing instruction-fetch latency to achieve deterministic, lowest-possible interrupt response times}
+
+        \resumeItem{Validated safety-critical fault handling by injecting faults into the BMS and confirming each tripped the pack's \textbf{shutdown loop}, covering insulation-monitoring, brake-system, and inter-segment faults to ensure the pack fails safe}
+
+        \resumeItem{Developed \textbf{CAN-based charging firmware} for a 6.6 kW Elcon charger with a full CC/CV profile and termination logic, and integrated \textbf{J1772 EVSE} charging by decoding the control-pilot duty cycle to safely limit the current request}
+
+        \resumeItem{Implemented a \textbf{FDCAN-based bootloader} with \textbf{CRC32} verified-boot to flash all boards over FDCAN without a debugger, using \textbf{flash-memory partitioning} to keep every node on a version-matched build}
+
+        \resumeItem{Built an \textbf{automated calibration script} and lab-bench setup for the pack current sensor, delivering the accurate power measurement the vehicle-dynamics team relied on to set the car's power limit}
+
+        \resumeItem{Owned bring-up and on-hardware validation of the firmware on the team's custom BMS PCBs, verifying reliability through hardware testing and \textbf{software-in-the-loop (SIL)} simulation before vehicle integration}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+\vspace{-3pt}
+\resumeSubHeadingListStart
+    \resumeProjectHeading
+      {\normalsize\textbf{ADBMS6830B Driver Development} -- \small\textit{UBC Formula Electric SAE}}{\textup{Jan 2026 -- Sept 2026}}
+      \resumeItemListStart
+        \resumeItem{Owned the architecture, implementation, and integration of a driver for daisy-chained \textbf{ADBMS6830B} monitor ICs (SPI/isoSPI) across a multiple \textbf{56 cell segments} with \textbf{PEC15/PEC10 CRC} frame validation}
+        \resumeItem{Implemented \textbf{cell-voltage} and \textbf{thermistor} sensing, \textbf{open-wire} detection, and per-cell \textbf{balancing} with \textbf{reversible isoSPI} and dropped-command detection for daisy-chain fault tolerance, organized into reusable modules behind a \textbf{hardware-abstraction layer} that broadcasts per-segment fault flags over FDCAN}
+        \resumeItem{Designed a \textbf{FreeRTOS} concurrency model with independently clocked config, voltage, open-wire, and thermistor tasks sharing one SPI bus through \textbf{synchronization primitives}, eliminating bus contention and data races}
+        \resumeItem{Debugged \textbf{15+ boards} and daisy chain for signal-integrity, hardware shorts, and DMA/SPI/task-scheduling bugs using SEGGER \textbf{SystemView} for RTOS task visibility, then ran full-battery integration testing}
+      \resumeItemListEnd
+      \vspace{5pt}
+
+
+  \resumeProjectHeading
+    {\normalsize\textbf{Sensorless Field-Oriented Control ESC}}{\textup{Jun 2025 -- Present}}
+    \resumeItemListStart
+        \resumeItem{Designing a \textbf{4-layer PCB} integrating an STM32G4 MCU, gate driver, buck converter, EEPROM, ESD protection circuitry, and reverse polarity detection for 30A, 12V BLDC motor control}
+        \resumeItem{Developing motor-control firmware (PlatformIO, STM32CubeMX) using ADC sampling, PWM timers, I\textsuperscript{2}C, and UART for current sensing, \textbf{virtual neutral-voltage} measurement, and \textbf{back-EMF} zero-cross detection}
+        \resumeItem{Building a Simulink inverter model to simulate 3-phase dynamics and validate \textbf{sensorless FOC} algorithms, including SVPWM and dead-time compensation}
+      \resumeItemListEnd
+    \vspace{-7pt}
+
+\resumeSubHeadingListEnd
+\vspace{2pt}
+\end{document}

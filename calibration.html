@@ -8,61 +8,22 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <div class="topbar">
-    <div class="topbar-inner">
-      <h1 class="site-title">Pranay Oza &mdash; Engineering Portfolio</h1>
-      <div class="topbar-socials">
-        <a href="mailto:oza.pranay06@gmail.com" aria-label="Email">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
-        </a>
-        <a href="https://github.com/pranay-o" target="_blank" rel="noopener" aria-label="GitHub">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.05.78 2.13v3.16c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/pranayoza/" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.15 1.45-2.15 2.95v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.65-1.86 3.4-1.86 3.64 0 4.31 2.4 4.31 5.51v6.24ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.72V1.72C24 .77 23.21 0 22.22 0Z"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="banner" aria-hidden="true"></div>
-
-  <div class="layout">
-    <aside class="sidebar">
-      <button class="menu-toggle" aria-expanded="false" aria-controls="side-nav">Menu &#9662;</button>
-      <nav id="side-nav" class="side-nav" aria-label="Portfolio sections">
-        <a href="index.html#overview" class="side-link">Overview</a>
-
-        <span class="side-link side-header">Experience</span>
-        <a href="index.html#exp-fe" class="side-link side-sub">UBC Formula Electric</a>
-        <a href="index.html#exp-hc" class="side-link side-sub">Hypercharge Networks</a>
-
-        <a href="resume.html" class="side-link">Resume</a>
-
-        <span class="side-link side-header">Projects</span>
-        <a href="index.html#p-adbms" class="side-link side-sub">ADBMS Driver</a>
-        <a href="index.html#p-bootloader" class="side-link side-sub">Vehicle Bootloader</a>
-        <a href="index.html#p-foc" class="side-link side-sub">Sensorless FOC ESC</a>
-        <a href="index.html#p-skywatch" class="side-link side-sub">SkyWatch RF</a>
-        <a href="index.html#p-rpm" class="side-link side-sub">DC Motor RPM Controller</a>
-        <a href="calibration.html" class="side-link side-sub active">Current Sensor Calibration</a>
-        <a href="index.html#p-rsm" class="side-link side-sub">Rear Sensor Module</a>
-      </nav>
-    </aside>
+<body data-page="writeup" data-root="">
+  <div class="page">
+    <header class="site-header" id="site-header"></header>
 
     <main class="doc">
-      <section class="doc-section" data-animate>
-        <p><a href="index.html#p-calibration">&larr; Back to portfolio</a></p>
-        <h2>BMS Current Sensor Calibration</h2>
+      <section class="doc-section">
+        <p class="back"><a href="projects/">&larr; Projects</a></p>
+        <h1>BMS Current Sensor Calibration</h1>
         <p class="project-meta"><span>UBC Formula Electric &middot; 2026</span></p>
         <p class="doc-lede">The pack measures tractive-system current through two sensors &mdash; a 400&nbsp;A channel for the full range and a 50&nbsp;A channel for fine resolution. Each one puts out an analog voltage, and the firmware needs to know exactly how that voltage maps to amps. This is the short Python tool that finds that mapping.</p>
       </section>
 
-      <section class="doc-section" data-animate>
+      <section class="doc-section">
         <h2>What Chimera does</h2>
         <p>The script doesn&rsquo;t run on the board &mdash; it runs on a laptop and talks to the BMS over USB through <strong>Chimera</strong>, UBC&nbsp;Formula&nbsp;Electric&rsquo;s Python debug tool. Chimera reaches into a running board and lets you read or drive its peripherals (ADC channels, I&sup2;C devices, GPIO) straight from Python, so you can work with real hardware without writing and flashing throwaway test firmware. Here it only needs one call &mdash; <code>bms.adc_read(...)</code> &mdash; to grab the live sensor voltage.</p>
 
@@ -93,7 +54,7 @@
         </figure>
       </section>
 
-      <section class="doc-section" data-animate>
+      <section class="doc-section">
         <h2>How the calibration works</h2>
         <p>Calibration is just a handful of points and a line. You run a known current through the sensor, read it off a reference meter, and type it in; the script reads both ADC channels over Chimera at the same moment. After a few points across the range, NumPy fits a straight line through them (a degree-1 <code>Polynomial</code>) in both directions &mdash; amps from ADC voltage, and ADC voltage from amps. The raw points go to a CSV, and it prints the slope and intercept the firmware uses.</p>
 
@@ -155,13 +116,7 @@
     </main>
   </div>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <span>&copy; 2026 Pranay Oza</span>
-      <span>Computer Engineering @ UBC</span>
-    </div>
-  </footer>
-
-  <script src="script.js" defer></script>
+  <script src="content.js"></script>
+  <script src="site.js"></script>
 </body>
 </html>
