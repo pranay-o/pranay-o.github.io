@@ -129,7 +129,7 @@ const projects = [
     link: "https://github.com/pranay-o/MotorSpeedController",
   },
   {
-    title: "SkyWatch RF — Counter-Drone Detection",
+    title: "RF Drone Detection",
     summary: "Passive 2.4 / 5.8 GHz drone detector with an all-analog RF front end (LNA, bandpass filters, log detector) that raises alerts over a 915 MHz LoRa link.",
     page: null,
     link: null,
