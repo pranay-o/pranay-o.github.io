@@ -175,27 +175,47 @@ strong, b { color: var(--text); font-weight: 500; }
 .job-points li + li { margin-top: 6px; }
 
 /* ---------- projects ---------- */
-.projects { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 28px; }
-.project { display: flex; align-items: flex-start; gap: 20px; }
+.projects { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 24px; }
+.project { position: relative; }
+.project-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+/* small photo above the title, only for projects that have one */
 .project-img {
-  flex: 0 0 148px;
-  width: 148px;
-  height: 96px;
-  border-radius: 6px;
+  display: block;
+  width: 200px;
+  aspect-ratio: 16 / 10;
+  margin-bottom: 12px;
+  object-fit: cover;
   background: var(--image-bg);
   border: 1px solid var(--image-border);
-  overflow: hidden;
+  border-radius: 6px;
 }
-.project-img img { width: 100%; height: 100%; object-fit: cover; }
-.project-body { min-width: 0; }
 .project-title { font-size: 16px; font-weight: 500; line-height: 1.4; }
-.project-stack { margin: 4px 0 0; font-size: 13px; line-height: 1.6; color: var(--muted); }
-.project-links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 6px 0 0; font-size: 13px; }
+.project-summary { margin: 4px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+
+/* Rows with a write-up are one big link (the title's ::after covers the row)
+   and highlight on hover. Negative margin + equal padding gives the highlight
+   room to breathe without moving the content. */
+.project--link {
+  margin: -12px;
+  padding: 12px;
+  border-radius: 10px;
+  transition: background-color var(--dur) ease;
+}
+.project--link:hover { background: var(--image-bg); }
+.project-link,
+.project-link:hover { color: inherit; }
+.project--link:hover .project-title { color: #fff; }
+.project-link::after { content: ""; position: absolute; inset: 0; border-radius: 10px; }
+.project-link:focus-visible { outline: none; }
+.project-link:focus-visible::after { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* GitHub icon: sits above the row link; negative margins keep its 44px
+   tap target from pushing the title row taller */
+.project-github { position: relative; z-index: 1; flex-shrink: 0; margin: -11px -10px -11px 0; }
 
 /* ====================================================================
    write-up pages
    ==================================================================== */
-.back { margin-bottom: 20px; font-size: 13px; }
 .doc h1 { font-size: 20px; margin-bottom: 16px; }
 .doc h2 { font-size: 16px; margin: 48px 0 12px; }
 
@@ -457,9 +477,6 @@ body.cv-noscroll { overflow: hidden; }
   /* the page's margins are too narrow for the corner icon: put it in a row above */
   .resume-doc { display: flex; flex-direction: column; }
   .resume-download { position: static; order: -1; align-self: flex-end; margin: -8px 0 4px; }
-
-  .project { flex-direction: column; gap: 12px; }
-  .project-img { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 10; }
 
   .code-viewer.cv-fullscreen { flex-direction: column; }
   .code-viewer.cv-fullscreen .cv-tree {

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vehicle Bootloader — Pranay Oza</title>
-  <meta name="description" content="CAN-based firmware-update bootloader for UBC Formula Electric's STM32H7 BMS — CRC32 verified boot, flash partitioning between boot and app regions, jump-to-app logic, and a host-side python-can flasher. Design write-up by Pranay Oza." />
+  <meta name="description" content="FDCAN-based firmware-update bootloader for UBC Formula Electric's STM32H7 BMS — CRC32 verified boot, flash partitioning between boot and app regions, jump-to-app logic, and a host-side python-can flasher. Design write-up by Pranay Oza." />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,15 +19,14 @@
     <main class="doc">
       <!-- ============ HEADER + HERO ============ -->
       <section class="doc-section">
-        <p class="back"><a href="projects/">&larr; Projects</a></p>
         <h1>Vehicle Bootloader</h1>
-        <p class="project-meta"><span>C++20 / C &middot; STM32H7 / H5</span><span class="dot">&middot;</span><span>CubeMX &middot; CAN FD &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2026</span></p>
+        <p class="project-meta"><span>C++20 / C &middot; STM32H7 / H5</span><span class="dot">&middot;</span><span>CubeMX &middot; FDCAN &middot; FreeRTOS</span><span class="dot">&middot;</span><span>UBC Formula Electric &middot; 2026</span></p>
 
-        <p class="doc-lede">A CAN-based firmware-update bootloader that runs on every board on UBC&nbsp;Formula&nbsp;Electric&rsquo;s car &mdash; across STM32H7 and STM32H5 MCUs. It lives in its own flash partition ahead of the application, validates the installed app with a CRC32 before every boot, and &mdash; on request &mdash; reflashes the app region sector-by-sector straight over the car&rsquo;s CAN bus. No debugger and no SWD: a new build is pushed to every node from the team&rsquo;s tooling, and a corrupted or half-written update can never brick a board.</p>
+        <p class="doc-lede">An FDCAN-based firmware-update bootloader that runs on every board on UBC&nbsp;Formula&nbsp;Electric&rsquo;s car &mdash; across STM32H7 and STM32H5 MCUs. It lives in its own flash partition ahead of the application, validates the installed app with a CRC32 before every boot, and &mdash; on request &mdash; reflashes the app region sector-by-sector straight over the car&rsquo;s FDCAN bus. No debugger and no SWD: a new build is pushed to every node from the team&rsquo;s tooling, and a corrupted or half-written update can never brick a board.</p>
 
         <figure class="figure">
           <div class="figure-frame">
-            <svg viewBox="0 0 200 120" class="art-svg" role="img" aria-label="BMS bootloader flow: on power-up the bootloader runs a CRC32 check on the application; if valid it jumps to the app, and new firmware can be flashed into the application region over the CAN bus.">
+            <svg viewBox="0 0 200 120" class="art-svg" role="img" aria-label="BMS bootloader flow: on power-up the bootloader runs a CRC32 check on the application; if valid it jumps to the app, and new firmware can be flashed into the application region over the FDCAN bus.">
               <defs>
                 <marker id="bl-arrow" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"/></marker>
               </defs>
@@ -47,11 +46,11 @@
                 <text x="175" y="44.5" font-size="7.5">Run App</text>
                 <text x="141" y="36" font-size="5.5">valid</text>
                 <text x="102" y="94" font-size="6.5">New firmware</text>
-                <text x="102" y="102.5" font-size="6.5">over CAN</text>
+                <text x="102" y="102.5" font-size="6.5">over FDCAN</text>
               </g>
             </svg>
           </div>
-          <figcaption class="figure-cap">Boot flow: the bootloader verifies the app with a CRC32 and jumps to it; new firmware is flashed into the app region over CAN.</figcaption>
+          <figcaption class="figure-cap">Boot flow: the bootloader verifies the app with a CRC32 and jumps to it; new firmware is flashed into the app region over FDCAN.</figcaption>
         </figure>
 
       </section>
@@ -91,9 +90,9 @@
         <ul class="doc-list">
           <li><strong>Verified boot.</strong> On reset the bootloader runs first. It re-computes a CRC32 over the entire app image and compares it against the checksum in the metadata block. Only if the app is present and the checksum matches &mdash; and nothing has explicitly requested staying in the bootloader &mdash; does it hand control over.</li>
           <li><strong>Jump-to-app.</strong> Handing off is a bare-metal context switch: disable interrupts and SysTick, clear pending IRQs, point the vector table (VTOR) at the app, switch back to the main stack pointer, then load the app&rsquo;s initial stack pointer and reset-handler address straight out of its vector table and branch in. The app comes up as if it had booted on its own.</li>
-          <li><strong>CAN update protocol.</strong> A compact set of CAN command IDs &mdash; <code>START_UPDATE</code>, <code>ERASE_SECTOR</code>, <code>PROGRAM</code>, <code>VERIFY</code>, <code>GO_TO_APP</code>, <code>GO_TO_BOOT</code> &mdash; drives a state machine. The host kicks off an update, the bootloader erases the app sectors, streams the new image in block by block, and ACKs progress so the host can show a live bar and retry stalls.</li>
-          <li><strong>Block-buffered flash writes.</strong> The H7 can only program a full flash word (32&nbsp;B) at a time, but a CAN frame carries at most 8&nbsp;B. Incoming program words are accumulated in a RAM buffer keyed by address; once a whole flash word is filled it is committed to flash, and out-of-order or unaligned writes are rejected.</li>
-          <li><strong>Brick resistance.</strong> If an erase or program step fails, or the freshly written image fails its post-flash <code>VERIFY</code> checksum, the app is simply marked invalid &mdash; so the next reset lands safely back in the bootloader instead of jumping into corrupt code. A board can always be recovered over CAN.</li>
+          <li><strong>FDCAN update protocol.</strong> A compact set of FDCAN command IDs &mdash; <code>START_UPDATE</code>, <code>ERASE_SECTOR</code>, <code>PROGRAM</code>, <code>VERIFY</code>, <code>GO_TO_APP</code>, <code>GO_TO_BOOT</code> &mdash; drives a state machine. The host kicks off an update, the bootloader erases the app sectors, streams the new image in block by block, and ACKs progress so the host can show a live bar and retry stalls.</li>
+          <li><strong>Block-buffered flash writes.</strong> The H7 can only program a full flash word (32&nbsp;B) at a time, but each FDCAN message in the update protocol carries 8&nbsp;B. Incoming program words are accumulated in a RAM buffer keyed by address; once a whole flash word is filled it is committed to flash, and out-of-order or unaligned writes are rejected.</li>
+          <li><strong>Brick resistance.</strong> If an erase or program step fails, or the freshly written image fails its post-flash <code>VERIFY</code> checksum, the app is simply marked invalid &mdash; so the next reset lands safely back in the bootloader instead of jumping into corrupt code. A board can always be recovered over FDCAN.</li>
           <li><strong>Host-side flasher.</strong> A python-can tool (<code>canup</code>) commands one or many boards at once: it puts every node into bootloader mode, parses the Intel-HEX build, and walks each through erase &rarr; program &rarr; verify &rarr; jump, so an entire car can be updated from one command.</li>
         </ul>
       </section>
@@ -101,8 +100,8 @@
       <!-- ============ WHAT I DID ============ -->
       <section class="doc-section">
         <h2>What I did</h2>
-        <p>I worked on bringing the CAN bootloader up on the BMS&rsquo;s STM32H7. That meant standing up the CubeMX boot project, getting the flash partitioning right so the bootloader and application live in separate, non-overlapping regions, and wiring the board-specific layer &mdash; FDCAN setup, the FreeRTOS tasks that service the interface, tick, and CAN-TX work, and the board&rsquo;s CAN node ID &mdash; into the shared bootloader library.</p>
-        <p>The parts that took the most care were the bits where a mistake means a dead board: the jump-to-app handoff (getting the vector table, stack pointer, and interrupt state all correct so the app starts cleanly), and making the update path genuinely brick-resistant by leaning on the CRC32 verified-boot check so a failed or interrupted flash always falls back to the bootloader rather than into garbage. Getting a full image to flash over CAN and the board to come back up running the new firmware &mdash; with no debugger anywhere near it &mdash; was the satisfying payoff.</p>
+        <p>I worked on bringing the FDCAN bootloader up on the BMS&rsquo;s STM32H7. That meant standing up the CubeMX boot project, getting the flash partitioning right so the bootloader and application live in separate, non-overlapping regions, and wiring the board-specific layer &mdash; FDCAN setup, the FreeRTOS tasks that service the interface, tick, and FDCAN-TX work, and the board&rsquo;s FDCAN node ID &mdash; into the shared bootloader library.</p>
+        <p>The parts that took the most care were the bits where a mistake means a dead board: the jump-to-app handoff (getting the vector table, stack pointer, and interrupt state all correct so the app starts cleanly), and making the update path genuinely brick-resistant by leaning on the CRC32 verified-boot check so a failed or interrupted flash always falls back to the bootloader rather than into garbage. Getting a full image to flash over FDCAN and the board to come back up running the new firmware &mdash; with no debugger anywhere near it &mdash; was the satisfying payoff.</p>
       </section>
 
       <!-- ============ BROWSE THE SOURCE ============ -->

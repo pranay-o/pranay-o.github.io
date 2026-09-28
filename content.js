@@ -85,58 +85,72 @@ const experience = [
   },
 ];
 
-/* page:  write-up page on this site (or null)
-   link:  GitHub URL (or null)
-   image: thumbnail path (or "" for an empty slot)            */
+/* summary: one line on what it is, with the key terms
+   page:    write-up page on this site (or null)
+   link:    GitHub URL (or null)
+   image:   optional photo shown above the title (leave out for none) */
 const FE = "https://github.com/UBCFormulaElectric/Consolidated-Firmware";
 const projects = [
   {
     title: "ADBMS Driver Development",
-    stack: ["C++20", "STM32H7", "SPI (DMA)", "isoSPI", "FreeRTOS"],
+    summary: "Driver for daisy-chained ADBMS6830B cell monitors over isoSPI: PEC-checked frames, cell-voltage and thermistor sensing, open-wire detection and cell balancing, on FreeRTOS with DMA SPI.",
     page: "adbms-driver.html",
     link: FE,
     image: "assets/adbms-segment-test.jpg",
   },
   {
     title: "Vehicle Bootloader",
-    stack: ["C++20", "C", "STM32H7 / H5", "CAN FD", "FreeRTOS"],
+    summary: "FDCAN bootloader with CRC32-verified boot and flash partitioning, so every board on the car can be reflashed over the bus without a debugger.",
     page: "bms-bootloader.html",
     link: FE,
-    image: "",
+  },
+  {
+    title: "Multiplexed FDCAN Code Generation",
+    summary: "Rust tooling that generates FDCAN message code from a single JSON definition, now adding signal multiplexing to pack more telemetry into each frame without extra bus load.",
+    page: null,
+    link: null,
+  },
+  {
+    title: "ISRs in Tightly-Coupled Memory",
+    summary: "Relocating ISRs and the interrupt vector table into the STM32H7's tightly-coupled memory (ITCM) for low-latency, deterministic interrupt response.",
+    page: null,
+    link: null,
+  },
+  {
+    title: "State-of-Charge Estimation",
+    summary: "Second-order RC equivalent-circuit battery model in MATLAB, fitted from HPPC, OCV–SOC and capacity tests, as the base for the BMS state-of-charge algorithm.",
+    page: null,
+    link: null,
   },
   {
     title: "Sensorless FOC ESC",
-    stack: ["STM32G4", "DRV8302", "SVPWM", "Altium", "Simulink"],
+    summary: "Custom 4-layer STM32G4 ESC for 12 V / 30 A BLDC motors, running sensorless field-oriented control with back-EMF zero-cross detection and SVPWM, validated in Simulink.",
     page: "foc-esc.html",
     link: "https://github.com/pranay-o/MotorSpeedController",
-    image: "",
   },
   {
     title: "SkyWatch RF — Counter-Drone Detection",
-    stack: ["RF Front End", "LTspice", "LoRa", "Rogers 4003C"],
+    summary: "Passive 2.4 / 5.8 GHz drone detector with an all-analog RF front end (LNA, bandpass filters, log detector) that raises alerts over a 915 MHz LoRa link.",
     page: null,
     link: null,
-    image: "",
   },
   {
     title: "DC Motor RPM Controller",
-    stack: ["Discrete Logic", "Op-Amp PI", "R-2R DAC", "BJT"],
+    summary: "Closed-loop speed controller built from discrete logic: optical encoder, counter and R-2R DAC feedback into an op-amp PI controller driving a BJT motor stage.",
     page: "dc-motor-controller.html",
     link: null,
     image: "assets/dc-motor-controller.jpg",
   },
   {
     title: "BMS Current Sensor Calibration",
-    stack: ["Python", "NumPy", "Chimera", "ADC"],
+    summary: "Python tool that reads the 400 A and 50 A current-sensor ADCs live over Chimera and fits linear ADC-to-amps coefficients with NumPy for the BMS firmware.",
     page: "calibration.html",
     link: FE + "/blob/master/scripts/current_sensor/calibration.py",
-    image: "",
   },
   {
     title: "Rear Sensor Module",
-    stack: ["FreeRTOS", "CAN", "I²C", "IMU"],
+    summary: "FreeRTOS firmware for the car's rear sensor board: brake pressure and lights, cooling fans and coolant valves, an I²C flowmeter and IMU data, all reported over FDCAN.",
     page: null,
     link: null,
-    image: "",
   },
 ];

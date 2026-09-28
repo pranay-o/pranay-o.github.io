@@ -1,6 +1,6 @@
 /* ============================================================
    BMS bootloader source viewer
-   Loads the real CAN-bootloader files live from the public
+   Loads the real FDCAN-bootloader files live from the public
    Consolidated-Firmware repo via raw.githubusercontent.com (no
    token, CORS-enabled, no API rate limit), and renders them with
    highlight.js + line numbers. Unlike the ADBMS viewer the
@@ -18,16 +18,16 @@
       label: "Boot library — firmware/boot",
       files: [
         { path: "firmware/boot/bootloader.hpp", desc: "Interface + config base class — RAM-buffered flash programming" },
-        { path: "firmware/boot/bootloader.cpp", desc: "Boot state machine — CRC32 verify, jump-to-app, CAN erase/program/verify" },
-        { path: "firmware/boot/bootloader.h", desc: "CAN bootloader protocol — command message IDs" },
-        { path: "firmware/boot/README.md", desc: "CAN bootloader overview" },
+        { path: "firmware/boot/bootloader.cpp", desc: "Boot state machine — CRC32 verify, jump-to-app, FDCAN erase/program/verify" },
+        { path: "firmware/boot/bootloader.h", desc: "FDCAN bootloader protocol — command message IDs" },
+        { path: "firmware/boot/README.md", desc: "FDCAN bootloader overview" },
       ],
     },
     {
       label: "BMS target — firmware/hexray/BMS/boot",
       files: [
         { path: "firmware/hexray/BMS/boot/bootloader_BMS.cpp", desc: "BMS entry — FDCAN setup, FreeRTOS tasks, board config" },
-        { path: "firmware/hexray/BMS/boot/bootloader_BMS.hpp", desc: "Board CAN high-bits (node ID)" },
+        { path: "firmware/hexray/BMS/boot/bootloader_BMS.hpp", desc: "Board FDCAN high-bits (node ID)" },
         { path: "firmware/hexray/BMS/boot/cubemx/Src/main.c", desc: "CubeMX-generated startup → hands off to the bootloader" },
       ],
     },
@@ -40,8 +40,8 @@
     {
       label: "Host flashing tool — scripts/canup",
       files: [
-        { path: "scripts/canup/bootloader.py", desc: "Host-side CAN bootloader protocol (python-can)" },
-        { path: "scripts/canup/update.py", desc: "Multi-board CAN update driver" },
+        { path: "scripts/canup/bootloader.py", desc: "Host-side FDCAN bootloader protocol (python-can)" },
+        { path: "scripts/canup/update.py", desc: "Multi-board FDCAN update driver" },
       ],
     },
   ];

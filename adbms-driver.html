@@ -19,10 +19,9 @@
     <main class="doc">
       <!-- ============ HEADER + HERO ============ -->
       <section class="doc-section">
-        <p class="back"><a href="projects/">&larr; Projects</a></p>
         <h1>ADBMS Driver Development</h1>
 
-        <p class="doc-lede">This driver runs the Analog&nbsp;Devices <a href="https://www.analog.com/en/products/adbms6830b.html" target="_blank" rel="noopener">ADBMS6830B</a> battery-monitoring ICs that monitor UBC&nbsp;Formula&nbsp;Electric&rsquo;s 600&nbsp;V pack. The main BMS board &mdash; an STM32H7 running FreeRTOS &mdash; communicates with ten segments over an isoSPI daisy chain, with every packet PEC-validated. Each segment monitors 14 cells and 14 thermistors; on top of reading them, the driver runs passive cell balancing and raises safety alerts. The full pack state is then transmitted to the rest of the car over CAN.</p>
+        <p class="doc-lede">This driver runs the Analog&nbsp;Devices <a href="https://www.analog.com/en/products/adbms6830b.html" target="_blank" rel="noopener">ADBMS6830B</a> battery-monitoring ICs that monitor UBC&nbsp;Formula&nbsp;Electric&rsquo;s 600&nbsp;V pack. The main BMS board &mdash; an STM32H7 running FreeRTOS &mdash; communicates with ten segments over an isoSPI daisy chain, with every packet PEC-validated. Each segment monitors 14 cells and 14 thermistors; on top of reading them, the driver runs passive cell balancing and raises safety alerts. The full pack state is then transmitted to the rest of the car over FDCAN.</p>
 
         <figure class="figure hero-figure">
           <div class="model-wrap model-wrap--hero">
@@ -101,7 +100,7 @@
 
         <figure class="figure media-figure">
           <div class="figure-frame figure-frame--photo media-wide">
-            <img class="figure-photo" src="assets/adbms-segment-test.jpg" alt="Pseudo-segment test harness: a UBC Formula Electric segment board populated with 18650 Molicel cells, wired into an Analog Devices 16-cell ADBMS battery-monitor evaluation board and a BMS board over CAN" loading="lazy" />
+            <img class="figure-photo" src="assets/adbms-segment-test.jpg" alt="Pseudo-segment test harness: a UBC Formula Electric segment board populated with 18650 Molicel cells, wired into an Analog Devices 16-cell ADBMS battery-monitor evaluation board and a BMS board over FDCAN" loading="lazy" />
           </div>
           <figcaption class="figure-cap">ADBMS evaluation board connected to a pseudo-segment, communicating via isoSPI to a custom BMS board.</figcaption>
         </figure>
@@ -123,7 +122,7 @@
       <!-- ============ WHAT I DID ============ -->
       <section class="doc-section">
         <h2>What I did</h2>
-        <p>I designed and architected this driver end to end as part of the BMS firmware team. On the io side that meant getting the isoSPI transactions and PEC generation/checking working reliably, and reading the ADBMS cell-voltage, auxiliary, and configuration registers. On the app side it meant turning those raw reads into the data the rest of the car depends on &mdash; min/max cell statistics, health checks, balancing decisions, and alert thresholds &mdash; and broadcasting all of it over CAN.</p>
+        <p>I designed and architected this driver end to end as part of the BMS firmware team. On the io side that meant getting the isoSPI transactions and PEC generation/checking working reliably, and reading the ADBMS cell-voltage, auxiliary, and configuration registers. On the app side it meant turning those raw reads into the data the rest of the car depends on &mdash; min/max cell statistics, health checks, balancing decisions, and alert thresholds &mdash; and broadcasting all of it over FDCAN.</p>
         <p>Most of the real work was hardware bring-up and debugging. The first major hurdle was getting PEC10 and PEC15 validating correctly for every transaction across the bus. Getting that layer right took time; I debugged it using memory breakpoints and logic-analyzer probes on the SPI bus until every packet checked out.</p>
         <p>From there, a lot of the effort went into the boards themselves: confirming components were soldered correctly and, when they weren&rsquo;t, isolating which had failed. I worked backwards from the functionality that <em>was</em> working, and leaned on the board&rsquo;s common failure points to narrow down each hardware fault across the 15+ boards I brought up.</p>
         <p>Finally, once the driver was talking to the full pack, I ran into timing issues in the polling loop. Chasing those down led me deep into the ADBMS&rsquo;s ADC conversion cycle &mdash; understanding exactly how long each measurement takes so the firmware polls in step with the hardware rather than ahead of it.</p>

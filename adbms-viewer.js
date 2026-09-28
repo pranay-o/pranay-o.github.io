@@ -48,7 +48,7 @@
         { path: "app/segments/app_segments_internal.hpp", desc: "Thresholds & thermistor (Steinhart) constants" },
         { path: "app/segments/app_segments_conversions.cpp", desc: "Sequences conversions, raw counts → volts/°C" },
         { path: "app/segments/app_segments_calculation.cpp", desc: "Open-wire validity & measurement math" },
-        { path: "app/segments/app_segments_broadcast.cpp", desc: "Streams voltages, temps & health to CAN" },
+        { path: "app/segments/app_segments_broadcast.cpp", desc: "Streams voltages, temps & health to FDCAN" },
         { path: "app/segments/app_segments_balancing.cpp", desc: "Passive cell balancing (discharge timers)" },
         { path: "app/segments/app_segments_alerts.cpp", desc: "OV / UV / over-temp warnings & faults" },
         { path: "app/segments/app_segments_health.cpp", desc: "Per-segment fault bitmap" },

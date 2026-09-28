@@ -147,29 +147,32 @@
   /* ---------- projects ---------- */
   const renderProjects = (mount) => {
     const items = projects.map((p) => {
-      const thumb = el(
-        "div",
-        { class: "project-img" },
-        p.image ? el("img", { src: url(p.image), alt: "", loading: "lazy" }) : null
+      // The whole row opens the write-up (it highlights on hover): the title link stretches over it.
+      // The GitHub icon sits above that link so it stays separately clickable.
+      const title = el(
+        "h2",
+        { class: "project-title" },
+        p.page ? el("a", { class: "project-link", href: url(p.page) }, p.title) : p.title
       );
-
-      const links = [];
-      if (p.page) links.push(el("a", { href: url(p.page), "aria-label": `${p.title} write-up` }, "Write-up →"));
-      if (p.link)
-        links.push(
-          el("a", { href: p.link, target: "_blank", rel: "noopener", "aria-label": `${p.title} on GitHub` }, "GitHub ↗")
-        );
+      const github = p.link
+        ? iconLink("github", "GitHub", {
+            class: "project-github",
+            href: p.link,
+            target: "_blank",
+            rel: "noopener",
+            "aria-label": `${p.title} on GitHub`,
+          })
+        : null;
 
       return el(
         "li",
-        { class: "project" },
-        thumb,
+        { class: p.page ? "project project--link" : "project" },
         el(
           "div",
           { class: "project-body" },
-          el("h2", { class: "project-title" }, p.title),
-          el("p", { class: "project-stack" }, p.stack.join(" · ")),
-          links.length ? el("p", { class: "project-links" }, ...links) : null
+          p.image ? el("img", { class: "project-img", src: url(p.image), alt: "", loading: "lazy" }) : null,
+          el("div", { class: "project-head" }, title, github),
+          el("p", { class: "project-summary" }, p.summary)
         )
       );
     });
